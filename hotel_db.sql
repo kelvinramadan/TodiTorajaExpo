@@ -172,7 +172,7 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `full_name`, `email`, `password`, `join_date`, `last_login`, `permissions`) VALUES
 (1, 'Thulani Tembo', 'tembothulani@gmail.com', '$2y$10$KKRlG5O2UA0aIY/7YBBzs.5IsqAB38pr8dr0eM2OmXtaB/lv0vG8S', '2017-08-25 14:20:37', '2017-12-13 23:50:22', 'admin, editor'),
 (2, 'Theresa Nayame', 'theresanayame@gmail.com', '$2y$10$NuwKjycWxGZ9qOqXzLOoEeB1R1O5H5bEiRS2ChFiqa7.jg8x9BlAK', '2017-11-11 00:11:15', '2017-12-11 01:36:21', 'editor,admin'),
-(3, 'admin', 'admin@admin.com', '$2y$10$Dhgz8tgcOjuI08Y0o5wsS.gK3.kNDRNpc.z9Q0qJ3mGpJMYDaIQBi', '2017-12-13 23:12:51', '0000-00-00 00:00:00', 'editor,admin');
+(3, 'admin', 'admin@admin.com', 'admin123', '2017-12-13 23:12:51', '0000-00-00 00:00:00', 'editor,admin');
 
 --
 -- Indexes for dumped tables
