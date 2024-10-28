@@ -7,6 +7,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/ht/core/core.php';
 
    include 'includes/header.php';
    include 'includes/navigation.php';
+   
    $sql = "SELECT * FROM tour_reserves";
    $result = $db->query($sql);
    $row_count = 1;
@@ -14,15 +15,16 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/ht/core/core.php';
    $tours = $db->query("SELECT * FROM tourism");
 
    if(isset($_GET['delete'])){
-     $toDelete = $_GET['delete'];
-     $sql = $db->query("DELETE FROM reservations WHERE id = '$toDelete' ");
-     header("Location: tour_reserves.php");
-   }
+    $toDelete = $_GET['delete'];
+    $sql = $db->query("DELETE FROM tour_reserves WHERE id = '$toDelete' ");
+    
+    if($sql) {
+        header("Location: tour_reserves.php");
+    } else {
+        echo "Error deleting record: " . $db->error;
+    }
+}
 
-   if(isset($_POST['print'])) {
-       $id = $_POST['tour'];
-       header("Location: register.php?tour=$id");
-   }
 
    if(isset($_POST['clear'])) {
         $id = $_POST['tour'];
@@ -49,7 +51,6 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/ht/core/core.php';
         <option value="<?=$tour['id'];?>"><?=$tour['title'];?> ~ <?= ($tour['reservations'] == 0)? '(Fully Booked)':'('.$tour['reservations'].' reserves remaining)';?></option>
     <?php endwhile; ?>
    </select>
-   <button type="submit" name="print" class="btn btn-primary">Print register</button>
    <button type="submit" name="clear" class="btn btn-danger">Clear Records</button>
 </form>
 
@@ -59,8 +60,6 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/ht/core/core.php';
               <th>#</th>
               <th>Name</th>
              <th>Tour Event</th>
-              <!-- <th>Checkin</th>
-              <th>Checkout</th> --> 
               <th>Phone</th>
               <th># of People</th>
               <th>Email</th>
@@ -79,15 +78,12 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/ht/core/core.php';
               <td><?= $row_count++; ?></td>
               <td><?=$rows['cus_name']; ?></td>
               <td><?=$data['title']; ?></td>
-              <!-- <td><?=$rows['checkin']; ?></td>
-              <td><?=$rows['checkout']; ?></td> -->
               <td><?=$rows['phone']; ?></td>
               <td><?=$rows['reservations']; ?></td>
               <td><?=$rows['email']; ?></td>
 
               <td>
-                  <a href="reservations.php?delete=<?=$rows['id'];?>" class="w3-btn w3-small w3-red"><span class="glyphicon glyphicon-trash"></span></a>
-
+                <a href="tour_reserves.php?delete=<?=$rows['id'];?>" class="w3-btn w3-small w3-red"><span class="glyphicon glyphicon-trash"></span></a>
               </td>
           </tr>
         <?php endwhile;?>
