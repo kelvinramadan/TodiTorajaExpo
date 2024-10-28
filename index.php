@@ -16,6 +16,7 @@ $tourSQL = $db->query("SELECT * FROM tourism LIMIT 4");
     <section class="py-5">
       <div class="container">
         <h1>Rooms 121363871</h1><hr />
+        <h2>ini alma trial</h2>
       <div class="row">
 
       <?php while($room = mysqli_fetch_assoc($sql)): ?>
