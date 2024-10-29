@@ -70,13 +70,17 @@ else if(isset($_POST['update'])) {
       $row = mysqli_fetch_assoc($sqlSelect);
 
       if($row['photo']==''){
-          $query = $db->query("UPDATE rooms SET `room_number`='$number',`photo`='$image',`type`='$type',`details`='$details',`price`='$price',`rooms`='$rooms' WHERE id = '$toEditID' ");
-      } else {
-        $query = $db->query("UPDATE rooms SET `room_number`='$number',`type`='$type',`details`='$details',`price`='$price',`rooms`='$rooms' WHERE id = '$toEditID' ");
-      }
-
-        $update = $db->query($query);
+        $query = "UPDATE rooms SET `room_number`='$number', `photo`='$image', `type`='$type', `details`='$details', `price`='$price', `rooms`='$rooms' WHERE id = '$toEditID'";
+    } else {
+        $query = "UPDATE rooms SET `room_number`='$number', `type`='$type', `details`='$details', `price`='$price', `rooms`='$rooms' WHERE id = '$toEditID'";
+    }
+    
+    if ($db->query($query)) {
         header("Location: rooms.php");
+    } else {
+        echo "Error updating room: " . $db->error;
+    }
+    
 
   } else {
     echo '<div class="w3-center w3-red">Please fill in all fields.</div></br>';
