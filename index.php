@@ -4,7 +4,8 @@ include 'includes/header.php';
 include 'includes/navigation.php';
 $sql = $db->query("SELECT * FROM rooms LIMIT 4");
 $tourSQL = $db->query("SELECT * FROM tourism LIMIT 4");
-$result = $db->query("SELECT * FROM events"); 
+$result = $db->query("SELECT * FROM events");
+ 
 ?>
 
 
