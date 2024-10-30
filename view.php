@@ -12,9 +12,8 @@
         header("Location: events.php");
     }
 ?>
-
+ 
 <div class="container">
-
     <div class="page-header text-center">
         <h3><?php echo $row['event_topic']; ?></h3>
     </div>

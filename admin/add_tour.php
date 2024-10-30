@@ -19,67 +19,71 @@ include 'includes/navigation.php';
 // @$fdetails = nl2br($_POST['fdetails']);
 
 //VALIDATING AND MOVING OF FILE FROM TEMPORAL LOCATION TO INTENDED LOCATION
-if(!empty($_FILES)){
-   $fileName = @$_FILES['file']['name'];
-   $ext = strtolower(substr($fileName, strpos($fileName,'.') + 1));
-   $fileName = md5(microtime()).'.'.$ext;
-   $type = @$_Files['file']['type'];
-   $tmp_name = @$_FILES['file']['tmp_name'];
+$uploadedImages = [];
+if (!empty($_FILES)) {
+    $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+    foreach (['file', 'file1', 'file2'] as $fileKey) {
+        if (!empty($_FILES[$fileKey]['name'])) {
+            $fileName = $_FILES[$fileKey]['name'];
+            $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+            $newFileName = md5(microtime()).'.'.$ext;
+            $tmp_name = $_FILES[$fileKey]['tmp_name'];
 
-    if(($ext == 'jpg') || ($ext == 'jpeg') || ($ext == 'png') || ($ext == 'gif')){
-       $location = BASEURL.'images/';
-       move_uploaded_file($tmp_name, $location.$fileName);
-    } else {
-      echo '<div class="w3-center w3-red">The image type must be jpg, jpeg, gif, or png.</div></br>';
+            if (in_array($ext, $allowedExtensions)) {
+                $location = BASEURL.'images/';
+                move_uploaded_file($tmp_name, $location.$newFileName);
+                $uploadedImages[$fileKey] = 'images/'.$newFileName; // Store uploaded image paths
+            } else {
+                echo '<div class="w3-center w3-red">The image type must be jpg, jpeg, gif, or png.</div></br>';
+            }
+        }
     }
-
 }
+// INSERTING THE EVENT INFORMATION IN THE DATABASE
+if (isset($_POST['add'])) {
+  if (!empty($topic) && !empty($venue) && !empty($date) &&
+      !empty($time) && !empty($sdetails) && !empty($reservations) &&
+      !empty($price)) {
+      
+      $image = $uploadedImages['file'] ?? '';
+      $image1 = $uploadedImages['file1'] ?? '';
+      $image2 = $uploadedImages['file2'] ?? '';
 
-//INSERTING THE EVENT INFORMATION IN THE DATABASE
-if(isset($_POST['add'])){
-  if(!empty($_POST['topic']) && !empty($_POST['venue']) && !empty($_POST['date']) &&
-      !empty($_POST['time']) && !empty($_POST['sdetails']) && !empty($_POST['reservations'])
-      && !empty($_POST['price']))
-      {
-          $image = 'images/'.$fileName;
-          //INSERTING EVENT DETAILS IN THE DATABASE
-          $sql = "INSERT INTO tourism (`title`,`photo`,`location`,`date`,`time`,`details`,`price`,`reservations`)
-                    VALUES ('$topic','$image','$venue','$date','$time', '$sdetails','$price','$reservations') ";
+      // INSERTING EVENT DETAILS IN THE DATABASE
+      $sql = "INSERT INTO tourism (`title`,`photo`,`photo1`,`photo2`,`location`,`date`,`time`,`details`,`price`,`reservations`)
+              VALUES ('$topic','$image','$image1','$image2','$venue','$date','$time', '$sdetails','$price','$reservations')";
 
-          $query_run = $db->query($sql);
-          if($query_run){
-            $_SESSION['added_event'] = '<div class="w3-center w3-green">Tour Event successfully added!</div></br>';
-          }
-          header("Location: tours.php");
+      $query_run = $db->query($sql);
+      if ($query_run) {
+          $_SESSION['added_event'] = '<div class="w3-center w3-green">Tour Event successfully added!</div></br>';
+      }
+      header("Location: tours.php");
   } else {
-    echo '<div class="w3-center w3-red">Please fill in all fields.</div></br>';
+      echo '<div class="w3-center w3-red">Please fill in all fields.</div></br>';
   }
 }
 
-//RUNNING UPDATE IF EDITING
-else if(isset($_POST['update'])) {
-      if(!empty($_POST['topic']) && !empty($_POST['venue']) && !empty($_POST['date']) &&
-        !empty($_POST['time']) && !empty($_POST['sdetails']) && !empty($_POST['reservations']) && !empty($_POST['price'])){
+// RUNNING UPDATE IF EDITING
+else if (isset($_POST['update'])) {
+  if (!empty($topic) && !empty($venue) && !empty($date) &&
+      !empty($time) && !empty($sdetails) && !empty($reservations) && !empty($price)) {
 
-        @$image = 'images/'.$fileName;
-        $toEditID = $_GET['edit'];
-        $sqlSelect = $db->query("SELECT * FROM tourism WHERE id = '$toEditID' ");
-        $row = mysqli_fetch_assoc($sqlSelect);
+      $toEditID = $_GET['edit'];
+      $sqlSelect = $db->query("SELECT * FROM tourism WHERE id = '$toEditID'");
+      $row = mysqli_fetch_assoc($sqlSelect);
 
-        if($row['photo']==''){
-          $query = $db->query("UPDATE tourism SET `title`='$topic',`photo`='$image',`location`='$venue',`date`='$date',`time`='$time',
-                    `details`='$sdetails',`price`='$price',`reservations`='$reservations'  WHERE id = '$toEditID' ");
-        } else {
-          $query = $db->query("UPDATE tourism SET `title`='$topic', `location`='$venue',`date`='$date',`time`='$time',
-                    `details`='$sdetails',`price`='$price',`reservations`='$reservations'  WHERE id = '$toEditID' ");
-        }
-        
-          $update = $db->query($query);
-          header("Location: tours.php");
+      $image = !empty($uploadedImages['file']) ? $uploadedImages['file'] : $row['photo'];
+      $image1 = !empty($uploadedImages['file1']) ? $uploadedImages['file1'] : $row['photo1'];
+      $image2 = !empty($uploadedImages['file2']) ? $uploadedImages['file2'] : $row['photo2'];
 
-    } else {
+      $query = $db->query("UPDATE tourism SET `title`='$topic', `photo`='$image', `photo1`='$image1', `photo2`='$image2',
+          `location`='$venue', `date`='$date', `time`='$time', `details`='$sdetails', `price`='$price', `reservations`='$reservations'
+          WHERE id = '$toEditID'");
+      
+      header("Location: tours.php");
+  } else {
       echo '<div class="w3-center w3-red">Please fill in all fields.</div></br>';
-    }
+  }
 }
 
 //CODE TO EDIT AN events
@@ -90,24 +94,40 @@ if (isset($_GET['edit'])){
   $rows = mysqli_fetch_assoc($result);
 }
 
-//Canceling EDITING
-if(isset($_GET['cancelEdit'])){
-    unset($_SESSION['edit']);
-    header("Location: add_tour.php");
+// Canceling EDITING
+if (isset($_GET['cancelEdit'])) {
+  unset($_SESSION['edit']);
+  header("Location: add_tour.php");
 }
 
-//DELETING IMAGE
-if(isset($_GET['delete_image'])){
-    $toEditID= $_GET['delete_image'];
-    $sql1 = $db->query("SELECT * FROM tourism WHERE id = '$toEditID'");
-    $fetch = mysqli_fetch_assoc($sql1);
-    $imageURL = $_SERVER['DOCUMENT_ROOT'].'/ht'.$fetch['photo'];
-    unlink($imageURL);
-    ##################################################################
-    $sql = "UPDATE tourism SET `photo` = '' WHERE id = '$toEditID' ";
-    $db->query($sql);
-    header("Location: add_tour.php?edit=$toEditID");
+// DELETING IMAGE
+if (isset($_GET['delete_image'])) {
+  $toEditID = $_GET['delete_image'];
+  $sql1 = $db->query("SELECT * FROM tourism WHERE id = '$toEditID'");
+  $fetch = mysqli_fetch_assoc($sql1);
+
+  // Delete each image if it exists
+  if (!empty($fetch['photo'])) {
+      $imageURL = $_SERVER['DOCUMENT_ROOT'].'/ht/'.$fetch['photo'];
+      unlink($imageURL);
+      $db->query("UPDATE tourism SET `photo` = '' WHERE id = '$toEditID'");
+  }
+
+  if (!empty($fetch['photo1'])) {
+      $imageURL1 = $_SERVER['DOCUMENT_ROOT'].'/ht/'.$fetch['photo1'];
+      unlink($imageURL1);
+      $db->query("UPDATE tourism SET `photo1` = '' WHERE id = '$toEditID'");
+  }
+
+  if (!empty($fetch['photo2'])) {
+      $imageURL2 = $_SERVER['DOCUMENT_ROOT'].'/ht/'.$fetch['photo2'];
+      unlink($imageURL2);
+      $db->query("UPDATE tourism SET `photo2` = '' WHERE id = '$toEditID'");
+  }
+
+  header("Location: add_tour.php?edit=$toEditID");
 }
+
 ?>
 <div class="w3-container w3-main" style="margin-left:200px">
   <header class="w3-container w3-purple">
@@ -150,12 +170,29 @@ if(isset($_GET['delete_image'])){
           <label for="">Time:</label>
           <input type="time" name="time" value="<?=(isset($toEditID))?''.$rows['time'].'' :'' ; ?>" class="form-control">
         </div>
+
         <?php if(!@$rows['photo'] || @$rows['photo']==''): ?>
           <div class="col-sm-3 form-group">
             <label for="">Photo:</label>
             <input type="file" class="form-control" name="file" id="file">
           </div>
         <?php endif;  ?>
+
+        <?php if(!@$rows['photo1'] || @$rows['photo1']==''): ?>
+          <div class="col-sm-3 form-group">
+            <label for="">Photo1:</label>
+            <input type="file" class="form-control" name="file" id="file">
+          </div>
+        <?php endif;  ?>
+
+        <?php if(!@$rows['photo2'] || @$rows['photo2']==''): ?>
+          <div class="col-sm-3 form-group">
+            <label for="">Photo2:</label>
+            <input type="file" class="form-control" name="file" id="file">
+          </div>
+        <?php endif;  ?>
+
+        
 
         <div class="col-sm-3 form-group">
           <label for="">Reserve Spaces:</label>
@@ -179,17 +216,29 @@ if(isset($_GET['delete_image'])){
         </div>
       </form>
   </div>
-    <div class="col-md-3">
-      <?php if(isset($toEditID) && !$rows['photo'] != ' '): ?>
-        <figure>
-          <h3>Event Image</h3>
-          <img src="../<?=$rows['photo']; ?>" alt="event image" class="img-responsive">
-          <figcaption>
-            <a href="add_tour.php?delete_image=<?=$toEditID;?>" class="w3-text-red">Delete Photo</a>
-          </figcaption>
-        </figure>
-      <?php endif; ?>
-    </div>
+  <div class="col-md-3">
+            <?php if (isset($toEditID) && $rows['photo'] != ''): ?>
+                <figure>
+                    <h3>Event Image</h3>
+                    <img src="../<?= $rows['photo']; ?>" alt="event image" class="img-responsive">
+                    <figcaption><a href="add_tour.php?delete_image=<?= $toEditID; ?>" class="w3-text-red">Delete Photo</a></figcaption>
+                </figure>
+            <?php endif; ?>
+            <?php if (isset($toEditID) && $rows['photo1'] != ''): ?>
+                <figure>
+                    <h3>Event Image 1</h3>
+                    <img src="../<?= $rows['photo1']; ?>" alt="event image 1" class="img-responsive">
+                    <figcaption><a href="add_tour.php?delete_image=<?= $toEditID; ?>" class="w3-text-red">Delete Photo1</a></figcaption>
+                </figure>
+            <?php endif; ?>
+            <?php if (isset($toEditID) && $rows['photo2'] != ''): ?>
+                <figure>
+                    <h3>Event Image 2</h3>
+                    <img src="../<?= $rows['photo2']; ?>" alt="event image 2" class="img-responsive">
+                    <figcaption><a href="add_tour.php?delete_image=<?= $toEditID; ?>" class="w3-text-red">Delete Photo2</a></figcaption>
+                </figure>
+            <?php endif; ?>
+        </div>
   </div>
 </div>
 <script>

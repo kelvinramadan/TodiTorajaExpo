@@ -112,6 +112,8 @@ CREATE TABLE `tourism` (
   `id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `photo` text NOT NULL,
+  `photo1` text NOT NULL,
+  `photo2` text NOT NULL,
   `location` varchar(255) NOT NULL,
   `details` text NOT NULL,
   `date` date NOT NULL,
@@ -124,8 +126,8 @@ CREATE TABLE `tourism` (
 -- Dumping data for table `tourism`
 --
 
-INSERT INTO `tourism` (`id`, `title`, `photo`, `location`, `details`, `date`, `time`, `price`, `reservations`) VALUES
-(4, 'Kuomboka ceremony', 'images/0527836c3fa98cb0b57ef19e5d26ff08.png', 'Mongu', 'It is a traditional ceremony found in Zambia. It is done once every year.', '2017-04-08', '07:00:00', '100', 15);
+INSERT INTO `tourism` (`id`, `title`, `photo`,`photo1`,`photo2`, `location`, `details`, `date`, `time`, `price`, `reservations`) VALUES
+(4, 'Gua Lemo', 'images/0527836c3fa98cb0b57ef19e5d26ff08.png', 'images/0527836c3fa98cb0b57ef19e5d26ff08.png', 'images/0527836c3fa98cb0b57ef19e5d26ff08.png', 'Makale Utara', 'gua lemo indah', '2024-10-28', '07:00:00', '100', 95);
 
 -- --------------------------------------------------------
 
