@@ -19,7 +19,7 @@ $sql = $db->query("SELECT * FROM rooms");
             <p>
               <?= $room['details']; ?>
             </p>
-            <a href="details.php?room=<?= $room['id']; ?>" class="btn btn-block btn-primary">More Details</a>
+            <a href="details.php?room=<?= $room['id']; ?>" class="btn btn-block btn-primary">More  hbbuyuy Details</a>
           </section>
         </div>
 <?php endwhile; ?>
