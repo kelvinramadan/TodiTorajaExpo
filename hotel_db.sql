@@ -147,7 +147,7 @@ CREATE TABLE `tour_reserves` (
 --
 
 INSERT INTO `tour_reserves` (`id`, `tour_id`, `reservations`, `cus_name`, `email`, `phone`) VALUES
-(1, 3, 5,'Kuomboka ceremony', 'Tutu', 'te@gmail.com', '0976245430');
+(2, 4, 'Gua Lemo', 'Kelvin', 'kelvinoktabrian@gmail.com', '0987654321');
 
 -- --------------------------------------------------------
 

@@ -73,7 +73,7 @@ else if(isset($_POST['update'])) {
           $query = $db->query("UPDATE tourism SET `title`='$topic', `location`='$venue',`date`='$date',`time`='$time',
                     `details`='$sdetails',`price`='$price',`reservations`='$reservations'  WHERE id = '$toEditID' ");
         }
-
+        
           $update = $db->query($query);
           header("Location: tours.php");
 
