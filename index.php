@@ -4,6 +4,7 @@ include 'includes/header.php';
 include 'includes/navigation.php';
 $sql = $db->query("SELECT * FROM rooms LIMIT 4");
 $tourSQL = $db->query("SELECT * FROM tourism LIMIT 4");
+$result = $db->query("SELECT * FROM events"); 
 ?>
 
 
@@ -11,11 +12,62 @@ $tourSQL = $db->query("SELECT * FROM tourism LIMIT 4");
     <header class="py-5 bg-image-full" style="background-image: url('images/slide-2.jpg'); height:300px">
       
     </header>
+    <!-- Content section -->
+    <section class="py-5">
+      <div class="container">
+        <h1>Tourism</h1>
+        <div class="row">
+
+        <?php while($tour = mysqli_fetch_assoc($tourSQL)): ?>
+            <div class="col-lg-3 col-md-4 col-sm-6">
+              <h4 class="text-center"><?=$tour['title'];?></h4>
+              <img src="<?=$tour['photo'];?>" class="img-responsive" alt="room" width="100%" height="200px">
+              <section class="text-justify">
+                <p>
+                  <?=$tour['details'];?>
+                </p>
+                <a href="tour.php?tour=<?= $tour['id']; ?>" class="btn btn-block btn-primary">More Details</a>
+              </section>
+            </div>
+
+      <?php endwhile; ?>
+        </div>
+      </div>
+    </section>
+
+    <!-- Event Section -->
+    <div class="container">
+      <div class="page-header text-center">
+        <h3><?= (mysqli_num_rows($result) <= 0) ? 'There are no upcoming events' : 'Upcoming events'; ?></h3>
+      </div>
+      <div class="row">
+        <?php if(mysqli_num_rows($result) > 0): ?>
+          <?php while($rows = mysqli_fetch_assoc($result)): ?>
+            <div class="col-sm-3">
+              <div class="w3-card-4">
+                <div>
+                  <img src="<?= $rows['image']; ?>" style="width:100%; height:200px;" alt="event image" >
+                </div>
+                <div class="w3-container text-justify">
+                  <h4 class="text-center"><b><?= $rows['event_topic']; ?></b></h4>
+                  <p><?= $rows['short_details']; ?></p>
+                </div>
+                <footer class="w3-container w3-blue w3-padding">
+                  <a href="view.php?view=<?= $rows['id']; ?>" class="w3-btn w3-black w3-btn-block">More details</a>
+                </footer>
+              </div>
+              <br>
+            </div>
+          <?php endwhile; ?>
+        <?php endif; ?>
+      </div>
+    </div>
+
 
     <!-- Content section -->
     <section class="py-5">
       <div class="container">
-        <h1>Rooms dedeudoeid iheouhdoei guyuy</h1><hr />
+        <h1>Rooms</h1><hr />
       <div class="row">
 
       <?php while($room = mysqli_fetch_assoc($sql)): ?>
@@ -38,29 +90,6 @@ $tourSQL = $db->query("SELECT * FROM tourism LIMIT 4");
     <section class="py-5 bg-image-full" style="background-image: url(images/slide-2.jpg);">
       <!-- Put anything you want here! There is just a spacer below for demo purposes! -->
       <div style="height: 200px;"></div>
-    </section>
-
-    <!-- Content section -->
-    <section class="py-5">
-      <div class="container">
-        <h1>Tourism</h1>
-        <div class="row">
-
-        <?php while($tour = mysqli_fetch_assoc($tourSQL)): ?>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-              <h4 class="text-center"><?=$tour['title'];?></h4>
-              <img src="<?=$tour['photo'];?>" class="img-responsive" alt="room" width="100%" height="200px">
-              <section class="text-justify">
-                <p>
-                  <?=$tour['details'];?>
-                </p>
-                <a href="tour.php?tour=<?= $tour['id']; ?>" class="btn btn-block btn-primary">More Details</a>
-              </section>
-            </div>
-
-      <?php endwhile; ?>
-        </div>
-      </div>
     </section>
 
     <!-- Footer -->
