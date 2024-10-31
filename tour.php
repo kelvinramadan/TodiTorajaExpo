@@ -66,7 +66,8 @@ if(isset($_POST['reserve'])) {
            <hr />
            <p><b>Location:</b> <?= $tour['location']; ?></p>
            <p><b>Price (per head):</b> K<?= $tour['price']; ?></p>
-           <p><b>Tour details:</b> <?= $tour['details']; ?></p>
+           <p><b>Short details:</b> <?= $tour['details']; ?></p>
+           <p><b>Tour Description :</b> <?= $tour['details2']; ?></p>
            <p><b>Reservations Remaining:</b> <?= $tour['reservations']; ?></p>
            <?=($tour['reservations'] <= 0)?'<p class="text-danger">reservations have been closed on this event!</p>':'';?>
            <hr />

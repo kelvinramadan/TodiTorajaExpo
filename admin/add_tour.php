@@ -13,10 +13,9 @@ include 'includes/navigation.php';
 @$date = sanitize($_POST['date']);
 @$time = sanitize($_POST['time']);
 @$sdetails = sanitize($_POST['sdetails']);
+@$sdetails2 = sanitize($_POST['sdetails2']);
 @$price = sanitize($_POST['price']);
 @$reservations = sanitize($_POST['reservations']);
-//The function nl2br() reserves line breaks
-// @$fdetails = nl2br($_POST['fdetails']);
 
 //VALIDATING AND MOVING OF FILE FROM TEMPORAL LOCATION TO INTENDED LOCATION
 $uploadedImages = [];
@@ -42,7 +41,7 @@ if (!empty($_FILES)) {
 // INSERTING THE EVENT INFORMATION IN THE DATABASE
 if (isset($_POST['add'])) {
   if (!empty($topic) && !empty($venue) && !empty($date) &&
-      !empty($time) && !empty($sdetails) && !empty($reservations) &&
+      !empty($time) && !empty($sdetails) && !empty($sdetails2) && !empty($reservations) &&
       !empty($price)) {
       
       $image = $uploadedImages['file'] ?? '';
@@ -50,8 +49,8 @@ if (isset($_POST['add'])) {
       $image2 = $uploadedImages['file2'] ?? '';
 
       // INSERTING EVENT DETAILS IN THE DATABASE
-      $sql = "INSERT INTO tourism (`title`,`photo`,`photo1`,`photo2`,`location`,`date`,`time`,`details`,`price`,`reservations`)
-              VALUES ('$topic','$image','$image1','$image2','$venue','$date','$time', '$sdetails','$price','$reservations')";
+      $sql = "INSERT INTO tourism (`title`,`photo`,`photo1`,`photo2`,`location`,`date`,`time`,`details`,`details2`,`price`,`reservations`)
+              VALUES ('$topic','$image','$image1','$image2','$venue','$date','$time', '$sdetails', '$sdetails2','$price','$reservations')";
 
       $query_run = $db->query($sql);
       if ($query_run) {
@@ -66,7 +65,7 @@ if (isset($_POST['add'])) {
 // RUNNING UPDATE IF EDITING
 else if (isset($_POST['update'])) {
   if (!empty($topic) && !empty($venue) && !empty($date) &&
-      !empty($time) && !empty($sdetails) && !empty($reservations) && !empty($price)) {
+      !empty($time) && !empty($sdetails) && !empty($sdetails2) && !empty($reservations) && !empty($price)) {
 
       $toEditID = $_GET['edit'];
       $sqlSelect = $db->query("SELECT * FROM tourism WHERE id = '$toEditID'");
@@ -77,7 +76,7 @@ else if (isset($_POST['update'])) {
       $image2 = !empty($uploadedImages['file2']) ? $uploadedImages['file2'] : $row['photo2'];
 
       $query = $db->query("UPDATE tourism SET `title`='$topic', `photo`='$image', `photo1`='$image1', `photo2`='$image2',
-          `location`='$venue', `date`='$date', `time`='$time', `details`='$sdetails', `price`='$price', `reservations`='$reservations'
+          `location`='$venue', `date`='$date', `time`='$time', `details`='$sdetails', `details2`='$sdetails2', `price`='$price', `reservations`='$reservations'
           WHERE id = '$toEditID'");
       
       header("Location: tours.php");
@@ -181,14 +180,14 @@ if (isset($_GET['delete_image'])) {
         <?php if(!@$rows['photo1'] || @$rows['photo1']==''): ?>
           <div class="col-sm-3 form-group">
             <label for="">Photo1:</label>
-            <input type="file" class="form-control" name="file" id="file">
+            <input type="file" class="form-control" name="file1" id="file1">
           </div>
         <?php endif;  ?>
 
         <?php if(!@$rows['photo2'] || @$rows['photo2']==''): ?>
           <div class="col-sm-3 form-group">
             <label for="">Photo2:</label>
-            <input type="file" class="form-control" name="file" id="file">
+            <input type="file" class="form-control" name="file2" id="file2">
           </div>
         <?php endif;  ?>
 
@@ -201,8 +200,13 @@ if (isset($_GET['delete_image'])) {
 
 
         <div class="col-sm-6 form-group">
+          <label for="">Short Details:</label>
+          <textarea name="sdetails" class="form-control" col="20" rows="1" ><?=(isset($toEditID))?''.$rows['details'].'' :'' ; ?></textarea>
+        </div>
+
+        <div class="col-sm-8 form-group">
           <label for="">Tour Description:</label>
-          <textarea name="sdetails" class="form-control" col="20" rows="5" ><?=(isset($toEditID))?''.$rows['details'].'' :'' ; ?></textarea>
+          <textarea name="sdetails2" class="form-control" col="20" rows="7" ><?=(isset($toEditID))?''.$rows['details2'].'' :'' ; ?></textarea>
         </div>
 
         <div class="col-sm-12">
