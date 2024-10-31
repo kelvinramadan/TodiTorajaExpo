@@ -16,7 +16,7 @@ $result = $db->query("SELECT * FROM events");
     <!-- Content section -->
     <section class="py-5">
       <div class="container">
-        <h1>Tourism</h1>
+        <h1>WISATA</h1>
         <div class="row">
 
         <?php while($tour = mysqli_fetch_assoc($tourSQL)): ?>
@@ -39,7 +39,7 @@ $result = $db->query("SELECT * FROM events");
     <!-- Event Section -->
     <div class="container">
       <div class="page-header text-center">
-        <h3><?= (mysqli_num_rows($result) <= 0) ? 'There are no upcoming events' : 'Upcoming events'; ?></h3>
+        <h3><?= (mysqli_num_rows($result) <= 0) ? 'Tidak Ada Festival Tersedia' : 'FESTIVAL YANG AKAN DATANG!'; ?></h3>
       </div>
       <div class="row">
         <?php if(mysqli_num_rows($result) > 0): ?>
@@ -67,7 +67,7 @@ $result = $db->query("SELECT * FROM events");
     <!-- Content section -->
     <section class="py-5">
       <div class="container">
-        <h1>Rooms</h1><hr />
+        <h1>PENGINAPAN</h1><hr />
       <div class="row">
 
       <?php while($room = mysqli_fetch_assoc($sql)): ?>
