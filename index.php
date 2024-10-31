@@ -5,7 +5,7 @@ include 'includes/navigation.php';
 $sql = $db->query("SELECT * FROM rooms LIMIT 4");
 $tourSQL = $db->query("SELECT * FROM tourism LIMIT 4");
 $result = $db->query("SELECT * FROM events");
- 
+
 ?>
 
 
@@ -63,7 +63,6 @@ $result = $db->query("SELECT * FROM events");
         <?php endif; ?>
       </div>
     </div>
-
 
     <!-- Content section -->
     <section class="py-5">
