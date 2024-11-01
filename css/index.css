@@ -1,0 +1,10 @@
+.scrollable-container-event {
+    display: flex;
+    overflow-x: auto;
+    padding: 10px; /* Optional: space around the scrollable area */
+  }
+  
+  .scrollable-container-event .col-sm-3 {
+    flex: 0 0 auto; /* Prevents items from shrinking */
+  }
+  
