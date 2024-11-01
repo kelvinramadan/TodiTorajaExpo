@@ -127,13 +127,6 @@ CREATE TABLE `tourism` (
   `reservations` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=armscii8;
 
---
--- Dumping data for table `tourism`
---
-
-INSERT INTO `tourism` (`id`, `title`, `photo`,`photo1`,`photo2`, `location`, `details`,`details2`, `date`, `time`, `price`, `reservations`) VALUES
-(4, 'Gua Lemo', 'images/0527836c3fa98cb0b57ef19e5d26ff08.png', 'images/0527836c3fa98cb0b57ef19e5d26ff08.png', 'images/0527836c3fa98cb0b57ef19e5d26ff08.png', 'Makale Utara', 'gua lemo indah', 'gua lemo indah2', '2024-10-28', '07:00:00', '100', 95);
-
 -- --------------------------------------------------------
 
 --
