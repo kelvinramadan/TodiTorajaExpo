@@ -1,89 +1,53 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>List Booking Hotel</title>
-  <link rel="stylesheet" href="payment.css">
-</head>
-<body>
-  <div class="container">
-    <h1>List Booking Hotel</h1>
-    <table>
-      <thead>
-        <tr>
-          <th>No.</th>
-          <th>Nama Hotel</th>
-          <th>Tanggal Check-in</th>
-          <th>Tanggal Check-out</th>
-          <th>Status</th>
-          <th>Biaya</th>
-          <th>Pembayaran</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td>Hotel Jakarta</td>
-          <td>2024-12-01</td>
-          <td>2024-12-05</td>
-          <td><span class="status booked">Booked</span></td>
-          <td>Rp 2.000.000</td>
-          <td><span class="payment-status paid">Sudah Dibayar</span></td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td>Hotel Bali</td>
-          <td>2024-12-10</td>
-          <td>2024-12-14</td>
-          <td><span class="status confirmed">Confirmed</span></td>
-          <td>Rp 3.500.000</td>
-          <td><span class="payment-status paid">Sudah Dibayar</span></td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td>Hotel Surabaya</td>
-          <td>2024-12-15</td>
-          <td>2024-12-18</td>
-          <td><span class="status pending">Pending</span></td>
-          <td>Rp 1.800.000</td>
-          <td>
-            <button class="pay-button">Bayar Sekarang</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<?php
+require_once 'core/core.php'; // Include your core functionalities
+include 'includes/header.php'; // Include your header
+include 'includes/navigation.php'; // Include your navigation
 
-  <div class="payment-modal" id="paymentModal">
-    <div class="modal-content">
-      <h2>Konfirmasi Pembayaran</h2>
-      <p>Apakah Anda yakin ingin membayar untuk pemesanan ini?</p>
-      <button class="confirm-payment">Ya, Bayar</button>
-      <button class="cancel-payment">Batal</button>
+// Fetch all the reservations
+$sql = "SELECT * FROM tour_reserves";
+$result = $db->query($sql);
+
+?>
+<div class="container">
+    <div class="page-header">
+        <h2 class="text-center">Booking List</h2>
     </div>
-  </div>
 
-  <script>
-    const payButton = document.querySelectorAll('.pay-button');
-    const paymentModal = document.getElementById('paymentModal');
-    const cancelPayment = document.querySelector('.cancel-payment');
-    const confirmPayment = document.querySelector('.confirm-payment');
+    <?php if(mysqli_num_rows($result) > 0): ?>
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Customer Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Number of People</th>
+                    <th>Tour Title</th>
+                    <th>Total Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php while($row = mysqli_fetch_assoc($result)): ?>
+                    <?php
+                    // Fetch the tour details using the tour_id
+                    $tourID = $row['tour_id'];
+                    $tourQuery = $db->query("SELECT * FROM tourism WHERE id = '$tourID'");
+                    $tour = mysqli_fetch_assoc($tourQuery);
+                    ?>
 
-    payButton.forEach(button => {
-      button.addEventListener('click', () => {
-        paymentModal.style.display = 'block';
-      });
-    });
+                    <tr>
+                        <td><?= $row['cus_name']; ?></td>
+                        <td><?= $row['email']; ?></td>
+                        <td><?= $row['phone']; ?></td>
+                        <td><?= $row['reservations']; ?></td>
+                        <td><?= $tour['title']; ?></td>
+                        <td>Rp.<?= $tour['price'] * $row['reservations']; ?></td>
+                    </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p class="text-center">No bookings available.</p>
+    <?php endif; ?>
+</div>
 
-    cancelPayment.addEventListener('click', () => {
-      paymentModal.style.display = 'none';
-    });
-
-    confirmPayment.addEventListener('click', () => {
-      alert('Pembayaran berhasil! Terima kasih.');
-      paymentModal.style.display = 'none';
-    });
-  </script>
-</body>
-</html>
+<?php include 'includes/footer.php'; // Include your footer ?>
