@@ -79,6 +79,7 @@ INSERT INTO `gallery` (`id`, `image`) VALUES
 CREATE TABLE `reservations` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
+  `roomtype` varchar(255) NOT NULL,
   `checkin` date NOT NULL,
   `checkout` date NOT NULL,
   `phone` text NOT NULL,

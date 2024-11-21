@@ -35,6 +35,7 @@ require_once $_SERVER['DOCUMENT_ROOT'].'/ht/core/core.php';
               <th>#</th>
               <th>Name</th>
               <th>Room Number</th>
+              <th>Room Type</th>
               <th>Checkin</th>
               <th>Checkout</th>
               <th>Phone</th>

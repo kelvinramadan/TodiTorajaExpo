@@ -114,10 +114,10 @@ if(isset($_GET['delete_image'])){
             <input type="text" class="form-control" value="<?= (isset($_GET['edit']))? ''.$edit['room_number'].'':''; ?>" name="number">
         </div>
 
-        <div class="form-group col-md-4">
+        <!-- <div class="form-group col-md-4">
             <label>Room Type:</label>
             <input type="text" class="form-control" value="<?= (isset($_GET['edit']))? ''.$edit['type'].'':''; ?>" name="type">
-        </div>
+        </div> -->
 
         <div class="form-group col-md-2">
             <label>Room Price:</label>

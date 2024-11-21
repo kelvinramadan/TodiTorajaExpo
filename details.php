@@ -77,7 +77,7 @@ if (isset($_GET['room'])) {
             <!-- Right column for details -->
             <div class="col-md-6">
                 <hr />
-                <p><b>Room Type:</b> <?= $room['type']; ?></p>
+                <!--<p><b>Room Type:</b> <?= $room['type']; ?></p> -->
                 <p><b>Room Price (per night):</b> <?= $room['price']; ?></p>
                 <p><b>Available Rooms:</b> <?= $room['rooms']; ?></p>
                 <p><b>Room details:</b> <?= $room['details']; ?></p>
@@ -123,6 +123,18 @@ if (isset($_GET['room'])) {
                     <input type="number" class="form-control" name="rooms" <?= ($room['rooms'] <= 0) ? 'readonly' : ''; ?>>
                 </div>
 
+                <!-- <?php
+            // Ambil definisi kolom ENUM dari database menggunakan koneksi MySQLi
+            $query = $db->query("SHOW COLUMNS FROM reservations LIKE 'roomtype'");
+            $result = mysqli_fetch_assoc($query);
+
+            // Ekstrak nilai ENUM menjadi array
+            $enumString = $result['Type']; // Contoh hasil: "enum('Deluxe','Luxury','Suite')"
+            preg_match("/^enum\((.*)\)$/", $enumString, $matches);
+            $roomTypes = explode(",", str_replace("'", "", $matches[1])); // Hasil: ['Deluxe', 'Luxury', 'Suite']
+            ?>
+
+
                 <div class="col">
                     <label class="form-control-label">Room Type:</label>
                     <select class="form-control" name="room_type" <?= ($room['rooms'] <= 0) ? 'disabled' : ''; ?>>
@@ -130,7 +142,7 @@ if (isset($_GET['room'])) {
                             <option value="<?= $type; ?>"><?= $type; ?></option>
                         <?php endforeach; ?>
                     </select>
-                </div>
+                </div> -->
 
                 <div class="col">
                     <label class="form-control-label">Email Address:</label>

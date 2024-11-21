@@ -27,7 +27,7 @@ CREATE TABLE `events` (
   `date` date NOT NULL,
   `time` time NOT NULL,
   `short_details` varchar(255) NOT NULL,
-  `full_details` text NOT NULL,
+  `full_details` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=armscii8;
 
 INSERT INTO `events` (`event_topic`, `image`, `venue`, `date`, `time`, `short_details`, `full_details`) VALUES
