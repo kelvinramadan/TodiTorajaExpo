@@ -1,8 +1,16 @@
+-- phpMyAdmin SQL Dump
+-- version 4.4.10
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost:3306
+-- Generation Time: May 16, 2018 at 05:30 AM
+-- Server version: 5.5.42
+-- PHP Version: 5.6.10
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -10,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `toditoraja.sql`
+-- Database: `toditoraja`
 --
 
 -- --------------------------------------------------------
@@ -20,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `events` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `event_topic` varchar(255) NOT NULL,
   `image` text NOT NULL,
   `venue` varchar(255) NOT NULL,
@@ -28,7 +36,8 @@ CREATE TABLE `events` (
   `time` time NOT NULL,
   `short_details` varchar(255) NOT NULL,
   `full_details` text NOT NULL,
-) ENGINE=InnoDB DEFAULT CHARSET=armscii8;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `events` (`event_topic`, `image`, `venue`, `date`, `time`, `short_details`, `full_details`) VALUES
 ('Toraja Cultural Festival', 'https://th.bing.com/th/id/OIP.3oZaVCQoFtkNf7TDkeLahwHaE6?w=292&h=193&c=7&r=0&o=5&dpr=1.3&pid=1.7', 'Rantepao', '2024-11-05', '08:00:00', 'Celebrate Toraja culture', 'Experience traditional dances, music, and rituals of Toraja.'),
@@ -43,11 +52,11 @@ INSERT INTO `events` (`event_topic`, `image`, `venue`, `date`, `time`, `short_de
 --
 
 CREATE TABLE `gallery` (
-  `id` int(11) NOT NULL,
-  `image` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=armscii8;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `image` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
 -- Dumping data for table `gallery`
 --
 
@@ -65,17 +74,17 @@ INSERT INTO `gallery` (`id`, `image`) VALUES
 --
 
 CREATE TABLE `reservations` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `checkin` date NOT NULL,
   `checkout` date NOT NULL,
   `phone` text NOT NULL,
   `people` int(11) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `room` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=armscii8;
+  `room` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
 -- Dumping data for table `reservations`
 --
 
@@ -89,23 +98,23 @@ INSERT INTO `reservations` (`id`, `name`, `checkin`, `checkout`, `phone`, `peopl
 --
 
 CREATE TABLE `rooms` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `room_number` varchar(255) NOT NULL,
   `rooms` int(11) NOT NULL,
   `type` varchar(255) NOT NULL,
   `price` text NOT NULL,
   `details` text NOT NULL,
-  `photo` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=armscii8;
+  `photo` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
 -- Dumping data for table `rooms`
 --
 
 INSERT INTO `rooms` (`id`, `room_number`, `rooms`, `type`, `price`, `details`, `photo`) VALUES
-(15, 'Victoria Falls Hotel', 20, 'Executive', '550', '  it is a self contained room with room service', 'images/38a42bea45f24cbe580972a30694fe4a.jpg'),
-(16, 'Chita Samfya Lodge', 15, 'Regular', '450', 'it is a self contained room with room service', 'images/e434cecc6cfa3b049462b124681bd0b8.jpg'),
-(17, 'Inter-Continental Hotel', 24, 'Executive', '650', 'it is a self contained room with room service.', 'images/2ff14dfea91787d539b7509427338e97.jpg');
+(15, 'Victoria Falls Hotel', 20, 'Executive', '550.000', 'it is a self contained room with room service', 'images/38a42bea45f24cbe580972a30694fe4a.jpg'),
+(16, 'Chita Samfya Lodge', 15, 'Regular', '450.000', 'it is a self contained room with room service', 'images/e434cecc6cfa3b049462b124681bd0b8.jpg'),
+(17, 'Inter-Continental Hotel', 24, 'Executive', '650.000', 'it is a self contained room with room service.', 'images/2ff14dfea91787d539b7509427338e97.jpg');
 
 -- --------------------------------------------------------
 
@@ -114,7 +123,7 @@ INSERT INTO `rooms` (`id`, `room_number`, `rooms`, `type`, `price`, `details`, `
 --
 
 CREATE TABLE `tourism` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `photo` text NOT NULL,
   `photo1` text NOT NULL,
@@ -124,15 +133,15 @@ CREATE TABLE `tourism` (
   `date` date NOT NULL,
   `time` time NOT NULL,
   `price` varchar(255) NOT NULL,
-  `reservations` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=armscii8;
+  `reservations` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
 -- Dumping data for table `tourism`
 --
 
-INSERT INTO `tourism` (`id`, `title`, `photo`,`photo1`,`photo2`, `location`, `details`,`details2`, `date`, `time`, `price`, `reservations`) VALUES
-(4, 'Gua Lemo', 'images/0527836c3fa98cb0b57ef19e5d26ff08.png', 'images/0527836c3fa98cb0b57ef19e5d26ff08.png', 'images/0527836c3fa98cb0b57ef19e5d26ff08.png', 'Makale Utara', 'gua lemo indah', 'gua lemo indah2', '2024-10-28', '07:00:00', '100', 95);
+INSERT INTO `tourism` (`id`, `title`, `photo`, `photo1`, `photo2`, `location`, `details`, `date`, `time`, `price`, `reservations`) VALUES
+(4, 'Gua Lemo', 'images/0527836c3fa98cb0b57ef19e5d26ff08.png', 'images/0527836c3fa98cb0b57ef19e5d26ff08.png', 'images/0527836c3fa98cb0b57ef19e5d26ff08.png', 'Makale Utara', 'gua lemo indah', '2024-10-28', '07:00:00', '100', 95);
 
 -- --------------------------------------------------------
 
@@ -141,15 +150,15 @@ INSERT INTO `tourism` (`id`, `title`, `photo`,`photo1`,`photo2`, `location`, `de
 --
 
 CREATE TABLE `tour_reserves` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `tour_id` int(11) NOT NULL,
   `reservations` int(11) NOT NULL,
   `cus_name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `phone` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=armscii8;
+  `phone` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
 -- Dumping data for table `tour_reserves`
 --
 
@@ -163,110 +172,23 @@ INSERT INTO `tour_reserves` (`id`, `tour_id`, `reservations`, `cus_name`, `email
 --
 
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `full_name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(80) NOT NULL,
   `join_date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `last_login` datetime NOT NULL,
-  `permissions` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=armscii8;
+  `permissions` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`id`, `full_name`, `email`, `password`, `join_date`, `last_login`, `permissions`) VALUES
-(1, 'Thulani Tembo', 'tembothulani@gmail.com', '$2y$10$KKRlG5O2UA0aIY/7YBBzs.5IsqAB38pr8dr0eM2OmXtaB/lv0vG8S', '2017-08-25 14:20:37', '2017-12-13 23:50:22', 'admin, editor'),
-(2, 'Theresa Nayame', 'theresanayame@gmail.com', '$2y$10$NuwKjycWxGZ9qOqXzLOoEeB1R1O5H5bEiRS2ChFiqa7.jg8x9BlAK', '2017-11-11 00:11:15', '2017-12-11 01:36:21', 'editor,admin'),
-(3, 'admin', 'admin@admin.com', 'admin123', '2017-12-13 23:12:51', '0000-00-00 00:00:00', 'editor,admin');
+(1, 'admin', 'admin@admin.com', 'admin123', '2024-12-13 23:12:51', '0000-00-00 00:00:00', 'editor,admin');
 
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `events`
---
-ALTER TABLE `events`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `gallery`
---
-ALTER TABLE `gallery`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `reservations`
---
-ALTER TABLE `reservations`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `rooms`
---
-ALTER TABLE `rooms`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `tourism`
---
-ALTER TABLE `tourism`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `tour_reserves`
---
-ALTER TABLE `tour_reserves`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `events`
---
-ALTER TABLE `events`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `gallery`
---
-ALTER TABLE `gallery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
---
--- AUTO_INCREMENT for table `reservations`
---
-ALTER TABLE `reservations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `rooms`
---
-ALTER TABLE `rooms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
---
--- AUTO_INCREMENT for table `tourism`
---
-ALTER TABLE `tourism`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT for table `tour_reserves`
---
-ALTER TABLE `tour_reserves`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
---
--- AUTO_INCREMENT for table `users`
---
-ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+-- COMMIT;
+SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
