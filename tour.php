@@ -65,7 +65,7 @@ if(isset($_POST['reserve'])) {
          <div class="col-md-6">
            <hr />
            <p><b>Location:</b> <?= $tour['location']; ?></p>
-           <p><b>Price (per head):</b> K<?= $tour['price']; ?></p>
+           <p><b>Price :</b> Rp.<?= $tour['price']; ?></p>
            <p><b>Short details:</b> <?= $tour['details']; ?></p>
            <p><b>Tour Description :</b> <?= $tour['details2']; ?></p>
            <p><b>Reservations Remaining:</b> <?= $tour['reservations']; ?></p>

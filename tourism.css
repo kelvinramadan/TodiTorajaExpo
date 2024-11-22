@@ -1,0 +1,52 @@
+/* Card styles */
+.tour-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    min-height: 400px; /* Ensure card has enough height */
+    height: 100%;
+}
+
+/* Card title */
+.tour-card h4 {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Image inside card */
+.tour-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+/* Text and details section */
+.tour-card section {
+    flex-grow: 1; /* This allows the section to grow and fill remaining space */
+    margin-bottom: 15px;
+}
+
+/* Button styles */
+.tour-card .btn {
+    background-color: #007bff;
+    color: #fff;
+    font-size: 1rem;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    margin-top: auto; /* This ensures the button is pushed to the bottom */
+}
+
+.tour-card .btn:hover {
+    background-color: #0056b3;
+}

@@ -26,6 +26,10 @@
               <a class="nav-link" href="rooms.php">Hotel Rooms</a>
             </li>
 
+            <li class="nav-item">
+              <a class="nav-link" href="payment.php">Payment</a>
+            </li>
+
           </ul>
         </div>
       </div>
