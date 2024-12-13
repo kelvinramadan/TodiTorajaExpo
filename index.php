@@ -5,106 +5,117 @@ include 'includes/navigation.php';
 $sql = $db->query("SELECT * FROM rooms LIMIT 4");
 $tourSQL = $db->query("SELECT * FROM tourism LIMIT 4");
 $result = $db->query("SELECT * FROM events");
-
 ?>
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel & Tourism</title>
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles/main.css">
+    <style>
+        .bg-image-full {
+            background-position: center;
+            background-size: cover;
+        }
+        .card:hover {
+            transform: scale(1.05);
+            transition: all 0.3s ease-in-out;
+        }
+        footer {
+            background-color: #343a40;
+            color: white;
+        }
+    </style>
+</head>
+<body>
 
-    <!-- Header - set the background image for the header in the line below -->
-    <header class="py-5 bg-image-full" style="background-image: url('images/slide-2.jpg'); height:300px">
-      
-    </header>
-    <!-- Content section -->
-    <section class="py-5">
-      <div class="container">
-        <h1>WISATA</h1>
-        <div class="row">
+<!-- Header Section -->
+<header class="py-5 bg-image-full" style="background-image: url('images/slide-2.jpg'); height:300px">
+</header>
 
-        <?php while($tour = mysqli_fetch_assoc($tourSQL)): ?>
-            <div class="col-lg-3 col-md-4 col-sm-6">
-              <h4 class="text-center"><?=$tour['title'];?></h4>
-              <img src="<?=$tour['photo'];?>" class="img-responsive" alt="room" width="100%" height="200px">
-              <section class="text-justify">
-                <p>
-                  <?=$tour['details'];?>
-                </p>
-                <a href="tour.php?tour=<?= $tour['id']; ?>" class="btn btn-block btn-primary">More Details</a>
-              </section>
-            </div>
-
-      <?php endwhile; ?>
-        </div>
-      </div>
-    </section>
-
-    <!-- Event Section -->
+<!-- Tourism Section -->
+<section class="py-5">
     <div class="container">
-      <div class="page-header text-center">
-        <h3><?= (mysqli_num_rows($result) <= 0) ? 'Tidak Ada Festival Tersedia' : 'FESTIVAL YANG AKAN DATANG!'; ?></h3>
-      </div>
-      <div class="row">
-        <?php if(mysqli_num_rows($result) > 0): ?>
-          <?php while($rows = mysqli_fetch_assoc($result)): ?>
-            <div class="col-sm-3">
-              <div class="w3-card-4">
-                <div>
-                  <img src="<?= $rows['image']; ?>" style="width:100%; height:200px;" alt="event image" >
+        <h1 class="text-center mb-4">WISATA</h1>
+        <div class="row">
+        <?php while($tour = mysqli_fetch_assoc($tourSQL)): ?>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card">
+                    <img src="<?=$tour['photo'];?>" class="card-img-top" alt="tour image" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title text-center"><?=$tour['title'];?></h5>
+                        <p class="card-text text-justify"><?=$tour['details'];?></p>
+                        <a href="tour.php?tour=<?=$tour['id'];?>" class="btn btn-primary btn-block">More Details</a>
+                    </div>
                 </div>
-                <div class="w3-container text-justify">
-                  <h4 class="text-center"><b><?= $rows['event_topic']; ?></b></h4>
-                  <p><?= $rows['short_details']; ?></p>
-                </div>
-                <footer class="w3-container w3-blue w3-padding">
-                  <a href="view.php?view=<?= $rows['id']; ?>" class="w3-btn w3-black w3-btn-block">More details</a>
-                </footer>
-              </div>
-              <br>
             </div>
-          <?php endwhile; ?>
-        <?php endif; ?>
-      </div>
+        <?php endwhile; ?>
+        </div>
     </div>
+</section>
 
-    <!-- Content section -->
-    <section class="py-5">
-      <div class="container">
-        <h1>PENGINAPAN</h1><hr />
-      <div class="row">
+<!-- Event Section -->
+<div class="container py-5">
+    <div class="text-center mb-4">
+        <h3><?= (mysqli_num_rows($result) <= 0) ? 'Tidak Ada Festival Tersedia' : 'FESTIVAL YANG AKAN DATANG!'; ?></h3>
+    </div>
+    <div class="row">
+        <?php if(mysqli_num_rows($result) > 0): ?>
+            <?php while($rows = mysqli_fetch_assoc($result)): ?>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card">
+                        <img src="<?=$rows['image'];?>" class="card-img-top" alt="event image" style="height: 200px; object-fit: cover;">
+                        <div class="card-body">
+                            <h5 class="card-title text-center"><?=$rows['event_topic'];?></h5>
+                            <p class="card-text text-justify"><?=$rows['short_details'];?></p>
+                            <a href="view.php?view=<?=$rows['id'];?>" class="btn btn-dark btn-block">More Details</a>
+                        </div>
+                    </div>
+                </div>
+            <?php endwhile; ?>
+        <?php endif; ?>
+    </div>
+</div>
 
-      <?php while($room = mysqli_fetch_assoc($sql)): ?>
-          <div class="col-lg-3 col-md-4 col-sm-6">
-            <h4 class="text-center"><?=$room['room_number'];?></h4>
-            <img src="<?=$room['photo'];?>" class="img-responsive" alt="room" width="100%" height="200px">
-            <section class="text-justify">
-              <p>
-                <?=$room['details'];?>
-              </p>
-              <a href="details.php?room=<?= $room['id']; ?>" class="btn btn-block btn-primary">More Details</a>
-            </section>
-          </div>
+<!-- Rooms Section -->
+<section class="py-5">
+    <div class="container">
+        <h1 class="text-center mb-4">PENGINAPAN</h1>
+        <div class="row">
+        <?php while($room = mysqli_fetch_assoc($sql)): ?>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card">
+                    <img src="<?=$room['photo'];?>" class="card-img-top" alt="room image" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title text-center"><?=$room['room_number'];?></h5>
+                        <p class="card-text text-justify"><?=$room['details'];?></p>
+                        <a href="details.php?room=<?=$room['id'];?>" class="btn btn-primary btn-block">More Details</a>
+                    </div>
+                </div>
+            </div>
+        <?php endwhile; ?>
+        </div>
+    </div>
+</section>
 
-    <?php endwhile; ?>
-      </div>
-    </section>
+<!-- Image Section -->
+<section class="py-5 bg-image-full" style="background-image: url('images/slide-2.jpg'); height: 200px;">
+</section>
 
-    <!-- Image Section - set the background image for the header in the line below -->
-    <section class="py-5 bg-image-full" style="background-image: url(images/slide-2.jpg);">
-      <!-- Put anything you want here! There is just a spacer below for demo purposes! -->
-      <div style="height: 200px;"></div>
-    </section>
+<!-- Footer -->
+<footer class="py-4">
+    <div class="container text-center">
+        <p class="m-0">&copy; 2024 Hotel & Tourism</p>
+    </div>
+</footer>
 
-    <!-- Footer -->
-    <footer class="py-5 bg-inverse">
-      <div class="container">
-        <p class="m-0 text-center ">Copyright &copy; Hotel & Tourism</p>
-      </div>
-      <!-- /.container -->
-    </footer>
+<!-- Bootstrap core JavaScript -->
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/popper/popper.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 
-    <!-- Bootstrap core JavaScript -->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/popper/popper.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-
-  </body>
-
+</body>
 </html>
