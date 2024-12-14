@@ -139,7 +139,7 @@ INSERT INTO `reservations` (`id`, `name`, `checkin`, `checkout`, `phone`, `peopl
 
 CREATE TABLE `rooms` (
   `id` int(11) NOT NULL,
-  `room_number` varchar(255) NOT NULL,
+  `room_name` varchar(255) NOT NULL,
   `rooms` int(11) NOT NULL,
   `type` varchar(255) NOT NULL,
   `price` text NOT NULL,
@@ -156,7 +156,7 @@ CREATE TABLE `rooms` (
 -- Dumping data for table `rooms`
 --
 
-INSERT INTO `rooms` (`id`, `room_number`, `rooms`, `type`, `price`, `details`, `photo`, `facility1`, `facility2`, `facility3`, `facility4`, `facility5`) VALUES
+INSERT INTO `rooms` (`id`, `room_name`, `rooms`, `type`, `price`, `details`, `photo`, `facility1`, `facility2`, `facility3`, `facility4`, `facility5`) VALUES
 (16, 'Melia Hotel Makassar', 9, 'Regular', '719.000', 'Melia Makassar adalah hotel kota bintang 4 yang modern dan bergaya yang berlokasi strategis di pusat perbelanjaan kota dan kawasan bisnis komersial.', 'gambarpenginapan\\2MeliaHotelMakassar.png', 'images\\facility_images\\1MeliaHotelMakassar\\1.png', 'images\\facility_images\\1MeliaHotelMakassar\\2.png', 'images\\facility_images\\1MeliaHotelMakassar\\3.png', 'images\\facility_images\\1MeliaHotelMakassar\\4.png', 'images\\facility_images\\1MeliaHotelMakassar\\5.png'),
 (17, 'The Rinra Hotel', 24, 'Executive', '1.200.000', 'The Rinra adalah hotel bintang lima yang terletak di pusat kota Makassar, menawarkan kemewahan dan kenyamanan dengan pemandangan laut yang menakjubkan.', 'gambarpenginapan\\1TheRinraHotel.png', NULL, NULL, NULL, NULL, NULL),
 (18, 'KHAS Hotel Makassar', 1, 'Single', '518.000', 'KHAS Makassar Hotel features a garden, shared lounge, a terrace and restaurant in Makassar. This 3-star hotel offers room service and an ATM.', 'gambarpenginapan\\3KHASHotelMakassar.png', NULL, NULL, NULL, NULL, NULL),
@@ -194,7 +194,7 @@ INSERT INTO `rooms` (`id`, `room_number`, `rooms`, `type`, `price`, `details`, `
 
 CREATE TABLE `rooms1` (
   `id` int(11) NOT NULL,
-  `room_number` varchar(10) DEFAULT NULL,
+  `room_name` varchar(10) DEFAULT NULL,
   `rooms` int(11) DEFAULT NULL,
   `type` varchar(50) DEFAULT NULL,
   `price` decimal(10,2) DEFAULT NULL,

@@ -9,23 +9,13 @@ if (isset($_GET['room'])) {
     $select = $db->query("SELECT * FROM rooms WHERE id = '{$roomID}'");
     $s = $db->query("SELECT * FROM rooms WHERE id = '{$roomID}'");
 
-    // Fetch unique room types
-    $roomTypesQuery = $db->query("SELECT DISTINCT type FROM rooms");
-    $roomTypes = [];
-    while ($type = mysqli_fetch_assoc($roomTypesQuery)) {
-        $roomTypes[] = $type['type'];
-    }
-
     if (isset($_POST['checkin'])) {
-        if (!empty($_POST['fullname']) && !empty($_POST['in_date']) && !empty($_POST['out_date']) && !empty($_POST['phone']) && !empty($_POST['people'])) {
+        if (!empty($_POST['fullname']) && !empty($_POST['in_date']) && !empty($_POST['out_date']) && !empty($_POST['phone'])) {
             $name = $_POST['fullname'];
             $checkin = $_POST['in_date'];
             $checkout = $_POST['out_date'];
             $phone = $_POST['phone'];
-            $people = $_POST['people'];
             $email = $_POST['email'];
-            @$address = $_POST['resident'];
-            @$kin = $_POST['kin'];
             $r_number = mysqli_fetch_assoc($s);
             $r = $r_number['room_number'];
             $rooms = $_POST['rooms'];
@@ -33,7 +23,18 @@ if (isset($_GET['room'])) {
 
             if ($checkin >= $current_date) {
                 if ($checkout >= $checkin) {
-                    $insert = "INSERT INTO `reservations` (`id`, `name`, `checkin`, `checkout`, `phone`, `people`, `email`, `room`) VALUES (NULL, '$name', '$checkin', '$checkout', '$phone', '$people', '$email', '$r')";
+                    // Hitung jumlah hari menginap
+                    $checkinDate = new DateTime($checkin);
+                    $checkoutDate = new DateTime($checkout);
+                    $interval = $checkinDate->diff($checkoutDate);
+                    $days = $interval->days;
+
+                    // Hitung total harga
+                    $roomPrice = $r_number['price'];
+                    $totalPrice = $roomPrice * $days;
+
+                    $insert = "INSERT INTO `reservations` (`id`, `name`, `checkin`, `checkout`, `phone`, `email`, `room`, `total_price`) 
+                               VALUES (NULL, '$name', '$checkin', '$checkout', '$phone', '$email', '$r', '$totalPrice')";
                     $_SESSION['room_success'] = 'Reservation successfully made!';
                     $save = $db->query($insert);
                     if ($save) {
@@ -77,10 +78,10 @@ if (isset($_GET['room'])) {
             <!-- Right column for details -->
             <div class="col-md-6">
                 <hr />
-                <!--<p><b>Room Type:</b> <?= $room['type']; ?></p> -->
-                <p><b>Room Price (per night):</b> <?= $room['price']; ?></p>
-                <p><b>Available Rooms:</b> <?= $room['rooms']; ?></p>
-                <p><b>Room details:</b> <?= $room['details']; ?></p>
+                <p><b>Room Type:</b> <?= $room['type']; ?></p>
+                <p><b>Harga Kamar:</b> <?= $room['price']; ?></p>
+                <p><b>Kamar Tersedia:</b> <?= $room['rooms']; ?></p>
+                <p><b>Rincian Kamar:</b> <?= $room['details']; ?></p>
                 <?= ($room['rooms'] <= 0) ? '<p class="text-danger">reservations have been closed on this room!</p>' : ''; ?>
             </div>
         </div>
@@ -94,55 +95,24 @@ if (isset($_GET['room'])) {
             <div class="row">
 
                 <div class="col">
-                    <label class="form-control-label">Full name:</label>
+                    <label class="form-control-label">Nama Lengkap:</label>
                     <input type="text" class="form-control" name="fullname" placeholder="Full Name" <?= ($room['rooms'] <= 0) ? 'readonly' : ''; ?>>
                 </div>
 
                 <div class="col">
-                    <label class="form-control-label">Check-in date:</label>
+                    <label class="form-control-label">Check-in:</label>
                     <input type="date" class="form-control" name="in_date" <?= ($room['rooms'] <= 0) ? 'readonly' : ''; ?>>
                 </div>
 
                 <div class="col">
-                    <label class="form-control-label">Check-out date:</label>
+                    <label class="form-control-label">Check-out:</label>
                     <input type="date" class="form-control" name="out_date" <?= ($room['rooms'] <= 0) ? 'readonly' : ''; ?>>
                 </div>
 
                 <div class="col">
-                    <label class="form-control-label">Phone Number:</label>
+                    <label class="form-control-label">No Telp:</label>
                     <input type="text" class="form-control" name="phone" placeholder="Phone number..." <?= ($room['rooms'] <= 0) ? 'readonly' : ''; ?>>
                 </div>
-
-                <div class="col">
-                    <label class="form-control-label">People:</label>
-                    <input type="number" class="form-control" max="5" name="people" <?= ($room['rooms'] <= 0) ? 'readonly' : ''; ?>>
-                </div>
-
-                <div class="col">
-                    <label class="form-control-label"># of Rooms:</label>
-                    <input type="number" class="form-control" name="rooms" <?= ($room['rooms'] <= 0) ? 'readonly' : ''; ?>>
-                </div>
-
-                <!-- <?php
-            // Ambil definisi kolom ENUM dari database menggunakan koneksi MySQLi
-            $query = $db->query("SHOW COLUMNS FROM reservations LIKE 'roomtype'");
-            $result = mysqli_fetch_assoc($query);
-
-            // Ekstrak nilai ENUM menjadi array
-            $enumString = $result['Type']; // Contoh hasil: "enum('Deluxe','Luxury','Suite')"
-            preg_match("/^enum\((.*)\)$/", $enumString, $matches);
-            $roomTypes = explode(",", str_replace("'", "", $matches[1])); // Hasil: ['Deluxe', 'Luxury', 'Suite']
-            ?>
-
-
-                <div class="col">
-                    <label class="form-control-label">Room Type:</label>
-                    <select class="form-control" name="room_type" <?= ($room['rooms'] <= 0) ? 'disabled' : ''; ?>>
-                        <?php foreach ($roomTypes as $type): ?>
-                            <option value="<?= $type; ?>"><?= $type; ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div> -->
 
                 <div class="col">
                     <label class="form-control-label">Email Address:</label>

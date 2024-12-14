@@ -21,8 +21,6 @@ if(isset($_GET['delete'])){
         $db->query($sql);
         header("Location: rooms.php");
     }
-
-
 ?>
 
 <div class="w3-container w3-main" style="margin-left:200px">
