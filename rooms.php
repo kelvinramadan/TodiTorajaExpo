@@ -13,7 +13,7 @@ $sql = $db->query("SELECT * FROM rooms");
 
     <?php while($room = mysqli_fetch_assoc($sql)): ?>
         <div class="col-lg-3 col-md-4 col-sm-6">
-          <h4 class="text-center"><?= $room['room_name']; ?></h4>
+          <h4 class="text-center"><?= $room['room_number']; ?></h4>
           <img src="<?= $room['photo']; ?>" class="img-responsive" alt="room" width="100%" height="200px">
           <section class="text-justify">
             <p>
