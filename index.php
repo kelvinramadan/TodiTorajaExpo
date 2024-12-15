@@ -2,8 +2,25 @@
 require_once 'core/core.php';
 include 'includes/header.php';
 include 'includes/navigation.php';
-$sql = $db->query("SELECT * FROM rooms LIMIT 4");
-$tourSQL = $db->query("SELECT * FROM tourism LIMIT 4");
+
+// Handle filter for rooms
+$roomFilter = isset($_GET['room_search']) ? $_GET['room_search'] : '';
+$roomQuery = "SELECT * FROM rooms";
+if ($roomFilter !== '') {
+    $roomQuery .= " WHERE room_number LIKE '%$roomFilter%' OR details LIKE '%$roomFilter%'";
+}
+$roomQuery .= " LIMIT 4";
+$sql = $db->query($roomQuery);
+
+// Handle filter for tourism
+$tourFilter = isset($_GET['tour_search']) ? $_GET['tour_search'] : '';
+$tourQuery = "SELECT * FROM tourism";
+if ($tourFilter !== '') {
+    $tourQuery .= " WHERE title LIKE '%$tourFilter%' OR details LIKE '%$tourFilter%'";
+}
+$tourQuery .= " LIMIT 4";
+$tourSQL = $db->query($tourQuery);
+
 $result = $db->query("SELECT * FROM events");
 ?>
 
@@ -15,25 +32,35 @@ $result = $db->query("SELECT * FROM events");
     <title>Hotel & Tourism</title>
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles/main.css">
-    <style>
-        .bg-image-full {
-            background-position: center;
-            background-size: cover;
-        }
-        .card:hover {
-            transform: scale(1.05);
-            transition: all 0.3s ease-in-out;
-        }
-        footer {
-            background-color: #343a40;
-            color: white;
-        }
-    </style>
+    <link rel="stylesheet" href="tesajah.css">
 </head>
 <body>
 
 <!-- Header Section -->
-<header class="py-5 bg-image-full" style="background-image: url('images/slide-2.jpg'); height:300px">
+<header>
+    <section class="hero">
+        <img src="images/toraja.jpg" alt="Toraja" class="hero-bg">
+        <div class="hero-content">
+            <h1>TodiToraja</h1>
+            <p>Pengalaman berwisata yang menarik dan alternatif serta berbagi bersama tentang budaya lokal tanah Toraja secara menyeluruh bersama kami TodiToraja</p>
+        </div>
+        <!-- Search bar -->
+        <div class="search-container">
+            <form method="GET" class="search-form">
+                <div class="row">
+                    <div class="col-md-6">
+                        <input type="text" name="room_search" class="form-control" placeholder="Cari Penginapan" value="<?= htmlspecialchars($roomFilter); ?>">
+                    </div>
+                    <div class="col-md-6">
+                        <input type="text" name="tour_search" class="form-control" placeholder="Cari Wisata" value="<?= htmlspecialchars($tourFilter); ?>">
+                    </div>
+                </div>
+                <div class="text-center mt-2">
+                    <button type="submit" class="btn btn-primary">Cari</button>
+                </div>
+            </form>
+        </div>
+    </section>
 </header>
 
 <!-- Tourism Section -->
@@ -44,11 +71,11 @@ $result = $db->query("SELECT * FROM events");
         <?php while($tour = mysqli_fetch_assoc($tourSQL)): ?>
             <div class="col-lg-3 col-md-6 mb-4">
                 <div class="card">
-                    <img src="<?=$tour['photo'];?>" class="card-img-top" alt="tour image" style="height: 200px; object-fit: cover;">
+                    <img src="<?= $tour['photo']; ?>" class="card-img-top" alt="tour image" style="height: 200px; object-fit: cover;">
                     <div class="card-body">
-                        <h5 class="card-title text-center"><?=$tour['title'];?></h5>
-                        <p class="card-text text-justify"><?=$tour['details'];?></p>
-                        <a href="tour.php?tour=<?=$tour['id'];?>" class="btn btn-primary btn-block">More Details</a>
+                        <h5 class="card-title text-center"><?= $tour['title']; ?></h5>
+                        <p class="card-text text-justify"><?= $tour['details']; ?></p>
+                        <a href="tour.php?tour=<?= $tour['id']; ?>" class="btn btn-primary btn-block">More Details</a>
                     </div>
                 </div>
             </div>
@@ -56,29 +83,6 @@ $result = $db->query("SELECT * FROM events");
         </div>
     </div>
 </section>
-
-<!-- Event Section -->
-<div class="container py-5">
-    <div class="text-center mb-4">
-        <h3><?= (mysqli_num_rows($result) <= 0) ? 'Tidak Ada Festival Tersedia' : 'FESTIVAL YANG AKAN DATANG!'; ?></h3>
-    </div>
-    <div class="row">
-        <?php if(mysqli_num_rows($result) > 0): ?>
-            <?php while($rows = mysqli_fetch_assoc($result)): ?>
-                <div class="col-lg-3 col-md-6 mb-4">
-                    <div class="card">
-                        <img src="<?=$rows['image'];?>" class="card-img-top" alt="event image" style="height: 200px; object-fit: cover;">
-                        <div class="card-body">
-                            <h5 class="card-title text-center"><?=$rows['event_topic'];?></h5>
-                            <p class="card-text text-justify"><?=$rows['short_details'];?></p>
-                            <a href="view.php?view=<?=$rows['id'];?>" class="btn btn-dark btn-block">More Details</a>
-                        </div>
-                    </div>
-                </div>
-            <?php endwhile; ?>
-        <?php endif; ?>
-    </div>
-</div>
 
 <!-- Rooms Section -->
 <section class="py-5">
@@ -88,21 +92,17 @@ $result = $db->query("SELECT * FROM events");
         <?php while($room = mysqli_fetch_assoc($sql)): ?>
             <div class="col-lg-3 col-md-6 mb-4">
                 <div class="card">
-                    <img src="<?=$room['photo'];?>" class="card-img-top" alt="room image" style="height: 200px; object-fit: cover;">
+                    <img src="<?= $room['photo']; ?>" class="card-img-top" alt="room image" style="height: 200px; object-fit: cover;">
                     <div class="card-body">
-                        <h5 class="card-title text-center"><?=$room['room_number'];?></h5>
-                        <p class="card-text text-justify"><?=$room['details'];?></p>
-                        <a href="details.php?room=<?=$room['id'];?>" class="btn btn-primary btn-block">More Details</a>
+                        <h5 class="card-title text-center"><?= $room['room_number']; ?></h5>
+                        <p class="card-text text-justify"><?= $room['details']; ?></p>
+                        <a href="details.php?room=<?= $room['id']; ?>" class="btn btn-primary btn-block">More Details</a>
                     </div>
                 </div>
             </div>
         <?php endwhile; ?>
         </div>
     </div>
-</section>
-
-<!-- Image Section -->
-<section class="py-5 bg-image-full" style="background-image: url('images/slide-2.jpg'); height: 200px;">
 </section>
 
 <!-- Footer -->
@@ -112,7 +112,6 @@ $result = $db->query("SELECT * FROM events");
     </div>
 </footer>
 
-<!-- Bootstrap core JavaScript -->
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/popper/popper.min.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.min.js"></script>

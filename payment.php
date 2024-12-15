@@ -5,7 +5,7 @@ include 'includes/header.php';
 include 'includes/navigation.php';
 
 // Ambil data booking dari tabel reservations
-$reservationsQuery = $db->query("SELECT reservations.id, reservations.name, reservations.checkin, reservations.checkout, reservations.phone, reservations.people, reservations.email, reservations.total_price, rooms.room_number, rooms.price FROM reservations JOIN rooms ON reservations.room = rooms.room_number");
+$reservationsQuery = $db->query("SELECT reservations.id, reservations.name, reservations.checkin, reservations.checkout, reservations.phone, reservations.email, reservations.total_price, rooms.room_number, rooms.price FROM reservations JOIN rooms ON reservations.room = rooms.room_number");
 
 // Ambil data booking dari tabel tour_reserves
 $tourReservesQuery = $db->query("SELECT tour_reserves.*, tourism.title, tourism.price FROM tour_reserves JOIN tourism ON tour_reserves.tour_id = tourism.id");
