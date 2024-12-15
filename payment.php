@@ -39,7 +39,6 @@ if (mysqli_num_rows($tourReservesQuery) > 0) {
 $grandTotal = $totalHotelPrice + $totalTourPrice;
 
 ?>
-<link rel="stylesheet" href="payment.css">
 
 <div class="container">
     <div class="page-header">
