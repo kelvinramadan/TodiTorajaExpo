@@ -63,6 +63,26 @@ $result = $db->query("SELECT * FROM events");
     </section>
 </header>
 
+<div class="container mt-5">
+    <h1 class="text-center">Events</h1>
+    <div class="row">
+        <?php while($event = mysqli_fetch_assoc($result)): ?>
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    <img src="<?= $event['image']; ?>" class="card-img-top" alt="<?= $event['event_topic']; ?>" style="height: 200px; object-fit: cover;">
+                    <div class="card-body">
+                        <h5 class="card-title"><?= $event['event_topic']; ?></h5>
+                        <p class="card-text"><?= $event['short_details']; ?></p>
+                        <p><strong>Venue:</strong> <?= $event['venue']; ?></p>
+                        <p><strong>Date:</strong> <?= $event['date']; ?> <strong>Time:</strong> <?= $event['time']; ?></p>
+                        <a href="event_detail.php?id=<?= $event['id']; ?>" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+        <?php endwhile; ?>
+    </div>
+</div>
+
 <!-- Tourism Section -->
 <section class="py-5">
     <div class="container">
@@ -115,6 +135,8 @@ $result = $db->query("SELECT * FROM events");
 <script src="vendor/jquery/jquery.min.js"></script>
 <script src="vendor/popper/popper.min.js"></script>
 <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<script src="js/jquery-1.11.2.min.js"></script>
+<script src="js/bootstrap.js"></script>
 
 </body>
 </html>
