@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 16, 2024 at 07:33 AM
+-- Generation Time: Dec 16, 2024 at 01:37 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -126,7 +126,9 @@ INSERT INTO `reservations` (`id`, `name`, `checkin`, `checkout`, `phone`, `email
 (11, 'kelvin', '2024-12-14', '2024-12-15', '8888', 'ejadueued@kwi', 719000.00, 'Melia Hotel Makassar'),
 (12, 'alma', '2024-12-14', '2024-12-16', '1313', 'alma@323', 1438000.00, 'Melia Hotel Makassar'),
 (14, 'kiw', '2024-12-14', '2024-12-16', '5333', 'fdsf@dfws', 1800000.00, 'mm'),
-(15, 'zii', '2024-12-15', '2024-12-18', '222', 'ekckek@oceine', 3600000.00, 'The Rinra Hotel');
+(15, 'zii', '2024-12-15', '2024-12-18', '222', 'ekckek@oceine', 3600000.00, 'The Rinra Hotel'),
+(18, 'dimas dan cindy', '2024-12-16', '2024-12-18', '24222', 'dimas@com', 2400000.00, 'The Rinra Hotel'),
+(19, 'rodir', '2024-12-16', '2024-12-20', '34342', 'ejadueued@kwi', 4800000.00, 'The Rinra Hotel');
 
 -- --------------------------------------------------------
 
@@ -380,7 +382,7 @@ ALTER TABLE `maps`
 -- AUTO_INCREMENT for table `reservations`
 --
 ALTER TABLE `reservations`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT for table `rooms`
