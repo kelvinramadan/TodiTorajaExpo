@@ -13,21 +13,24 @@ if (isset($_GET['edit']) && !empty($_GET['edit'])) {
     $edit = mysqli_fetch_assoc($get);
 }
 
-// VALIDATING AND MOVING FILE FROM TEMP LOCATION
-$fileName = '';
-if (!empty($_FILES['file']['name'])) {
-    $fileName = $_FILES['file']['name'];
-    $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-    $fileName = md5(microtime()) . '.' . $ext;
-    $tmp_name = $_FILES['file']['tmp_name'];
+// FUNCTION TO HANDLE FILE UPLOADS
+function handleFileUpload($file, $targetDir) {
+    $fileName = '';
+    if (!empty($file['name'])) {
+        $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $fileName = md5(microtime()) . '.' . $ext;
+        $tmpName = $file['tmp_name'];
 
-    if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif'])) {
-        $location = $_SERVER['DOCUMENT_ROOT'] . '/ht/images/';
-        move_uploaded_file($tmp_name, $location . $fileName);
-    } else {
-        echo '<div class="w3-center w3-red">The image type must be jpg, jpeg, gif, or png.</div></br>';
+        if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif'])) {
+            move_uploaded_file($tmpName, $targetDir . $fileName);
+        } else {
+            echo '<div class="w3-center w3-red">The image type must be jpg, jpeg, gif, or png.</div></br>';
+        }
     }
+    return $fileName;
 }
+
+$targetDir = $_SERVER['DOCUMENT_ROOT'] . '/ht/images/';
 
 // INSERTING ROOM INFORMATION INTO DATABASE
 if (isset($_POST['submit'])) {
@@ -37,10 +40,15 @@ if (isset($_POST['submit'])) {
     $details = trim($_POST['description']);
     $rooms = trim($_POST['rooms']);
 
+    $photo = handleFileUpload($_FILES['photo'], $targetDir);
+    $facility1 = handleFileUpload($_FILES['facility1'], $targetDir);
+    $facility2 = handleFileUpload($_FILES['facility2'], $targetDir);
+    $facility3 = handleFileUpload($_FILES['facility3'], $targetDir);
+    $facility4 = handleFileUpload($_FILES['facility4'], $targetDir);
+
     if (!empty($number) && !empty($type) && !empty($price) && !empty($details) && !empty($rooms)) {
-        $image = 'images/' . $fileName;
-        $sql = "INSERT INTO rooms (`room_number`, `type`, `price`, `details`, `photo`, `rooms`)
-                VALUES ('$number', '$type', '$price', '$details', '$image', '$rooms')";
+        $sql = "INSERT INTO rooms (`room_number`, `type`, `price`, `details`, `photo`, `facility1`, `facility2`, `facility3`, `facility4`, `rooms`)
+                VALUES ('$number', '$type', '$price', '$details', 'images/$photo', 'images/$facility1', 'images/$facility2', 'images/$facility3', 'images/$facility4', '$rooms')";
 
         if ($db->query($sql)) {
             $_SESSION['added_event'] = '<div class="w3-center w3-green">Room successfully added!</div></br>';
@@ -59,14 +67,14 @@ if (isset($_POST['update'])) {
     $details = trim($_POST['description']);
     $rooms = trim($_POST['rooms']);
 
+    $photo = handleFileUpload($_FILES['photo'], $targetDir);
+    $facility1 = handleFileUpload($_FILES['facility1'], $targetDir);
+    $facility2 = handleFileUpload($_FILES['facility2'], $targetDir);
+    $facility3 = handleFileUpload($_FILES['facility3'], $targetDir);
+    $facility4 = handleFileUpload($_FILES['facility4'], $targetDir);
+
     if (!empty($number) && !empty($type) && !empty($price) && !empty($details) && !empty($rooms)) {
         $toEditID = $_GET['edit'];
-        $image = '';
-
-        if (!empty($_FILES['file']['name'])) {
-            $image = 'images/' . $fileName;
-        }
-
         $query = "UPDATE rooms SET 
                   `room_number` = '$number', 
                   `type` = '$type', 
@@ -74,8 +82,20 @@ if (isset($_POST['update'])) {
                   `price` = '$price', 
                   `rooms` = '$rooms'";
 
-        if ($image !== '') {
-            $query .= ", `photo` = '$image'";
+        if (!empty($photo)) {
+            $query .= ", `photo` = 'images/$photo'";
+        }
+        if (!empty($facility1)) {
+            $query .= ", `facility1` = 'images/$facility1'";
+        }
+        if (!empty($facility2)) {
+            $query .= ", `facility2` = 'images/$facility2'";
+        }
+        if (!empty($facility3)) {
+            $query .= ", `facility3` = 'images/$facility3'";
+        }
+        if (!empty($facility4)) {
+            $query .= ", `facility4` = 'images/$facility4'";
         }
 
         $query .= " WHERE id = '$toEditID'";
@@ -89,19 +109,6 @@ if (isset($_POST['update'])) {
         echo '<div class="w3-center w3-red">Please fill in all fields.</div></br>';
     }
 }
-
-// DELETE ROOM IMAGE
-if (isset($_GET['delete_image'])) {
-    $toEditID = $_GET['delete_image'];
-    $sql1 = $db->query("SELECT * FROM rooms WHERE id = '$toEditID'");
-    $fetch = mysqli_fetch_assoc($sql1);
-    $imageURL = $_SERVER['DOCUMENT_ROOT'] . '/ht/' . $fetch['photo'];
-    unlink($imageURL);
-
-    $sql = "UPDATE rooms SET `photo` = '' WHERE id = '$toEditID'";
-    $db->query($sql);
-    header("Location: add_room.php?edit=$toEditID");
-}
 ?>
 
 <div class="w3-container w3-main" style="margin-left:200px">
@@ -113,47 +120,56 @@ if (isset($_GET['delete_image'])) {
     <form class="form" action="#" method="post" enctype="multipart/form-data">
 
         <div class="form-group col-md-4">
-            <label>Nama Hotel:</label>
+            <label>Room Number:</label>
             <input type="text" class="form-control" value="<?= isset($_GET['edit']) ? $edit['room_number'] : ''; ?>" name="number">
         </div>
 
         <div class="form-group col-md-4">
-          <label>Room Type:</label>
-          <select class="form-control" name="type">
-            <option value="Executive" <?= (isset($edit['type']) && $edit['type'] == 'Executive') ? 'selected' : ''; ?>>Executive</option>
-            <option value="Regular" <?= (isset($edit['type']) && $edit['type'] == 'Regular') ? 'selected' : ''; ?>>Regular</option>
-            <option value="Deluxe" <?= (isset($edit['type']) && $edit['type'] == 'Deluxe') ? 'selected' : ''; ?>>Deluxe</option>
-          </select>
+            <label>Room Type:</label>
+            <select class="form-control" name="type">
+                <option value="Executive" <?= (isset($edit['type']) && $edit['type'] == 'Executive') ? 'selected' : ''; ?>>Executive</option>
+                <option value="Regular" <?= (isset($edit['type']) && $edit['type'] == 'Regular') ? 'selected' : ''; ?>>Regular</option>
+                <option value="Deluxe" <?= (isset($edit['type']) && $edit['type'] == 'Deluxe') ? 'selected' : ''; ?>>Deluxe</option>
+            </select>
         </div>
 
-
         <div class="form-group col-md-2">
-            <label>Harga Kamar:</label>
+            <label>Room Price:</label>
             <input type="text" class="form-control" value="<?= isset($_GET['edit']) ? $edit['price'] : ''; ?>" name="price">
         </div>
 
         <div class="form-group col-md-2">
-            <label>Kamar Tersedia:</label>
+            <label>Rooms Available:</label>
             <input type="number" class="form-control" value="<?= isset($_GET['edit']) ? $edit['rooms'] : ''; ?>" name="rooms">
         </div>
 
         <div class="form-group col-md-4">
-            <?php if (isset($_GET['edit']) && !empty($edit['photo'])) : ?>
-                <figure>
-                    <h3>Gambar Ruangan</h3>
-                    <img src="../<?= $edit['photo']; ?>" alt="room image" class="img-responsive">
-                    <figcaption>
-                        <a href="add_room.php?delete_image=<?= $id; ?>" class="w3-text-red">Delete Photo</a>
-                    </figcaption>
-                </figure>
-            <?php else : ?>
-                <label>Gambar Ruangan:</label>
-                <input type="file" class="form-control" name="file">
-            <?php endif; ?>
+            <label>Room Photo:</label>
+            <input type="file" class="form-control" name="photo">
         </div>
 
         <div class="form-group col-md-4">
-            <label>Deskripsi:</label>
+            <label>Facility 1 Photo:</label>
+            <input type="file" class="form-control" name="facility1">
+        </div>
+
+        <div class="form-group col-md-4">
+            <label>Facility 2 Photo:</label>
+            <input type="file" class="form-control" name="facility2">
+        </div>
+
+        <div class="form-group col-md-4">
+            <label>Facility 3 Photo:</label>
+            <input type="file" class="form-control" name="facility3">
+        </div>
+
+        <div class="form-group col-md-4">
+            <label>Facility 4 Photo:</label>
+            <input type="file" class="form-control" name="facility4">
+        </div>
+
+        <div class="form-group col-md-4">
+            <label>Description:</label>
             <textarea class="form-control" rows="6" name="description"><?= isset($_GET['edit']) ? $edit['details'] : ''; ?></textarea>
         </div>
 
