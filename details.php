@@ -53,14 +53,14 @@ $conn->close();
 
             <div class="row">
                 <div class="col-md-6">
-                    <img style="width:100%; height:400px" src="<?= htmlspecialchars($roomData['photo']); ?>">
+                    <img class="photo" src="<?= htmlspecialchars($roomData['photo']); ?>" alt="Room Photo">
                 </div>
                 <div class="col-md-6">
                     <div class="row mt-3">
                         <?php for ($i = 1; $i <= 4; $i++): ?>
                             <?php if (!empty($roomData["facility$i"])): ?>
                                 <div class="col-md-6">
-                                    <img style="width:100%; height:200px" src="<?= htmlspecialchars($roomData["facility$i"]); ?>">
+                                    <img class="facility" src="<?= htmlspecialchars($roomData["facility$i"]); ?>" alt="Facility <?= $i ?>">
                                 </div>
                             <?php endif; ?>
                         <?php endfor; ?>

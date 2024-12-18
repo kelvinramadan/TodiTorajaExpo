@@ -23,8 +23,7 @@ body {
     border-bottom: 2px solid #6c757d;
     padding-bottom: 10px;
     text-align: center;
-    clear: both; /* Memastikan h2 berada di bawah info-box */
-    margin-top: 0; /* Hilangkan margin atas jika diperlukan */
+    margin-top: 20px; /* Menambah jarak dari elemen sebelumnya */
 }
 
 .page-header h2 {
@@ -36,11 +35,6 @@ body {
 
 /* Image Layout */
 .photo {
-    flex: 2; /* Gambar utama lebih besar */
-    margin-bottom: 20px;
-}
-
-.photo img {
     width: 100%;
     height: 400px;
     object-fit: cover;
@@ -49,13 +43,12 @@ body {
 }
 
 .grid {
-    flex: 1;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
 }
 
-.facility img {
+.facility {
     width: 100%;
     height: 200px;
     object-fit: cover;
@@ -66,21 +59,21 @@ body {
 /* Info Boxes */
 .info-container {
     display: flex;
-    flex-wrap: wrap;
     gap: 15px;
-    justify-content: center;
+    justify-content: space-between; /* Memastikan kotak tersebar merata */
     margin-top: 20px;
+    flex-wrap: wrap; /* Membiarkan kotak info melipat ke baris baru jika perlu */
 }
 
 .info-box {
-    flex: 1 1 calc(33.333% - 15px);
-    max-width: 100%;
+    flex: 1 1 calc(33.333% - 10px); /* Membuat setiap box lebar sepertiga container */
+    max-width: calc(33.333% - 10px); /* Menjaga lebar kotak tetap dalam batas sepertiga */
     background: #fff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
-    display: block; /* Pastikan info-box adalah blok penuh */
+    display: block;
     width: 100%; /* Mengisi seluruh lebar container */
     margin-bottom: 20px; /* Tambahkan jarak bawah jika diperlukan */
 }
@@ -135,18 +128,17 @@ form {
         flex-direction: column;
     }
 
+    .info-container {
+        flex-direction: column; /* Info boxes menjadi satu kolom */
+    }
+
     .photo {
-        flex: 1;
+        width: 100%;
     }
 
     .grid {
         flex: 1;
         grid-template-columns: 1fr; /* Fasilitas satu kolom */
-    }
-
-    .info-box {
-        flex: 1 1 calc(50% - 15px);
-        max-width: calc(50% - 15px);
     }
 }
 
