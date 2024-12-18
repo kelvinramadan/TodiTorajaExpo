@@ -21,7 +21,7 @@ include 'includes/navigation.php';
 $uploadedImages = [];
 if (!empty($_FILES)) {
     $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
-    foreach (['file', 'file1', 'file2'] as $fileKey) {
+    foreach (['file', 'file1', 'file2','file3','file4'] as $fileKey) {
         if (!empty($_FILES[$fileKey]['name'])) {
             $fileName = $_FILES[$fileKey]['name'];
             $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
@@ -47,10 +47,12 @@ if (isset($_POST['add'])) {
       $image = $uploadedImages['file'] ?? '';
       $image1 = $uploadedImages['file1'] ?? '';
       $image2 = $uploadedImages['file2'] ?? '';
+      $image3 = $uploadedImages['file3'] ?? '';
+      $image4 = $uploadedImages['file4'] ?? '';
 
       // INSERTING EVENT DETAILS IN THE DATABASE
-      $sql = "INSERT INTO tourism (`title`,`photo`,`photo1`,`photo2`,`location`,`date`,`time`,`details`,`details2`,`price`,`reservations`)
-              VALUES ('$topic','$image','$image1','$image2','$venue','$date','$time', '$sdetails', '$sdetails2','$price','$reservations')";
+      $sql = "INSERT INTO tourism (`title`,`photo`,`photo1`,`photo2`,`photo3`,`photo4`,`location`,`date`,`time`,`details`,`details2`,`price`,`reservations`)
+              VALUES ('$topic','$image','$image1','$image2','$image3','$image4','$venue','$date','$time', '$sdetails', '$sdetails2','$price','$reservations')";
 
       $query_run = $db->query($sql);
       if ($query_run) {
@@ -74,8 +76,10 @@ else if (isset($_POST['update'])) {
       $image = !empty($uploadedImages['file']) ? $uploadedImages['file'] : $row['photo'];
       $image1 = !empty($uploadedImages['file1']) ? $uploadedImages['file1'] : $row['photo1'];
       $image2 = !empty($uploadedImages['file2']) ? $uploadedImages['file2'] : $row['photo2'];
+      $image3 = !empty($uploadedImages['file3']) ? $uploadedImages['file3'] : $row['photo3'];
+      $image4 = !empty($uploadedImages['file4']) ? $uploadedImages['file4'] : $row['photo4'];
 
-      $query = $db->query("UPDATE tourism SET `title`='$topic', `photo`='$image', `photo1`='$image1', `photo2`='$image2',
+      $query = $db->query("UPDATE tourism SET `title`='$topic', `photo`='$image', `photo1`='$image1', `photo2`='$image2', `photo3`='$image3', `photo4`='$image4',
           `location`='$venue', `date`='$date', `time`='$time', `details`='$sdetails', `details2`='$sdetails2', `price`='$price', `reservations`='$reservations'
           WHERE id = '$toEditID'");
       
@@ -123,6 +127,18 @@ if (isset($_GET['delete_image'])) {
       unlink($imageURL2);
       $db->query("UPDATE tourism SET `photo2` = '' WHERE id = '$toEditID'");
   }
+
+  if (!empty($fetch['photo3'])) {
+    $imageURL3 = $_SERVER['DOCUMENT_ROOT'].'/ht/'.$fetch['photo3'];
+    unlink($imageURL3);
+    $db->query("UPDATE tourism SET `photo3` = '' WHERE id = '$toEditID'");
+}
+
+if (!empty($fetch['photo4'])) {
+    $imageURL4 = $_SERVER['DOCUMENT_ROOT'].'/ht/'.$fetch['photo4'];
+    unlink($imageURL4);
+    $db->query("UPDATE tourism SET `photo4` = '' WHERE id = '$toEditID'");
+}
 
   header("Location: add_tour.php?edit=$toEditID");
 }
@@ -191,7 +207,19 @@ if (isset($_GET['delete_image'])) {
           </div>
         <?php endif;  ?>
 
-        
+        <?php if(!@$rows['photo3'] || @$rows['photo3']==''): ?>
+          <div class="col-sm-3 form-group">
+            <label for="">Photo3:</label>
+            <input type="file" class="form-control" name="file3" id="file3">
+          </div>
+        <?php endif;  ?>
+
+        <?php if(!@$rows['photo4'] || @$rows['photo4']==''): ?>
+          <div class="col-sm-3 form-group">
+            <label for="">Photo4:</label>
+            <input type="file" class="form-control" name="file4" id="file4">
+          </div>
+        <?php endif;  ?>
 
         <div class="col-sm-3 form-group">
           <label for="">Reserve Spaces:</label>
@@ -228,6 +256,7 @@ if (isset($_GET['delete_image'])) {
                     <figcaption><a href="add_tour.php?delete_image=<?= $toEditID; ?>" class="w3-text-red">Delete Photo</a></figcaption>
                 </figure>
             <?php endif; ?>
+
             <?php if (isset($toEditID) && $rows['photo1'] != ''): ?>
                 <figure>
                     <h3>Event Image 1</h3>
@@ -235,11 +264,28 @@ if (isset($_GET['delete_image'])) {
                     <figcaption><a href="add_tour.php?delete_image=<?= $toEditID; ?>" class="w3-text-red">Delete Photo1</a></figcaption>
                 </figure>
             <?php endif; ?>
+
             <?php if (isset($toEditID) && $rows['photo2'] != ''): ?>
                 <figure>
                     <h3>Event Image 2</h3>
                     <img src="../<?= $rows['photo2']; ?>" alt="event image 2" class="img-responsive">
                     <figcaption><a href="add_tour.php?delete_image=<?= $toEditID; ?>" class="w3-text-red">Delete Photo2</a></figcaption>
+                </figure>
+            <?php endif; ?>
+
+            <?php if (isset($toEditID) && $rows['photo3'] != ''): ?>
+                <figure>
+                    <h3>Event Image 3</h3>
+                    <img src="../<?= $rows['photo3']; ?>" alt="event image 3" class="img-responsive">
+                    <figcaption><a href="add_tour.php?delete_image=<?= $toEditID; ?>" class="w3-text-red">Delete Photo3</a></figcaption>
+                </figure>
+            <?php endif; ?>
+            
+            <?php if (isset($toEditID) && $rows['photo4'] != ''): ?>
+                <figure>
+                    <h3>Event Image 4</h3>
+                    <img src="../<?= $rows['photo4']; ?>" alt="event image 4" class="img-responsive">
+                    <figcaption><a href="add_tour.php?delete_image=<?= $toEditID; ?>" class="w3-text-red">Delete Photo4</a></figcaption>
                 </figure>
             <?php endif; ?>
         </div>
