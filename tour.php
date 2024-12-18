@@ -61,6 +61,14 @@ if(isset($_POST['reserve'])) {
            <img class="" style="width:100%; height:400px" src="<?= $tour['photo2']; ?>">
          </div>
 
+         <div class="col-md-6">
+           <img class="" style="width:100%; height:400px" src="<?= $tour['photo3']; ?>">
+         </div>
+
+         <div class="col-md-6">
+           <img class="" style="width:100%; height:400px" src="<?= $tour['photo4']; ?>">
+         </div>
+
          <!-- Right collumn for details -->
          <div class="col-md-6">
            <hr />
