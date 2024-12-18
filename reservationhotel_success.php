@@ -1,51 +1,34 @@
 <?php
-// reservation_success.php
-
-// Memastikan data form diterima melalui POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Mengambil data dari form
-    $fullname = htmlspecialchars($_POST['fullname']);
-    $in_date = htmlspecialchars($_POST['in_date']);
-    $out_date = htmlspecialchars($_POST['out_date']);
-    $phone = htmlspecialchars($_POST['phone']);
-    $email = htmlspecialchars($_POST['email']);
-    $roomID = htmlspecialchars($_GET['room']); // Mengambil ID kamar dari query string
+// Ambil data dari POST
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $fullname = $_POST['fullname'];
+    $inDate = $_POST['in_date'];
+    $outDate = $_POST['out_date'];
+    $phone = $_POST['phone'];
+    $email = $_POST['email'];
+    $room = $_POST['room'];
+    $totalPrice = $_POST['total_price'];
 } else {
-    // Jika halaman diakses langsung, redirect ke halaman form
-    header("Location: index.php");
+    // Redirect jika diakses tanpa data
+    header("Location: rooms.php");
     exit();
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reservasi Berhasil</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Reservasi Sukses</title>
 </head>
 <body>
-    <div class="container mt-5">
-        <div class="card">
-            <div class="card-header bg-success text-white text-center">
-                <h2>Reservasi Berhasil!</h2>
-            </div>
-            <div class="card-body">
-                <p class="lead">Reservasi Anda telah berhasil dilakukan. Berikut adalah detail pemesanan Anda:</p>
-                <ul class="list-group">
-                    <li class="list-group-item"><strong>Nama Lengkap:</strong> <?= $fullname ?></li>
-                    <li class="list-group-item"><strong>Tanggal Check-in:</strong> <?= $in_date ?></li>
-                    <li class="list-group-item"><strong>Tanggal Check-out:</strong> <?= $out_date ?></li>
-                    <li class="list-group-item"><strong>Nomor Telepon:</strong> <?= $phone ?></li>
-                    <li class="list-group-item"><strong>Email:</strong> <?= $email ?></li>
-                    <li class="list-group-item"><strong>ID Kamar:</strong> <?= $roomID ?></li>
-                </ul>
-                <div class="text-center mt-4">
-                    <a href="index.php" class="btn btn-primary">OK</a>
-                </div>
-            </div>
-        </div>
-    </div>
+    <h1>Reservasi Berhasil!</h1>
+    <p>Terima kasih telah melakukan reservasi, <?= htmlspecialchars($fullname); ?>.</p>
+    <p><strong>Kamar:</strong> <?= htmlspecialchars($room); ?></p>
+    <p><strong>Check-in:</strong> <?= htmlspecialchars($inDate); ?></p>
+    <p><strong>Check-out:</strong> <?= htmlspecialchars($outDate); ?></p>
+    <p><strong>Total Harga:</strong> Rp <?= number_format($totalPrice, 0, ',', '.'); ?></p>
+    <p>Silakan hubungi kami di <?= htmlspecialchars($phone); ?> atau <?= htmlspecialchars($email); ?> jika ada pertanyaan.</p>
 </body>
 </html>

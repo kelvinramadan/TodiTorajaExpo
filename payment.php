@@ -40,9 +40,13 @@ $grandTotal = $totalHotelPrice + $totalTourPrice;
 
 ?>
 
+<link rel="stylesheet" href="css\payment.css">
+<script src="admin\js\payment.js"></script>
+
 <div class="container">
     <div class="page-header">
-        <h2 class="text-center">Payment and Booking Details</h2>
+        <h2 class="text-center">Payment and Booking Details</h2>\
+        margin-top: 20px;
     </div>
 
     <!-- Tabel Hotel -->
@@ -59,7 +63,8 @@ $grandTotal = $totalHotelPrice + $totalTourPrice;
             </tr>
         </thead>
         <tbody>
-            <?php if (mysqli_num_rows($reservationsQuery) > 0): ?>
+            <?php if ($reservationsQuery && mysqli_num_rows($reservationsQuery) > 0): ?>
+
                 <?php $i = 1; ?>
                 <?php while ($reservation = mysqli_fetch_assoc($reservationsQuery)): ?>
                     <tr>
