@@ -54,21 +54,28 @@ body {
 }
 
 .hero h1 {
-    font-size: 3.5rem;
+    font-size: 8rem;
     margin-bottom: 1rem;
     font-weight: 600;
+    -webkit-text-stroke: 1px rgb(0, 0, 0); /* Atur ketebalan dan warna stroke */
+    text-stroke: 2px darkslategrey; /* Untuk browser yang mendukung */
 }
 
+
 .hero p {
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     line-height: 1.6;
     opacity: 0.95;
+    -webkit-text-stroke: 0.25px rgb(0, 0, 0); /* Atur ketebalan dan warna stroke */
+    text-stroke: 0.5px darkslategrey; /* Untuk browser yang mendukung */
 }
+
 
 /* Search Bar */
 .search-container {
     position: relative;
-    top: 100px; /* Geser posisi search bar lebih ke bawah */
+    top: 400px; /* Geser posisi search bar lebih ke bawah */
+    right: 100px;
     z-index: 4;
     width: 100%;
     max-width: 600px;
@@ -107,3 +114,4 @@ body {
     margin: 0 auto;
     padding: 0 1rem;
 }
+

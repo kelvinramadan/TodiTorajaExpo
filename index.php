@@ -31,38 +31,42 @@ $result = $db->query("SELECT * FROM events");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hotel & Tourism</title>
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="tesajah.css">
+
 </head>
 <body>
 
 <!-- Header Section -->
 <header>
-    <section class="hero">
-        <img src="images/toraja.jpg" alt="Toraja" class="hero-bg">
-        <div class="hero-content">
-            <h1>TodiToraja</h1>
-            <p>Pengalaman berwisata yang menarik dan alternatif serta berbagi bersama tentang budaya lokal tanah Toraja secara menyeluruh bersama kami TodiToraja</p>
-        </div>
-        <!-- Search bar -->
-        <div class="search-container">
-            <form method="GET" class="search-form">
-                <div class="row">
-                    <div class="col-md-6">
-                        <input type="text" name="room_search" class="form-control" placeholder="Cari Penginapan" value="<?= htmlspecialchars($roomFilter); ?>">
+        <section class="hero">
+            <img src="images/toraja.jpg" alt="Toraja" class="hero-bg">
+            <div class="hero-content">
+                <h1>TodiToraja</h1>
+                <p>Pengalaman berwisata yang menarik dan alternatif serta berbagi bersama tentang budaya lokal tanah Toraja secara menyeluruh bersama kami TodiToraja</p>
+            </div>
+            <!-- Search bar -->
+            <div class="search-container">
+                <form method="GET" class="search-form">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <input type="text" name="room_search" class="form-control" placeholder="Cari Penginapan" value="<?= htmlspecialchars($roomFilter); ?>">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" name="tour_search" class="form-control" placeholder="Cari Wisata" value="<?= htmlspecialchars($tourFilter); ?>">
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <input type="text" name="tour_search" class="form-control" placeholder="Cari Wisata" value="<?= htmlspecialchars($tourFilter); ?>">
+                    <div class="text-center mt-2">
+                        <button type="submit" class="btn btn-primary">Cari</button>
                     </div>
-                </div>
-                <div class="text-center mt-2">
-                    <button type="submit" class="btn btn-primary">Cari</button>
-                </div>
-            </form>
-        </div>
-    </section>
-</header>
+                </form>
+            </div>
+        </section>
+    </header>
 
+
+<!-- EVENT -->
 <div class="container mt-5">
     <h1 class="text-center">Events</h1>
     <div class="row">
@@ -137,6 +141,8 @@ $result = $db->query("SELECT * FROM events");
 <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="js/jquery-1.11.2.min.js"></script>
 <script src="js/bootstrap.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 
 </body>
 </html>

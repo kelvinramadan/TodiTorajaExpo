@@ -40,7 +40,7 @@ if(isset($_POST['reserve'])) {
 }
 
 ?>
-
+<link rel="stylesheet" href="tour.css">
      <!-- Room details -->
 <div class="container">
     <?php while($tour = mysqli_fetch_assoc($select)): ?>

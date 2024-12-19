@@ -21,7 +21,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a href="index.php" class="navbar-brand active w3-text-white">H&T - Admin</a>
+            <a href="index.php" class="navbar-brand active w3-text-white">Adorable Admin</a>
         </div>
 
         <ul class="nav navbar-nav collapse navbar-collapse" id="Navigation">
