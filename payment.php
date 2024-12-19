@@ -133,12 +133,3 @@ $grandTotal = $totalHotelPrice + $totalTourPrice;
 </div>
 
 <?php include 'includes/footer.php'; ?>
-
-<style>
-    body {
-        padding-top: 56px; /* Sesuaikan dengan tinggi navbar */
-    }
-    .page-header {
-        margin-top: 20px;
-    }
-</style>
