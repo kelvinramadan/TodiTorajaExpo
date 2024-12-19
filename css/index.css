@@ -8,3 +8,64 @@
     flex: 0 0 auto; /* Prevents items from shrinking */
   }
   
+  .swiper {
+    width: 100%;
+    padding: 50px 0;
+}
+
+.swiper-slide {
+    width: 300px;
+    height: 400px;
+    margin: 0 20px;
+}
+
+.card {
+    height: 100%;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.card-img-top {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-text {
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.btn-primary {
+    background-color: #4CAF50;
+    border: none;
+    border-radius: 25px;
+    padding: 10px 20px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+.swiper-button-next, .swiper-button-prev {
+    color: #4CAF50;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #4CAF50;
+}

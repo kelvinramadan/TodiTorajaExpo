@@ -41,6 +41,7 @@ if(isset($_POST['reserve'])) {
 
 ?>
 <link rel="stylesheet" href="tour.css">
+<script src="tour.js"></script>
      <!-- Room details -->
 <div class="container">
     <?php while($tour = mysqli_fetch_assoc($select)): ?>
