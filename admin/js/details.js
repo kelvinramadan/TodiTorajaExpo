@@ -1,47 +1,153 @@
-// Add animations on page load
-document.addEventListener("DOMContentLoaded", function () {
-    const headers = document.querySelectorAll(".page-header h2");
-    headers.forEach((header) => {
-        header.style.opacity = 0;
-        header.style.transform = "translateY(-20px)";
+document.addEventListener('DOMContentLoaded', function() {
+    // Add animation class to elements
+    const animateElements = document.querySelectorAll('.page-header, .photo-container, .facility-container, .info-box, .booking-form');
+    animateElements.forEach((element, index) => {
         setTimeout(() => {
-            header.style.transition = "all 0.5s ease";
-            header.style.opacity = 1;
-            header.style.transform = "translateY(0)";
-        }, 300);
+            element.classList.add('animate-fade-in');
+        }, index * 100);
     });
-});
 
-// Form validation
-const form = document.querySelector("form");
-form.addEventListener("submit", function (e) {
-    const inputs = form.querySelectorAll(".form-control");
-    let isValid = true;
-
-    inputs.forEach((input) => {
-        if (input.value.trim() === "" && !input.hasAttribute("readonly")) {
-            isValid = false;
-            input.style.border = "1px solid red";
-            input.style.boxShadow = "0 0 5px rgba(255, 0, 0, 0.5)";
+    // Get form elements
+    const form = document.querySelector('form');
+    const inDateInput = document.querySelector('input[name="in_date"]');
+    const outDateInput = document.querySelector('input[name="out_date"]');
+    const submitBtn = document.querySelector('input[type="submit"]');
+    
+    // Set minimum date for check-in to today
+    const today = new Date();
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    // Format dates for input fields
+    const formatDate = (date) => {
+        return date.toISOString().split('T')[0];
+    };
+    
+    // Set minimum dates for inputs
+    inDateInput.min = formatDate(today);
+    outDateInput.min = formatDate(tomorrow);
+    
+    // Update check-out minimum date when check-in date changes
+    inDateInput.addEventListener('change', function() {
+        const selectedDate = new Date(this.value);
+        const minCheckOut = new Date(selectedDate);
+        minCheckOut.setDate(selectedDate.getDate() + 1);
+        
+        outDateInput.min = formatDate(minCheckOut);
+        
+        // If current check-out date is before new minimum, update it
+        if(new Date(outDateInput.value) <= selectedDate) {
+            outDateInput.value = formatDate(minCheckOut);
+        }
+        
+        updateTotalPrice();
+    });
+    
+    outDateInput.addEventListener('change', updateTotalPrice);
+    
+    // Form validation with real-time feedback
+    const inputs = form.querySelectorAll('input[type="text"], input[type="email"]');
+    inputs.forEach(input => {
+        input.addEventListener('input', function() {
+            validateInput(this);
+        });
+    });
+    
+    function validateInput(input) {
+        const value = input.value.trim();
+        let isValid = true;
+        
+        switch(input.name) {
+            case 'fullname':
+                isValid = value.length >= 3;
+                break;
+            case 'phone':
+                isValid = /^[0-9]{10,15}$/.test(value.replace(/[\s-]/g, ''));
+                break;
+            case 'email':
+                isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+                break;
+        }
+        
+        if (isValid) {
+            input.style.borderColor = '#2ecc71';
         } else {
-            input.style.border = "1px solid #ced4da";
-            input.style.boxShadow = "none";
+            input.style.borderColor = '#e74c3c';
+        }
+        
+        return isValid;
+    }
+    
+    // Price calculation with animation
+    function updateTotalPrice() {
+        const priceElement = document.querySelector('.info-box p');
+        if (!priceElement) return;
+        
+        const basePrice = parseInt(priceElement.textContent.replace(/[^0-9]/g, ''));
+        
+        if (inDateInput.value && outDateInput.value) {
+            const inDate = new Date(inDateInput.value);
+            const outDate = new Date(outDateInput.value);
+            const days = Math.ceil((outDate - inDate) / (1000 * 60 * 60 * 24));
+            
+            if (days > 0) {
+                const totalPrice = basePrice * days;
+                const formattedTotal = new Intl.NumberFormat('id-ID').format(totalPrice);
+                const formattedBase = new Intl.NumberFormat('id-ID').format(basePrice);
+                
+                priceElement.innerHTML = `
+                    <div class="price-info">
+                        <div class="base-price">Rp ${formattedBase}/malam</div>
+                        <div class="total-price">Total: Rp ${formattedTotal}</div>
+                        <div class="stay-duration">${days} malam</div>
+                    </div>
+                `;
+            }
+        }
+    }
+    
+    // Form submission
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        let isValid = true;
+        inputs.forEach(input => {
+            if (!validateInput(input)) {
+                isValid = false;
+            }
+        });
+        
+        // Validate dates
+        const inDate = new Date(inDateInput.value);
+        const outDate = new Date(outDateInput.value);
+        
+        if (outDate <= inDate) {
+            showError('Tanggal check-out harus setelah tanggal check-in');
+            isValid = false;
+        }
+        
+        if (isValid) {
+            submitBtn.value = 'Memproses...';
+            submitBtn.disabled = true;
+            // Submit the form
+            this.submit();
         }
     });
-
-    if (!isValid) {
-        e.preventDefault();
-        alert("Please fill out all required fields!");
+    
+    function showError(message) {
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message animate-fade-in';
+        errorDiv.textContent = message;
+        
+        const existingError = form.querySelector('.error-message');
+        if (existingError) {
+            existingError.remove();
+        }
+        
+        form.insertBefore(errorDiv, form.firstChild);
+        
+        setTimeout(() => {
+            errorDiv.remove();
+        }, 5000);
     }
-});
-
-// Button animation on hover
-const btn = document.querySelector(".btn-primary");
-btn.addEventListener("mouseover", function () {
-    btn.style.transform = "scale(1.05)";
-    btn.style.boxShadow = "0 4px 8px rgba(0, 0, 0, 0.2)";
-});
-btn.addEventListener("mouseout", function () {
-    btn.style.transform = "scale(1)";
-    btn.style.boxShadow = "none";
 });
