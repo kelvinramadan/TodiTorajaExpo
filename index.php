@@ -33,11 +33,14 @@ $result = $db->query("SELECT * FROM events");
     <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.css">
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="tesajah.css">
     <link rel="stylesheet" href="eventindex.css">
+    <link rel="stylesheet" href="tourimscard.css">
 
 </head>
 <body>
@@ -125,32 +128,73 @@ $result = $db->query("SELECT * FROM events");
     </div>
 </div>
 
+<!-- TOURISM SECTION -->
+<div class="container mt-5">
+    <h1 class="text-center">Destinasi Wisata Terpopuler</h1>
+    <div class="row">
+        <?php while($tour = mysqli_fetch_assoc($tourSQL)): ?>
+            <div class="col-md-4">
+                <a href="tour.php?tour=<?= $tour['id']; ?>" class="text-decoration-none">
+                    <div class="card mb-4 shadow-sm accommodation-card">
+                        <div class="image-wrapper">
+                            <img src="<?= $tour['photo']; ?>" class="card-img-top" alt="<?= $tour['title']; ?>">
+                            <button class="favorite-btn" onclick="event.stopPropagation(); event.preventDefault();">
+                                <i class="far fa-heart"></i>
+                            </button>
+                            <?php if(isset($tour['is_featured'])): ?>
+                                <span class="guest-favorite">Guest favorite</span>
+                            <?php endif; ?>
+                        </div>
+                        <div class="card-body">
+                            <div class="location-wrapper">
+                                <h5 class="location-title"><?= $tour['title']; ?></h5>
+                                <?php if(isset($tour['rating'])): ?>
+                                    <span class="rating">★ <?= $tour['rating']; ?></span>
+                                <?php endif; ?>
+                            </div>
+                            <p class="accommodation-count">
+                                <i class="fas fa-building"></i> 
+                            </p>
+                            <p class="card-text"><?= substr($tour['details'], 0, 100); ?>...</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        <?php endwhile; ?>
+    </div>
+</div>
 
 <!-- Tourism Section -->
-<section class="py-5">
+<section class="tour-section">
     <div class="container">
-        <h1 class="text-center mb-4">WISATA</h1>
+        <h2 class="section-title">Destinasi Wisata Terpopuler</h2>
         
-        <!-- Slider main container -->
+        <!-- Swiper Container -->
         <div class="swiper tourSwiper">
-            <!-- Additional required wrapper -->
             <div class="swiper-wrapper">
-                <!-- Slides -->
                 <?php while($tour = mysqli_fetch_assoc($tourSQL)): ?>
                     <div class="swiper-slide">
                         <div class="card">
-                            <img src="<?= $tour['photo']; ?>" class="card-img-top" alt="tour image" style="height: 250px; object-fit: cover;">
+                            <a href="tour.php?tour=<?= $tour['id']; ?>"> <!-- Tambahkan link di sini -->
+                                <img src="<?= $tour['photo']; ?>" class="card-img-top" alt="<?= $tour['title']; ?>">
+                            </a>
                             <div class="card-body">
-                                <h5 class="card-title text-center"><?= $tour['title']; ?></h5>
+                                <h5 class="card-title"><?= $tour['title']; ?></h5>
+                                <p class="accommodation-count">
+                                    <i class="fas fa-building"></i> 
+                                    <?= number_format($tour['total_accommodation']); ?> akomodasi
+                                </p>
                                 <p class="card-text"><?= $tour['details']; ?></p>
-                                <a href="tour.php?tour=<?= $tour['id']; ?>" class="btn btn-primary w-100">More Details</a>
+                                <a href="tour.php?tour=<?= $tour['id']; ?>" class="btn btn-explore">
+                                    Jelajahi
+                                </a>
                             </div>
                         </div>
                     </div>
                 <?php endwhile; ?>
             </div>
             
-            <!-- Navigation buttons -->
+            <!-- Navigation -->
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
             
@@ -159,6 +203,7 @@ $result = $db->query("SELECT * FROM events");
         </div>
     </div>
 </section>
+
 
 <!-- Rooms Section -->
 <section class="py-5">
@@ -196,7 +241,10 @@ $result = $db->query("SELECT * FROM events");
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 <script src="tourismcard.js"></script>
+<script src="tourismcard2.js"></script>
 <script src="eventindex.js"></script>
 
 </body>
