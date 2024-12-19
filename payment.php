@@ -45,8 +45,7 @@ $grandTotal = $totalHotelPrice + $totalTourPrice;
 
 <div class="container">
     <div class="page-header">
-        <h2 class="text-center">Payment and Booking Details</h2>\
-        margin-top: 20px;
+        <h2 class="text-center">Payment and Booking Details</h2>
     </div>
 
     <!-- Tabel Hotel -->
@@ -134,3 +133,12 @@ $grandTotal = $totalHotelPrice + $totalTourPrice;
 </div>
 
 <?php include 'includes/footer.php'; ?>
+
+<style>
+    body {
+        padding-top: 56px; /* Sesuaikan dengan tinggi navbar */
+    }
+    .page-header {
+        margin-top: 20px;
+    }
+</style>

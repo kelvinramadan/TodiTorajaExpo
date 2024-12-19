@@ -5,7 +5,10 @@ body {
     margin: 0;
     padding: 0;
     color: #333;
+    padding-top: 56px; /* Sesuaikan dengan tinggi navbar */
+    
 }
+
 
 /* Header Styling */
 .page-header h2 {
@@ -15,6 +18,13 @@ body {
     border-radius: 8px;
     text-align: center;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1;
+    margin-top: 100px !important;; /* Tambahkan margin atas untuk menjauh dari navbar */
+}
+
+.page-header {
+    margin-top: 20px; /* Opsional, jika ingin lebih banyak jarak antara header dan navbar */
 }
 
 /* Table Styling */

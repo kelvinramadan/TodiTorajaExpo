@@ -59,25 +59,25 @@ body {
 /* Info Boxes */
 .info-container {
     display: flex;
-    gap: 15px;
-    justify-content: space-between; /* Memastikan kotak tersebar merata */
+    flex-wrap: wrap; /* Memastikan kotak melipat ke baris baru jika ruang tidak cukup */
+    justify-content: space-between; /* Sebar merata di sepanjang container */
+    align-items: flex-start; /* Sejajarkan elemen di atas */
+    gap: 15px; /* Jarak antar kotak */
     margin-top: 20px;
-    flex-wrap: wrap; /* Membiarkan kotak info melipat ke baris baru jika perlu */
 }
 
 .info-box {
-    flex: 1 1 calc(33.333% - 10px); /* Membuat setiap box lebar sepertiga container */
-    max-width: calc(33.333% - 10px); /* Menjaga lebar kotak tetap dalam batas sepertiga */
+    flex: 1 1 calc(33.333% - 10px); /* Membuat setiap box sepertiga lebar container */
+    max-width: calc(33.333% - 10px); /* Batasi lebar maksimal */
     background: #fff;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     text-align: center;
-    display: block;
-    width: 100%; /* Mengisi seluruh lebar container */
-    margin-bottom: 20px; /* Tambahkan jarak bawah jika diperlukan */
+    margin-bottom: 20px;
 }
 
+/* Heading Styles */
 .info-box h3 {
     margin-bottom: 10px;
     font-size: 1.2rem;
@@ -122,29 +122,21 @@ form {
     cursor: not-allowed;
 }
 
-/* Responsive Media Queries */
 @media (max-width: 992px) {
-    .container {
-        flex-direction: column;
-    }
-
     .info-container {
-        flex-direction: column; /* Info boxes menjadi satu kolom */
+        flex-direction: column; /* Ubah menjadi satu kolom di layar sempit */
+        align-items: center;
     }
 
-    .photo {
-        width: 100%;
-    }
-
-    .grid {
-        flex: 1;
-        grid-template-columns: 1fr; /* Fasilitas satu kolom */
+    .info-box {
+        flex: 1 1 100%; /* Buat lebar kotak 100% */
+        max-width: 100%; /* Pastikan memenuhi lebar penuh */
     }
 }
 
 @media (max-width: 576px) {
     .info-box {
-        flex: 1 1 100%;
+        flex: 1 1 100%; /* Sesuaikan agar memenuhi layar */
         max-width: 100%;
     }
 
