@@ -227,4 +227,34 @@ document.addEventListener('DOMContentLoaded', function() {
             errorDiv.remove();
         }, 5000);
     }
+
+    // Di dalam event listener DOMContentLoaded yang sudah ada
+const propertyFeatures = document.querySelectorAll('.info-box.feature');
+propertyFeatures.forEach((feature, index) => {
+    setTimeout(() => {
+        feature.style.opacity = '0';
+        feature.style.transform = 'translateY(20px)';
+        feature.style.transition = 'all 0.5s ease';
+        
+        requestAnimationFrame(() => {
+            feature.style.opacity = '1';
+            feature.style.transform = 'translateY(0)';
+        });
+    }, index * 100);
+});
+
+// Animasi untuk deskripsi
+const description = document.querySelector('.property-description');
+if (description) {
+    setTimeout(() => {
+        description.style.opacity = '0';
+        description.style.transform = 'translateY(20px)';
+        description.style.transition = 'all 0.5s ease';
+        
+        requestAnimationFrame(() => {
+            description.style.opacity = '1';
+            description.style.transform = 'translateY(0)';
+        });
+    }, 300);
+}
 });

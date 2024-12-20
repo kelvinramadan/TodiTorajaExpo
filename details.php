@@ -96,87 +96,109 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['checkin'])) {
 
     <div class="container">
         <?php if ($roomData): ?>
-            <div class="page-header">
-                <h2 class="text-center"><?= htmlspecialchars($roomData['room_number']); ?></h2>
+            <!-- Area gambar full width -->
+            <div class="gallery-section">
+                <div class="gallery-container">
+                    <div class="main-photo">
+                        <img class="photo" src="<?= htmlspecialchars($roomData['photo']); ?>" alt="Room Photo">
+                    </div>
+                    
+                    <div class="facility-photos">
+                        <?php for ($i = 1; $i <= 4; $i++): ?>
+                            <?php if (!empty($roomData["facility$i"])): ?>
+                                <div class="facility-wrapper">
+                                    <img class="facility" src="<?= htmlspecialchars($roomData["facility$i"]); ?>" alt="Facility <?= $i ?>">
+                                    <?php if ($i === 4): ?>
+                                        <button class="view-all-photos">Lihat semua foto</button>
+                                    <?php endif; ?>
+                                </div>
+                            <?php endif; ?>
+                        <?php endfor; ?>
+                    </div>
+                </div>
             </div>
 
-            <div class="gallery-container">
-                <!-- Gambar utama di sebelah kiri -->
-                <div class="main-photo">
-                    <img class="photo" src="<?= htmlspecialchars($roomData['photo']); ?>" alt="Room Photo">
-                </div>
-                
-                <!-- Grid 2x2 untuk facility images di sebelah kanan -->
-                <div class="facility-photos">
-                    <?php for ($i = 1; $i <= 4; $i++): ?>
-                        <?php if (!empty($roomData["facility$i"])): ?>
-                            <div class="facility-wrapper">
-                                <img class="facility" src="<?= htmlspecialchars($roomData["facility$i"]); ?>" alt="Facility <?= $i ?>">
-                                <?php if ($i === 4): ?>
-                                    <button class="view-all-photos">Lihat semua foto</button>
-                                <?php endif; ?>
+            <!-- Area konten dengan grid 2 kolom -->
+            <div class="content-grid">
+                <!-- Kolom kiri - Info dan deskripsi -->
+                <div class="main-content">
+                    <div class="info-container">
+                        <div class="property-features">
+                            <div class="info-box feature">
+                                <i class="fas fa-home"></i>
+                                <h3>Tipe</h3>
+                                <p><?= htmlspecialchars($roomData['type']); ?></p>
                             </div>
+                            <div class="info-box feature">
+                                <i class="fas fa-door-open"></i>
+                                <h3>Sisa</h3>
+                                <p><?= htmlspecialchars($roomData['rooms']); ?> kamar</p>
+                            </div>
+                            <div class="info-box feature">
+                                <i class="fas fa-tag"></i>
+                                <h3>Harga</h3>
+                                <p>Rp. <?= htmlspecialchars(number_format($roomData['price'], 0, ',', '.')); ?></p>
+                            </div>
+                        </div>
+
+                        <div class="property-description">
+                            <?php if (!empty($roomData['description'])): ?>
+                                <p><?= nl2br(htmlspecialchars($roomData['description'])); ?></p>
+                            <?php else: ?>
+                                <p>Selamat datang di properti bergaya dan luas kami. Tempat menawan ini menawarkan tempat nyaman dan modern untuk beristirahat.</p>
+                                <p>Saat Anda masuk, Anda akan disambut dengan ruang tamu yang dilengkapi perabotan berkelas, dilengkapi sofa nyaman, TV besar, dan area ruang makan.</p>
+                                <p>Tata ruang terbuka yang menyatu secara sempurna menghubungkan ruang tamu dengan dapur yang lengkap, dilengkapi dengan peralatan modern dan semua kebutuhan untuk menyiapkan hidangan lezat.</p>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kolom kanan - Form booking -->
+                <div class="booking-sidebar">
+                    <div class="booking-form">
+                        <h3>Booking details</h3>
+                        <?php if (isset($error)): ?>
+                            <div class="error-message"><?= htmlspecialchars($error); ?></div>
                         <?php endif; ?>
-                    <?php endfor; ?>
+
+                        <form action="" method="POST">
+                            <div class="form-group">
+                                <label>Nama Lengkap:</label>
+                                <input type="text" class="form-control" name="fullname" placeholder="Full Name" <?= ($roomData['rooms'] <= 0) ? 'readonly' : ''; ?>>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Check-in:</label>
+                                <input type="date" class="form-control" name="in_date" <?= ($roomData['rooms'] <= 0) ? 'readonly' : ''; ?>>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Check-out:</label>
+                                <input type="date" class="form-control" name="out_date" <?= ($roomData['rooms'] <= 0) ? 'readonly' : ''; ?>>
+                            </div>
+
+                            <div class="form-group">
+                                <label>No Telp:</label>
+                                <input type="text" class="form-control" name="phone" placeholder="Phone number..." <?= ($roomData['rooms'] <= 0) ? 'readonly' : ''; ?>>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Email Address:</label>
+                                <input type="email" class="form-control" name="email" placeholder="Email address" <?= ($roomData['rooms'] <= 0) ? 'readonly' : ''; ?>>
+                            </div>
+
+                            <button type="submit" class="btn-request" name="checkin" <?= ($roomData['rooms'] <= 0) ? 'disabled' : ''; ?>>
+                                Make Reservation
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
-
-            <div class="info-container">
-                <div class="info-box">
-                    <h3>Tipe</h3>
-                    <p><?= htmlspecialchars($roomData['type']); ?></p>
-                </div>
-                <div class="info-box">
-                    <h3>Sisa</h3>
-                    <p><?= htmlspecialchars($roomData['rooms']); ?> kamar</p>
-                </div>
-                <div class="info-box">
-                    <h3>Harga</h3>
-                    <p>Rp. <?= htmlspecialchars($roomData['price']); ?></p>
-                </div>
-            </div>
-
-            <div class="page-header">
-                <h2 class="text-center">Booking details</h2>
-            </div>
-
-            <?php if (isset($error)): ?>
-                <p style="color: red;"><?= htmlspecialchars($error); ?></p>
-            <?php endif; ?>
-
-            <form action="" method="POST">
-                <div class="row">
-                    <div class="col">
-                        <label class="form-control-label">Nama Lengkap:</label>
-                        <input type="text" class="form-control" name="fullname" placeholder="Full Name" <?= ($roomData['rooms'] <= 0) ? 'readonly' : ''; ?>>
-                    </div>
-                    <div class="col">
-                        <label class="form-control-label">Check-in:</label>
-                        <input type="date" class="form-control" name="in_date" <?= ($roomData['rooms'] <= 0) ? 'readonly' : ''; ?>>
-                    </div>
-                    <div class="col">
-                        <label class="form-control-label">Check-out:</label>
-                        <input type="date" class="form-control" name="out_date" <?= ($roomData['rooms'] <= 0) ? 'readonly' : ''; ?>>
-                    </div>
-                    <div class="col">
-                        <label class="form-control-label">No Telp:</label>
-                        <input type="text" class="form-control" name="phone" placeholder="Phone number..." <?= ($roomData['rooms'] <= 0) ? 'readonly' : ''; ?>>
-                    </div>
-                    <div class="col">
-                        <label class="form-control-label">Email Address:</label>
-                        <input type="email" class="form-control" name="email" placeholder="Email address" <?= ($roomData['rooms'] <= 0) ? 'readonly' : ''; ?>>
-                    </div>
-                </div>
-
-                <div class="col-md-12">
-                    <input type="submit" class="form-control btn btn-primary" value="Make Reservation" name="checkin" <?= ($roomData['rooms'] <= 0) ? 'disabled' : ''; ?>>
-                </div>
-            </form>
-
         <?php else: ?>
             <p>Room not found.</p>
         <?php endif; ?>
     </div>
+    
 
     <script src="admin/js/details.js"></script>
 </body>
