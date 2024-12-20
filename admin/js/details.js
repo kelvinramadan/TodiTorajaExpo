@@ -52,6 +52,29 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    function validateForm() {
+        const inputs = document.querySelectorAll('form input[required]');
+        let isValid = true;
+        
+        inputs.forEach(input => {
+            if (!input.value) {
+                isValid = false;
+                input.style.borderColor = '#e74c3c';
+            } else {
+                input.style.borderColor = '#2ecc71';
+            }
+        });
+        
+        if (!isValid) {
+            alert('Mohon isi semua field yang diperlukan');
+            return false;
+        }
+        
+        return true;
+    }
+
+    
+
     function showImage(index) {
         const imgSrc = allImages[index].src;
         lightboxImage.src = imgSrc;
@@ -239,5 +262,83 @@ if (description) {
             description.style.transform = 'translateY(0)';
         });
     }, 300);
+}
+
+// Tutup pesan sukses setelah 5 detik
+if (document.querySelector('.alert-success')) {
+    setTimeout(function() {
+        document.querySelector('.alert-success').classList.remove('show');
+    }, 5000);
+}
+
+// Handle action buttons
+const cartButton = document.querySelector('.cart-button');
+const bookButton = document.querySelector('.book-button');
+
+if (cartButton) {
+    cartButton.addEventListener('click', function() {
+        // Add to cart functionality
+        console.log('Added to cart');
+    });
+}
+
+if (bookButton) {
+    bookButton.addEventListener('click', function() {
+        // Book now functionality
+        console.log('Booking now');
+    });
+}
+
+// Di dalam event listener DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const modalContainer = document.createElement('div');
+    modalContainer.id = 'reservationModal';
+    document.body.appendChild(modalContainer);
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        if (!validateForm()) return;
+        
+        const formData = new FormData(this);
+        
+        fetch(window.location.href, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Render modal menggunakan React
+                const root = ReactDOM.createRoot(modalContainer);
+                root.render(
+                    <ReservationSummary 
+                        isOpen={true}
+                        reservationData={data.reservation}
+                        onClose={() => {
+                            root.unmount();
+                            window.location.reload();
+                        }}
+                    />
+                );
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat memproses reservasi');
+        });
+    });
+});
+
+// Tambahkan di dalam event listener DOMContentLoaded di details.js
+const alertSuccess = document.querySelector('.alert-success');
+if (alertSuccess && alertSuccess.classList.contains('show')) {
+    setTimeout(() => {
+        alertSuccess.classList.remove('show');
+    }, 5000); // Alert akan hilang setelah 5 detik
 }
 });
