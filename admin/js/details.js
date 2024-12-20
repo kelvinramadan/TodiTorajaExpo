@@ -12,12 +12,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const lightbox = document.createElement('div');
     lightbox.classList.add('lightbox');
     lightbox.innerHTML = `
-        <button class="close-lightbox">&times;</button>
-        <button class="nav-button prev-button">&lt;</button>
-        <button class="nav-button next-button">&gt;</button>
         <div class="lightbox-content">
-            <img src="" alt="Lightbox image">
-        </div>
+        <img src="" alt="">
+    </div>
     `;
     document.body.appendChild(lightbox);
 
@@ -35,24 +32,10 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Lightbox navigation
-    const closeButton = lightbox.querySelector('.close-lightbox');
     const prevButton = lightbox.querySelector('.prev-button');
     const nextButton = lightbox.querySelector('.next-button');
     const lightboxImage = lightbox.querySelector('.lightbox-content img');
-
-    closeButton.addEventListener('click', () => {
-        lightbox.classList.remove('active');
-    });
-
-    prevButton.addEventListener('click', () => {
-        currentImageIndex = (currentImageIndex - 1 + allImages.length) % allImages.length;
-        showImage(currentImageIndex);
-    });
-
-    nextButton.addEventListener('click', () => {
-        currentImageIndex = (currentImageIndex + 1) % allImages.length;
-        showImage(currentImageIndex);
-    });
+   
 
     // Handle keyboard navigation
     document.addEventListener('keydown', (e) => {
