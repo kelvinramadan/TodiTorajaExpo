@@ -199,7 +199,7 @@ $result = $db->query("SELECT * FROM events");
             </div>
         <?php endwhile; ?>
     </div>
-    <a href="tour.php" class="view-more-btn">Lihat Semua Destinasi</a>
+    <a href="tourism.php" class="view-more-btn">Lihat Semua Destinasi</a>
 </div>
 
 <!-- Rooms Section -->
