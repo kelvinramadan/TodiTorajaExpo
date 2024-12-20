@@ -408,11 +408,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     cartBtn.addEventListener('click', function() {
         if (this.classList.contains('active')) {
-            // Jika sudah aktif, hapus dari keranjang
             this.classList.remove('active');
             showCartAlert('Item removed from cart');
         } else {
-            // Jika belum aktif, tambahkan ke keranjang
             this.classList.add('active');
             showCartAlert('Item added to cart');
         }
@@ -424,4 +422,6 @@ document.addEventListener('DOMContentLoaded', function() {
         navigator.clipboard.writeText(window.location.href);
         showCartAlert('Link copied to clipboard!');
     });
+
+    
 });

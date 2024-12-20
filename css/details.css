@@ -551,18 +551,39 @@ body {
     justify-content: center;
 }
 
-/* Style untuk status aktif keranjang */
-.cart-btn.active i {
-    color: #c5f82a !important;  /* Warna hijau saat aktif dan !important untuk memastikan warna tetap */
+.cart-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 8px;
+    border-radius: 50%;
+    position: relative;
 }
 
-/* Notifikasi keranjang */
+.cart-btn i {
+    font-size: 20px;
+    color: #a0a4a8;
+    transition: color 0.3s ease;
+}
+
+/* Hover effect - hanya berlaku saat tidak aktif */
+.cart-btn:not(.active):hover i {
+    color: #c5f82a;
+}
+
+/* Style untuk status aktif - warna tetap hijau */
+.cart-btn.active i {
+    color: #c5f82a !important;
+}
+
+/* Cart Alert Styles */
 .cart-alert {
     position: fixed;
     bottom: 30px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(26, 30, 35, 0.95);
     color: #fff;
     padding: 15px 25px;
     border-radius: 8px;
@@ -574,15 +595,63 @@ body {
     opacity: 0;
     visibility: hidden;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .cart-alert.show {
     opacity: 1;
     visibility: visible;
+    transform: translate(-50%, -10px);
 }
 
 .cart-alert i {
     color: #c5f82a;
+    font-size: 18px;
+}
+
+/* Animation for cart button */
+@keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+/* Notifikasi keranjang */
+/* Cart Alert Styles */
+.cart-alert {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(26, 30, 35, 0.95);
+    color: #fff;
+    padding: 15px 25px;
+    border-radius: 8px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cart-alert.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -10px);
+}
+
+.cart-alert i {
+    color: #c5f82a;
+    font-size: 18px;
+}
+
+/* Animation for cart button */
+@keyframes bounce {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
 }
 
 /* Tambahkan style untuk status aktif */
