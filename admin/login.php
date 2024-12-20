@@ -8,12 +8,17 @@
     $password = trim($password);
     //$hashed = password_hash($password, PASSWORD_DEFAULT);
 ?>
-<style>
-  body {
-    background-color: purple;
-  }
-</style>
-    <div class="container">
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel & Tourism Login</title>
+    <link rel="stylesheet" href="admin/login.css">
+</head>
+<body>
+<div class="container">
         <div class="row">
             <div class="col-md-3">
             </div>
@@ -82,6 +87,6 @@
     </footer>
 
 </div>
-
+<script src="admin/login.js"></script>
 </body>
 </html>
