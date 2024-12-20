@@ -35,10 +35,11 @@ $result = $db->query("SELECT * FROM events");
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.css">
     <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="tesajah.css">
+    <link rel="stylesheet" href="headerindex.css">
     <link rel="stylesheet" href="eventindex.css">
     <link rel="stylesheet" href="tourimscard.css">
 
@@ -46,31 +47,66 @@ $result = $db->query("SELECT * FROM events");
 <body>
 
 <!-- Header Section -->
-<header>
-        <section class="hero">
-            <img src="images/toraja.jpg" alt="Toraja" class="hero-bg">
-            <div class="hero-content">
-                <h1>TodiToraja</h1>
-                <p>Pengalaman berwisata yang menarik dan alternatif serta berbagi bersama tentang budaya lokal tanah Toraja secara menyeluruh bersama kami TodiToraja</p>
+<header class="dynamic-header">
+    <section class="hero">
+        <div class="hero-slider">
+            <!-- Multiple background images for slider -->
+            <div class="slide" style="background-image: url('images/toraja.jpg')"></div>
+            <div class="slide" style="background-image: url('images/toraja1.jpg')"></div>
+            <div class="slide" style="background-image: url('images/toraja2.jpg')"></div>
+        </div>
+        <div class="overlay"></div>
+        
+        <div class="hero-content">
+            <h1 class="animate-text">TodiToraja</h1>
+            <p class="animate-text-delay">Pengalaman berwisata yang menarik dan alternatif serta berbagi bersama tentang budaya lokal tanah Toraja secara menyeluruh bersama kami TodiToraja</p>
+            
+            <!-- Animated stats -->
+            <div class="stats-container">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="1000">0</span>
+                    <span class="stat-label">Wisatawan</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="50">0</span>
+                    <span class="stat-label">Destinasi</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="100">0</span>
+                    <span class="stat-label">Hotel</span>
+                </div>
             </div>
-            <!-- Search bar -->
-            <div class="search-container">
-                <form method="GET" class="search-form">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <input type="text" name="room_search" class="form-control" placeholder="Cari Penginapan" value="<?= htmlspecialchars($roomFilter); ?>">
-                        </div>
-                        <div class="col-md-6">
-                            <input type="text" name="tour_search" class="form-control" placeholder="Cari Wisata" value="<?= htmlspecialchars($tourFilter); ?>">
-                        </div>
+        </div>
+
+        <!-- Search bar with enhanced design -->
+        <div class="search-container">
+            <form method="GET" class="search-form glass-effect">
+                <div class="search-grid">
+                    <div class="search-item">
+                        <i class="fas fa-hotel"></i>
+                        <input type="text" name="room_search" placeholder="Cari Penginapan" value="<?= htmlspecialchars($roomFilter); ?>">
                     </div>
-                    <div class="text-center mt-2">
-                        <button type="submit" class="btn btn-primary">Cari</button>
+                    <div class="search-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <input type="text" name="tour_search" placeholder="Cari Wisata" value="<?= htmlspecialchars($tourFilter); ?>">
                     </div>
-                </form>
-            </div>
-        </section>
-    </header>
+                    <button type="submit" class="search-button">
+                        <i class="fas fa-search"></i>
+                        Cari
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="scroll-indicator">
+            <span class="mouse">
+                <span class="wheel"></span>
+            </span>
+            <p>Scroll untuk menjelajahi</p>
+        </div>
+    </section>
+</header>
 
 
 <!-- EVENT -->
@@ -164,47 +200,6 @@ $result = $db->query("SELECT * FROM events");
     </div>
 </div>
 
-<!-- Tourism Section -->
-<section class="tour-section">
-    <div class="container">
-        <h2 class="section-title">Destinasi Wisata Terpopuler</h2>
-        
-        <!-- Swiper Container -->
-        <div class="swiper tourSwiper">
-            <div class="swiper-wrapper">
-                <?php while($tour = mysqli_fetch_assoc($tourSQL)): ?>
-                    <div class="swiper-slide">
-                        <div class="card">
-                            <a href="tour.php?tour=<?= $tour['id']; ?>"> <!-- Tambahkan link di sini -->
-                                <img src="<?= $tour['photo']; ?>" class="card-img-top" alt="<?= $tour['title']; ?>">
-                            </a>
-                            <div class="card-body">
-                                <h5 class="card-title"><?= $tour['title']; ?></h5>
-                                <p class="accommodation-count">
-                                    <i class="fas fa-building"></i> 
-                                    <?= number_format($tour['total_accommodation']); ?> akomodasi
-                                </p>
-                                <p class="card-text"><?= $tour['details']; ?></p>
-                                <a href="tour.php?tour=<?= $tour['id']; ?>" class="btn btn-explore">
-                                    Jelajahi
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                <?php endwhile; ?>
-            </div>
-            
-            <!-- Navigation -->
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
-            
-            <!-- Pagination -->
-            <div class="swiper-pagination"></div>
-        </div>
-    </div>
-</section>
-
-
 <!-- Rooms Section -->
 <section class="py-5">
     <div class="container">
@@ -246,6 +241,7 @@ $result = $db->query("SELECT * FROM events");
 <script src="tourismcard.js"></script>
 <script src="tourismcard2.js"></script>
 <script src="eventindex.js"></script>
+<script src="headerindex.js"></script>
 
 </body>
 </html>
