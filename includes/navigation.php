@@ -16,12 +16,12 @@
 
     <style>
         :root {
-            /* Definisikan variable CSS untuk konsistensi */
             --navbar-height: 70px;
             --navbar-brand-size: 24px;
             --nav-link-size: 15px;
             --nav-icon-size: 16px;
             --nav-padding: 12px 20px;
+            --active-indicator-height: 4px;
         }
 
         /* Custom Navbar Styling */
@@ -32,7 +32,6 @@
             transition: all 0.3s ease;
         }
 
-        /* Brand/Logo */
         .navbar-brand {
             font-family: 'Playfair Display', serif;
             font-weight: 700;
@@ -44,19 +43,18 @@
             margin: 0;
         }
 
-        /* Navigation Links Container */
         .navbar-nav {
             height: var(--navbar-height);
             display: flex;
             align-items: center;
         }
 
-        /* Navigation Links */
         .navbar-nav .nav-item {
-            margin: 0 5px;
+            margin: 0;
             height: 100%;
             display: flex;
             align-items: center;
+            position: relative;
         }
 
         .navbar-nav .nav-link {
@@ -65,27 +63,35 @@
             font-size: var(--nav-link-size) !important;
             color: rgba(255,255,255,0.9) !important;
             padding: var(--nav-padding) !important;
-            border-radius: 5px;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
+            height: 100%;
+            position: relative;
         }
 
-        /* Icons in Navigation */
+        /* New Active State Styling */
+        .navbar-nav .nav-item .nav-link.active {
+            background-color: rgba(0, 0, 0, 0.3);
+            color: #ffffff !important;
+        }
+
+        .navbar-nav .nav-item .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: var(--active-indicator-height);
+            background-color: #ffffff;
+        }
+
         .navbar-nav .nav-link i {
             margin-right: 8px;
             font-size: var(--nav-icon-size) !important;
             transition: transform 0.3s ease;
         }
 
-        /* Active Link */
-        .navbar-nav .nav-item.active .nav-link {
-            background: rgba(255,255,255,0.15);
-            color: #ffffff !important;
-            font-weight: 500;
-        }
-
-        /* Mobile Responsive */
         @media (max-width: 991.98px) {
             .custom-navbar {
                 height: auto;
@@ -106,6 +112,13 @@
                 height: auto;
                 margin: 5px 0;
             }
+
+            .navbar-nav .nav-link.active::after {
+                height: 100%;
+                width: var(--active-indicator-height);
+                top: 0;
+                left: 0;
+            }
             
             .navbar-collapse {
                 background: rgba(26,26,26,0.98);
@@ -115,7 +128,6 @@
             }
         }
 
-        /* Body padding adjustment */
         body {
             padding-top: var(--navbar-height);
         }
@@ -135,34 +147,28 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="index.php">
                             <i class="fas fa-home"></i>
-                            Beranda
+                            
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="tourism.php">
                             <i class="fas fa-map-marked-alt"></i>
-                            Wisata
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="events.php">
-                            <i class="fas fa-calendar-alt"></i>
-                            Event
+                            
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="rooms.php">
                             <i class="fas fa-bed"></i>
-                            Hotel
+                            
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="payment.php">
                             <i class="fas fa-credit-card"></i>
-                            Pembayaran
+                            
                         </a>
                     </li>
                 </ul>
@@ -172,5 +178,22 @@
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Add JavaScript for active state handling -->
+    <script>
+        // Get current page URL
+        const currentLocation = location.href;
+        
+        // Get all nav links
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        // Loop through each link
+        navLinks.forEach(link => {
+            // If the link href matches current location
+            if(link.href === currentLocation) {
+                link.classList.add('active');
+            }
+        });
+    </script>
 </body>
 </html>

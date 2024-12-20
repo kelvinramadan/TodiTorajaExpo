@@ -376,14 +376,15 @@ if(isset($_POST['reserve'])) {
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <h4>About Us</h4>
-                <p>Experience the beauty and culture of Toraja with our expertly guided tours. We provide unforgettable adventures and authentic local experiences.</p>
+                <h4>Tentang Kita</h4>
+                <p>
+                Rasakan keindahan dan budaya Toraja dengan tur berpemandu ahli kami. Kami memberikan petualangan yang tak terlupakan dan pengalaman lokal yang otentik.</p>
             </div>
             <div class="col-md-4">
-                <h4>Contact Info</h4>
-                <p><i class="fas fa-phone"></i> +62 123 456 789</p>
+                <h4>Kontak Kami</h4>
+                <p><i class="fas fa-phone"></i> +62 821 3387 1850</p>
                 <p><i class="fas fa-envelope"></i> info@torajatours.com</p>
-                <p><i class="fas fa-map-marker-alt"></i> Toraja, South Sulawesi, Indonesia</p>
+                <p><i class="fas fa-map-marker-alt"></i> Toraja, Sulawesi Selatan, Indonesia</p>
             </div>
             <div class="col-md-4">
                 <h4>Follow Us</h4>
@@ -396,7 +397,7 @@ if(isset($_POST['reserve'])) {
             </div>
         </div>
         <div class="text-center mt-4">
-            <p>&copy; 2024 Toraja Tours. All rights reserved.</p>
+            <p>&copy; Wisata Toraja 2024. Semua hak dilindungi undang-undang.</p>
         </div>
     </div>
 </footer>

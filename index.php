@@ -36,13 +36,14 @@ $result = $db->query("SELECT * FROM events");
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="scss">
     <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.css">
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="headerindex.css">
+    <link rel="stylesheet" href="css/indexcard.css">
     <link rel="stylesheet" href="eventindex.css">
-    <link rel="stylesheet" href="tourimscard.css">
-    <link rel="stylesheet" href="roomcard.css">
 
 </head>
 <body>
@@ -98,21 +99,13 @@ $result = $db->query("SELECT * FROM events");
                 </div>
             </form>
         </div>
-
-        <!-- Scroll indicator -->
-        <div class="scroll-indicator">
-            <span class="mouse">
-                <span class="wheel"></span>
-            </span>
-            <p>Scroll untuk menjelajahi</p>
-        </div>
-    </section>
 </header>
 
 
-<!-- EVENT -->
+<!-- EVENT SECTION -->
 <div class="container mt-5">
-    <h1 class="text-center">Events</h1>
+<h2 class="text-center">Event & Budaya</h2>
+<p class="text-center">Tana Toraja merupakan daerah yang terkenal dengan kekayaan budaya dan tradisi yang sangat unik dan beragam. Setiap tahunnya, berbagai acara budaya dan upacara keagamaan diselenggarakan di wilayah ini, yang tidak hanya menjadi bagian penting dari kehidupan masyarakat setempat tetapi juga berhasil menarik perhatian para wisatawan, baik dari berbagai penjuru Indonesia maupun dari mancanegara.</p>
     <div class="row">
         <?php while($event = mysqli_fetch_assoc($result)): ?>
             <div class="col-md-4">
@@ -167,9 +160,15 @@ $result = $db->query("SELECT * FROM events");
 
 <!-- TOURISM SECTION -->
 <div class="container mt-5">
-    <h1 class="text-center">Destinasi Wisata Terpopuler</h1>
+<h2 class="text-center">Destinasi Wisata</h2>
+<p class="text-center">Tana Toraja memiliki kekayaan alam yang memukau, seperti pegunungan, lembah hijau, dan pemandangan sawah yang indah, serta budaya yang kaya akan nilai-nilai tradisional dan ritual unik. Semua ini menjadikannya salah satu daya tarik utama bagi wisatawan yang ingin menikmati keindahan alam sekaligus mendalami kearifan lokal dan tradisi masyarakat setempat.</p>
     <div class="row">
-        <?php while($tour = mysqli_fetch_assoc($tourSQL)): ?>
+        <?php 
+        $count = 0;
+        while($tour = mysqli_fetch_assoc($tourSQL)): 
+            if($count >= 3) break;
+            $count++;
+        ?>
             <div class="col-md-4">
                 <a href="tour.php?tour=<?= $tour['id']; ?>" class="text-decoration-none">
                     <div class="card mb-4 shadow-sm accommodation-card">
@@ -178,7 +177,7 @@ $result = $db->query("SELECT * FROM events");
                             <button class="favorite-btn" onclick="event.stopPropagation(); event.preventDefault();">
                                 <i class="far fa-heart"></i>
                             </button>
-                            <?php if(isset($tour['is_featured'])): ?>
+                            <?php if(isset($tour['is_featured']) && $tour['is_featured']): ?>
                                 <span class="guest-favorite">Guest favorite</span>
                             <?php endif; ?>
                         </div>
@@ -191,6 +190,7 @@ $result = $db->query("SELECT * FROM events");
                             </div>
                             <p class="accommodation-count">
                                 <i class="fas fa-building"></i> 
+                                <?= isset($tour['accommodations']) ? $tour['accommodations'] . ' akomodasi' : 'NaN akomodasi'; ?>
                             </p>
                             <p class="card-text"><?= substr($tour['details'], 0, 100); ?>...</p>
                         </div>
@@ -199,19 +199,26 @@ $result = $db->query("SELECT * FROM events");
             </div>
         <?php endwhile; ?>
     </div>
+    <a href="tour.php" class="view-more-btn">Lihat Semua Destinasi</a>
 </div>
 
 <!-- Rooms Section -->
 <section class="py-5">
     <div class="container">
-        <h1 class="text-center mb-4">PENGINAPAN</h1>
+    <h2 class="text-center">Penginapan</h2>
+    <p class="text-center">Tana Toraja menawarkan beragam pilihan penginapan, mulai dari hotel berbintang dengan fasilitas lengkap hingga homestay tradisional yang memberikan pengalaman menginap lebih dekat dengan kehidupan dan budaya lokal. Pilihan ini memudahkan wisatawan untuk menikmati keindahan alam Toraja dengan kenyamanan sesuai preferensi mereka.</p>
         <div class="row">
-            <?php while($room = mysqli_fetch_assoc($sql)): ?>
+            <?php 
+            $count = 0;
+            while($room = mysqli_fetch_assoc($sql)): 
+                if($count >= 3) break;
+                $count++;
+            ?>
                 <div class="col-lg-4 col-md-6 mb-4">
                     <a href="details.php?room=<?= $room['id']; ?>" class="text-decoration-none">
                         <div class="card mb-4 shadow-sm accommodation-card">
                             <div class="image-wrapper">
-                                <img src="<?= $room['photo']; ?>" class="card-img-top" alt="<?= $room['room_number']; ?>">
+                                <img src="<?= $room['photo']; ?>" class="card-img-top" alt="Room <?= $room['room_number']; ?>">
                                 <button class="favorite-btn" onclick="event.stopPropagation(); event.preventDefault();">
                                     <i class="far fa-heart"></i>
                                 </button>
@@ -239,13 +246,38 @@ $result = $db->query("SELECT * FROM events");
                 </div>
             <?php endwhile; ?>
         </div>
+        <a href="rooms.php" class="view-more-btn">Lihat Semua Penginapan</a>
     </div>
 </section>
 
 <!-- Footer -->
-<footer class="py-4">
-    <div class="container text-center">
-        <p class="m-0">&copy; 2024 Hotel & Tourism</p>
+<footer class="footer" style="background-color: #333; color: white; padding: 3rem 0; margin-top: 4rem;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h4>Tentang Kita</h4>
+                <p>
+                Rasakan keindahan dan budaya Toraja dengan tur berpemandu ahli kami. Kami memberikan petualangan yang tak terlupakan dan pengalaman lokal yang otentik.</p>
+            </div>
+            <div class="col-md-4">
+                <h4>Kontak Kami</h4>
+                <p><i class="fas fa-phone"></i> +62 821 3387 1850</p>
+                <p><i class="fas fa-envelope"></i> info@torajatours.com</p>
+                <p><i class="fas fa-map-marker-alt"></i> Toraja, Sulawesi Selatan, Indonesia</p>
+            </div>
+            <div class="col-md-4">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <p>&copy; Wisata Toraja 2024. Semua hak dilindungi undang-undang.</p>
+        </div>
     </div>
 </footer>
 
@@ -259,11 +291,9 @@ $result = $db->query("SELECT * FROM events");
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
-<script src="tourismcard.js"></script>
-<script src="tourismcard2.js"></script>
-<script src="eventindex.js"></script>
+<script src="js/indexcard.js"></script>
+<script src="js/eventindex.js"></script>
 <script src="headerindex.js"></script>
-<script src="roomcard.js"></script>
 
 </body>
 </html>
