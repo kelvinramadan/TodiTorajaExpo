@@ -42,6 +42,7 @@ $result = $db->query("SELECT * FROM events");
     <link rel="stylesheet" href="headerindex.css">
     <link rel="stylesheet" href="eventindex.css">
     <link rel="stylesheet" href="tourimscard.css">
+    <link rel="stylesheet" href="roomcard.css">
 
 </head>
 <body>
@@ -58,7 +59,7 @@ $result = $db->query("SELECT * FROM events");
         <div class="overlay"></div>
         
         <div class="hero-content">
-            <h1 class="animate-text">TodiToraja</h1>
+            <h1 class="animate-text" style="color:#FFFFFF">TodiToraja</h1>
             <p class="animate-text-delay">Pengalaman berwisata yang menarik dan alternatif serta berbagi bersama tentang budaya lokal tanah Toraja secara menyeluruh bersama kami TodiToraja</p>
             
             <!-- Animated stats -->
@@ -205,18 +206,38 @@ $result = $db->query("SELECT * FROM events");
     <div class="container">
         <h1 class="text-center mb-4">PENGINAPAN</h1>
         <div class="row">
-        <?php while($room = mysqli_fetch_assoc($sql)): ?>
-            <div class="col-lg-3 col-md-6 mb-4">
-                <div class="card">
-                    <img src="<?= $room['photo']; ?>" class="card-img-top" alt="room image" style="height: 200px; object-fit: cover;">
-                    <div class="card-body">
-                        <h5 class="card-title text-center"><?= $room['room_number']; ?></h5>
-                        <p class="card-text text-justify"><?= $room['details']; ?></p>
-                        <a href="details.php?room=<?= $room['id']; ?>" class="btn btn-primary btn-block">More Details</a>
-                    </div>
+            <?php while($room = mysqli_fetch_assoc($sql)): ?>
+                <div class="col-lg-4 col-md-6 mb-4">
+                    <a href="details.php?room=<?= $room['id']; ?>" class="text-decoration-none">
+                        <div class="card mb-4 shadow-sm accommodation-card">
+                            <div class="image-wrapper">
+                                <img src="<?= $room['photo']; ?>" class="card-img-top" alt="<?= $room['room_number']; ?>">
+                                <button class="favorite-btn" onclick="event.stopPropagation(); event.preventDefault();">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                                <?php if(isset($room['is_featured']) && $room['is_featured']): ?>
+                                    <span class="guest-favorite">Guest favorite</span>
+                                <?php endif; ?>
+                            </div>
+                            <div class="card-body">
+                                <div class="location-wrapper">
+                                    <h5 class="location-title">Room <?= $room['room_number']; ?></h5>
+                                    <?php if(isset($room['rating'])): ?>
+                                        <span class="rating">★ <?= $room['rating']; ?></span>
+                                    <?php endif; ?>
+                                </div>
+                                <p class="accommodation-count">
+                                    <i class="fas fa-bed"></i> 
+                                    <?php if(isset($room['capacity'])): ?>
+                                        <?= $room['capacity']; ?> Orang
+                                    <?php endif; ?>
+                                </p>
+                                <p class="card-text"><?= substr($room['details'], 0, 100); ?>...</p>
+                            </div>
+                        </div>
+                    </a>
                 </div>
-            </div>
-        <?php endwhile; ?>
+            <?php endwhile; ?>
         </div>
     </div>
 </section>
@@ -242,6 +263,7 @@ $result = $db->query("SELECT * FROM events");
 <script src="tourismcard2.js"></script>
 <script src="eventindex.js"></script>
 <script src="headerindex.js"></script>
+<script src="roomcard.js"></script>
 
 </body>
 </html>
