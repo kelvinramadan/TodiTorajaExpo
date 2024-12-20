@@ -102,13 +102,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['checkin'])) {
                             <?php if (!empty($roomData["facility$i"])): ?>
                                 <div class="facility-wrapper">
                                     <img class="facility" src="<?= htmlspecialchars($roomData["facility$i"]); ?>" alt="Facility <?= $i ?>">
-                                    <?php if ($i === 4): ?>
-                                        <button class="view-all-photos">Lihat semua foto</button>
-                                    <?php endif; ?>
                                 </div>
                             <?php endif; ?>
                         <?php endfor; ?>
                     </div>
+                </div>
+            </div>
+
+            <!-- Tambahkan ini setelah gallery-section dan sebelum content-grid -->
+              <div class="hotel-title">
+                <div class="title-container">
+                    <h1 class="hotel-name">
+                        <?= htmlspecialchars($roomData['room_number']); ?>
+                        <button class="action-icon cart-btn" title="Tambah ke keranjang">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </h1>
                 </div>
             </div>
 
@@ -191,19 +200,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['checkin'])) {
         <?php else: ?>
             <p>Room not found.</p>
         <?php endif; ?>
-
-        <!-- Action buttons -->
-        <div class="action-buttons">
-            <button class="cart-button">
-                <i class="fas fa-shopping-cart"></i>
-                ADD TO CART
-            </button>
-            <button class="cart-button">
-                <i class="fas fa-arrow-right"></i>
-                BOOK NOW
-            </button>
-        </div>
-    </div>
 
     <?php if (isset($_SESSION['reservation_success']) && $_SESSION['reservation_success']): ?>
         <div class="alert-success show">
