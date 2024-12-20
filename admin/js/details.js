@@ -7,6 +7,66 @@ document.addEventListener('DOMContentLoaded', function() {
         }, index * 100);
     });
 
+    // Gallery functionality
+    // Create lightbox elements
+    const lightbox = document.createElement('div');
+    lightbox.classList.add('lightbox');
+    lightbox.innerHTML = `
+        <div class="lightbox-content">
+        <img src="" alt="">
+    </div>
+    `;
+    document.body.appendChild(lightbox);
+
+    // Get all gallery images
+    const allImages = [...document.querySelectorAll('.photo, .facility')];
+    let currentImageIndex = 0;
+
+    // Add click handlers to images
+    allImages.forEach((img, index) => {
+        img.addEventListener('click', () => {
+            currentImageIndex = index;
+            showImage(currentImageIndex);
+            lightbox.classList.add('active');
+        });
+    });
+
+    // Lightbox navigation
+    const prevButton = lightbox.querySelector('.prev-button');
+    const nextButton = lightbox.querySelector('.next-button');
+    const lightboxImage = lightbox.querySelector('.lightbox-content img');
+   
+
+    // Handle keyboard navigation
+    document.addEventListener('keydown', (e) => {
+        if (!lightbox.classList.contains('active')) return;
+        
+        if (e.key === 'Escape') {
+            lightbox.classList.remove('active');
+        } else if (e.key === 'ArrowLeft') {
+            currentImageIndex = (currentImageIndex - 1 + allImages.length) % allImages.length;
+            showImage(currentImageIndex);
+        } else if (e.key === 'ArrowRight') {
+            currentImageIndex = (currentImageIndex + 1) % allImages.length;
+            showImage(currentImageIndex);
+        }
+    });
+
+    function showImage(index) {
+        const imgSrc = allImages[index].src;
+        lightboxImage.src = imgSrc;
+    }
+
+    // Handle view all photos button
+    const viewAllPhotosBtn = document.querySelector('.view-all-photos');
+    if (viewAllPhotosBtn) {
+        viewAllPhotosBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            lightbox.classList.add('active');
+            showImage(0);
+        });
+    }
+
     // Get form elements
     const form = document.querySelector('form');
     const inDateInput = document.querySelector('input[name="in_date"]');
@@ -150,4 +210,34 @@ document.addEventListener('DOMContentLoaded', function() {
             errorDiv.remove();
         }, 5000);
     }
+
+    // Di dalam event listener DOMContentLoaded yang sudah ada
+const propertyFeatures = document.querySelectorAll('.info-box.feature');
+propertyFeatures.forEach((feature, index) => {
+    setTimeout(() => {
+        feature.style.opacity = '0';
+        feature.style.transform = 'translateY(20px)';
+        feature.style.transition = 'all 0.5s ease';
+        
+        requestAnimationFrame(() => {
+            feature.style.opacity = '1';
+            feature.style.transform = 'translateY(0)';
+        });
+    }, index * 100);
+});
+
+// Animasi untuk deskripsi
+const description = document.querySelector('.property-description');
+if (description) {
+    setTimeout(() => {
+        description.style.opacity = '0';
+        description.style.transform = 'translateY(20px)';
+        description.style.transition = 'all 0.5s ease';
+        
+        requestAnimationFrame(() => {
+            description.style.opacity = '1';
+            description.style.transform = 'translateY(0)';
+        });
+    }, 300);
+}
 });
