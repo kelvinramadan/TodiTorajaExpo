@@ -80,10 +80,10 @@ $totalPrice = $reservationData['total_price'];
 
                 <div class="price-info">
                     <div class="price">
-                        Rp. <?php echo number_format($pricePerNight, 0, ',', '.'); ?> <span class="duration">/malam</span>
+                        Rp. <?php echo number_format($pricePerNight, 0, ',', '.'); ?> <span class="duration">/night</span>
                     </div>
                     <div class="total">
-                        Total Rp. <?php echo number_format($totalPrice, 0, ',', '.'); ?> (<?php echo $nights; ?> malam)
+                        Total Rp. <?php echo number_format($totalPrice, 0, ',', '.'); ?> (<?php echo $nights; ?> nights)
                     </div>
                 </div>
             </div>
@@ -93,7 +93,7 @@ $totalPrice = $reservationData['total_price'];
             </div>
         </div>
     </div>
-
+    <!-- Tambahkan sebelum closing </body> -->
     <script src="admin\js\reservation-summary.js"></script>
 </body>
 </html>

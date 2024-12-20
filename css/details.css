@@ -15,16 +15,6 @@ body {
     background-color: #1a1e23; /* Sama dengan body */
 }
 
-html {
-    background-color: #1a1e23;
-}
-
-#app, 
-main, 
-.wrapper {
-    background-color: #1a1e23;
-}
-
 /* Gallery Container */
 .gallery-container {
     display: flex;
@@ -124,12 +114,6 @@ main,
     .facility-wrapper {
         height: 150px;
     }
-}
-
-header,
-nav {
-    background-color: #1a1e23;
-    width: 100%;
 }
 
 .page-header {
@@ -376,7 +360,111 @@ nav {
     font-size: 16px;
 }
 
+@keyframes fadeIn {
+    from { 
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to { 
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
 /* Hotel Title Section */
+.hotel-title {
+    margin: 30px 0;
+    padding: 0 20px;
+}
+
+.title-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.hotel-type {
+    display: inline-block;
+    background-color: #fff;
+    color: #333;
+    padding: 4px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.hotel-rating {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.hotel-rating i {
+    color: #ffd700;
+    font-size: 18px;
+}
+
+.title-container h1 {
+    color: #fff;
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.promo-tag {
+    display: inline-block;
+    color: #ff6b6b;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Media Query for Mobile */
+@media (max-width: 768px) {
+    .hotel-title {
+        margin: 20px 0;
+    }
+    
+    .title-container h1 {
+        font-size: 24px;
+    }
+    
+    .hotel-rating i {
+        font-size: 16px;
+    }
+}
+
+/* Hotel Title Section */
+.hotel-title {
+    margin: 30px 0;
+    padding: 0 20px;
+}
+
+.title-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.hotel-name {
+    color: #fff;
+    font-size: 32px;
+    font-weight: 600;
+    margin: 0;
+    padding: 10px 0;
+}
+
+/* Media Query for Mobile */
+@media (max-width: 768px) {
+    .hotel-title {
+        margin: 20px 0;
+    }
+    
+    .hotel-name {
+        font-size: 24px;
+    }
+}
+
 .hotel-title {
     margin: 30px 0;
     padding: 0 20px;
@@ -395,6 +483,58 @@ nav {
     display: flex;
     align-items: center;
     gap: 15px;
+}
+
+.action-icon:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #c5f82a;
+    transform: scale(1.1);
+}
+
+.action-icon.active {
+    color: #c5f82a;
+    animation: popIn 0.3s ease;
+}
+
+@keyframes popIn {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.action-icon:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.cart-notification {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #c5f82a;
+    color: #1a1e23;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: 500;
+    animation: fadeInOut 2s ease;
+    z-index: 1000;
+}
+
+@keyframes fadeInOut {
+    0% { opacity: 0; transform: translate(-50%, 20px); }
+    15% { opacity: 1; transform: translate(-50%, 0); }
+    85% { opacity: 1; transform: translate(-50%, 0); }
+    100% { opacity: 0; transform: translate(-50%, -20px); }
 }
 
 .action-icon {
@@ -449,83 +589,4 @@ nav {
 .action-icon.clicked {
     color: #c5f82a;  /* Warna hijau saat aktif */
     background: rgba(197, 248, 42, 0.2); /* Background semi-transparent */
-}
-
-.action-icon:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #c5f82a;
-    transform: scale(1.1);
-}
-
-.action-icon.active {
-    color: #c5f82a;
-    animation: popIn 0.3s ease;
-}
-
-@keyframes popIn {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-    100% { transform: scale(1); }
-}
-
-/* Tooltip */
-.action-icon {
-    position: relative;
-}
-
-.action-icon:hover::after {
-    content: attr(title);
-    position: absolute;
-    bottom: -25px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    white-space: nowrap;
-}
-
-/* Media Query for Mobile */
-@media (max-width: 768px) {
-    .hotel-title {
-        margin: 20px 0;
-    }
-    
-    .hotel-name {
-        font-size: 24px;
-    }
-}
-
-@keyframes fadeIn {
-    from { 
-        opacity: 0;
-        transform: translate(-50%, -60%);
-    }
-    to { 
-        opacity: 1;
-        transform: translate(-50%, -50%);
-    }
-}
-
-.cart-notification {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #c5f82a;
-    color: #1a1e23;
-    padding: 10px 20px;
-    border-radius: 4px;
-    font-weight: 500;
-    animation: fadeInOut 2s ease;
-    z-index: 1000;
-}
-
-@keyframes fadeInOut {
-    0% { opacity: 0; transform: translate(-50%, 20px); }
-    15% { opacity: 1; transform: translate(-50%, 0); }
-    85% { opacity: 1; transform: translate(-50%, 0); }
-    100% { opacity: 0; transform: translate(-50%, -20px); }
 }

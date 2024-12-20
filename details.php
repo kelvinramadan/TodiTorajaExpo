@@ -102,6 +102,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['checkin'])) {
                             <?php if (!empty($roomData["facility$i"])): ?>
                                 <div class="facility-wrapper">
                                     <img class="facility" src="<?= htmlspecialchars($roomData["facility$i"]); ?>" alt="Facility <?= $i ?>">
+                                    <?php if ($i === 4): ?>
+                                    <?php endif; ?>
                                 </div>
                             <?php endif; ?>
                         <?php endfor; ?>
@@ -110,11 +112,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['checkin'])) {
             </div>
 
             <!-- Tambahkan ini setelah gallery-section dan sebelum content-grid -->
-              <div class="hotel-title">
+            <div class="hotel-title">
                 <div class="title-container">
                     <h1 class="hotel-name">
                         <?= htmlspecialchars($roomData['room_number']); ?>
-                        <button class="action-icon cart-btn" title="Tambah ke keranjang">
+                        <button class="action-icon cart-btn" title="Add to Cart">
                             <i class="fas fa-shopping-cart"></i>
                         </button>
                     </h1>
