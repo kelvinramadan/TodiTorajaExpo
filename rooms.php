@@ -183,7 +183,7 @@ $sql = $db->query("SELECT * FROM rooms");
                             <span><i class="fas fa-snowflake"></i> AC</span>
                         </div>
                         <div class="price">
-                            Rp. 850.000 / malam
+                            Rp. <?= number_format($room['price'], 0, ',', '.'); ?>
                         </div>
                         <p class="room-description">
                             <?= $room['details']; ?>
