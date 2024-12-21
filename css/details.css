@@ -1,661 +1,280 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #1a1e23; /* Warna gelap seperti di referensi */
-    color: #fff;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh; /* Memastikan background menutupi seluruh halaman */
-}
-
-/* Container utama */
+/* General container styling */
 .container {
-    max-width: 1400px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
-    background-color: #1a1e23; /* Sama dengan body */
+    padding: 2rem;
 }
 
-/* Gallery Container */
+/* Gallery section styling */
+.gallery-section {
+    padding: 2rem 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
 .gallery-container {
     display: flex;
-    gap: 20px;
-    height: 500px; /* Sesuaikan tinggi */
-    margin-bottom: 30px;
-    position: relative;
+    flex-direction: column;
+    gap: 15px;
 }
 
-/* Main Photo (Left Side) */
 .main-photo {
-    flex: 1.5; /* Beri bobot lebih besar untuk foto utama */
+    height: 400px;
     position: relative;
-    border-radius: 8px;
     overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
 }
 
-.photo {
+.main-photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    cursor: pointer;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s ease-in-out;
 }
 
-/* Facility Photos (Right Side) */
 .facility-photos {
-    flex: 1;
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    height: 200px;
 }
 
 .facility-wrapper {
     position: relative;
-    border-radius: 8px;
     overflow: hidden;
-    height: calc((500px - 10px) / 2); /* Sesuaikan dengan tinggi container */
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
 }
 
 .facility {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    cursor: pointer;
-    transition: transform 0.3s ease;
+    transition: transform 0.4s ease-in-out;
 }
 
-/* Hover effects */
-.photo:hover,
-.facility:hover {
-    transform: scale(1.05);
-}
-
-.view-all-photos {
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 8px 16px;
-    border-radius: 20px;
-    font-size: 14px;
-    border: none;
-    cursor: pointer;
-    z-index: 2;
-    transition: background-color 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px; /* Jarak antara icon dan text */
-}
-
-.view-all-photos i {
-    font-size: 14px; /* Ukuran icon */
-}
-
-.view-all-photos:hover {
-    background: rgba(0, 0, 0, 0.9);
-}
-
-@media (max-width: 768px) {
-    .gallery-container {
-        flex-direction: column;
-        height: auto;
-        gap: 10px;
-    }
-    
-    .main-photo {
-        height: 300px;
-    }
-    
-    .facility-photos {
-        height: auto;
-        gap: 10px;
-    }
-    
-    .facility-wrapper {
-        height: 150px;
-    }
-}
-
-.page-header {
-    width: 100%;
-    margin-bottom: 30px;
-    padding-bottom: 10px;
-    text-align: center;
-}
-
-.page-header h2 {
-    font-size: 1.8rem;
-    font-weight: 600;
-    color: #333;
-    margin: 0;
-}
-
-/* Info Container Styling */
-.info-container {
-    background: #1a1e23;
-    color: #fff;
-    padding: 40px;
-    border-radius: 10px;
-    margin: 0;
-}
-
-/* Property Features */
-.property-features {
-    display: flex;
-    gap: 30px;
-    margin-bottom: 30px;
-}
-
-.info-box.feature {
-    flex: 1;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 20px;
-    border-radius: 8px;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.info-box.feature i {
-    font-size: 1.5rem;
-    color: #c5f82a;
-    margin-bottom: 5px;
-}
-
-.info-box.feature h3 {
-    color: #fff;
-    margin: 0;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.info-box.feature p {
-    color: #c5f82a;
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin: 0;
-}
-
-/* Property Description */
-.property-description {
-    color: #a0a4a8;
-    line-height: 1.8;
-    font-size: 1.1rem;
-    margin-top: 30px;
-    padding-top: 30px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.property-description p {
-    margin-bottom: 20px;
-}
-
-.property-description p:last-child {
-    margin-bottom: 0;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .property-features {
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .info-box.feature {
-        flex-direction: row;
-        align-items: center;
-        padding: 15px;
-    }
-
-    .info-box.feature i {
-        margin-bottom: 0;
-        margin-right: 15px;
-    }
-    
-    .info-container {
-        padding: 20px;
-    }
-}
-
-/* Grid Layout */
-.content-grid {
-    display: grid;
-    grid-template-columns: 1fr 400px;
-    gap: 30px;
-    margin-top: 30px;
-}
-
-/* Main Content */
-.main-content {
-    width: 100%;
-}
-
-/* Booking Sidebar */
-.booking-sidebar {
-    position: sticky;
-    top: 30px;
-    height: fit-content;
-}
-
-.booking-form {
-    background: #1a1e23;
-    padding: 30px;
-    border-radius: 10px;
-    color: #fff;
-}
-
-.booking-form h3 {
-    margin-bottom: 25px;
-    font-size: 1.5rem;
-    color: #fff;
-}
-
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: #a0a4a8;
-}
-
-.form-control {
-    width: 100%;
-    padding: 12px 15px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
-    color: #fff;
-    font-size: 1rem;
-}
-
-.form-control:focus {
-    outline: none;
-    border-color: #c5f82a;
-}
-
-.form-control::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-}
-
-.btn-request {
-    width: 100%;
-    padding: 15px;
-    background: #c5f82a;
-    color: #000;
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.btn-request:hover {
-    background: #d4ff33;
-}
-
-.btn-request:disabled {
-    background: #4a4a4a;
-    cursor: not-allowed;
-}
-
-/* Error Message */
-.error-message {
-    color: #ff4d4d;
-    margin-bottom: 20px;
-    padding: 10px;
-    background: rgba(255, 77, 77, 0.1);
-    border-radius: 5px;
-}
-
-@media (max-width: 1024px) {
-    .content-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .booking-sidebar {
-        position: static;
-    }
-}
-
-.gallery-section {
-    width: 100%;
-    margin-bottom: 40px;
-}
-
-/* Tambahkan di details.css */
-.alert-success {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    border: 2px solid #4CAF50;
-    border-radius: 8px;
-    padding: 30px 50px;
-    text-align: center;
-    z-index: 1000;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.alert-success.show {
-    display: block;
-    animation: fadeIn 0.3s ease;
-}
-
-.alert-success h3 {
-    color: #4CAF50;
-    margin: 0 0 15px 0;
-    font-size: 24px;
-}
-
-.alert-success p {
-    color: #333;
-    margin: 0;
-    font-size: 16px;
-}
-
-@keyframes fadeIn {
-    from { 
-        opacity: 0;
-        transform: translate(-50%, -60%);
-    }
-    to { 
-        opacity: 1;
-        transform: translate(-50%, -50%);
-    }
-}
-
-/* Hotel Title Section */
+/* Hotel title styling */
 .hotel-title {
-    margin: 30px 0;
-    padding: 0 20px;
+    background-color: #f8f9fa;
+    padding: 2rem 0;
+    margin: 2rem 0;
 }
 
 .title-container {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-
-.hotel-type {
-    display: inline-block;
-    background-color: #fff;
-    color: #333;
-    padding: 4px 12px;
-    border-radius: 4px;
-    font-size: 14px;
-    font-weight: 500;
-    margin-bottom: 4px;
-}
-
-.hotel-rating {
-    display: flex;
-    gap: 4px;
-    margin-bottom: 8px;
-}
-
-.hotel-rating i {
-    color: #ffd700;
-    font-size: 18px;
-}
-
-.title-container h1 {
-    color: #fff;
-    font-size: 32px;
-    font-weight: 700;
-    margin: 0;
-}
-
-.promo-tag {
-    display: inline-block;
-    color: #ff6b6b;
-    font-size: 14px;
-    font-weight: 500;
-}
-
-/* Media Query for Mobile */
-@media (max-width: 768px) {
-    .hotel-title {
-        margin: 20px 0;
-    }
-    
-    .title-container h1 {
-        font-size: 24px;
-    }
-    
-    .hotel-rating i {
-        font-size: 16px;
-    }
-}
-
-/* Hotel Title Section */
-.hotel-title {
-    margin: 30px 0;
-    padding: 0 20px;
-}
-
-.title-container {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
 }
 
 .hotel-name {
-    color: #fff;
-    font-size: 32px;
-    font-weight: 600;
-    margin: 0;
-    padding: 10px 0;
-}
-
-/* Media Query for Mobile */
-@media (max-width: 768px) {
-    .hotel-title {
-        margin: 20px 0;
-    }
-    
-    .hotel-name {
-        font-size: 24px;
-    }
-}
-
-.hotel-title {
-    margin: 30px 0;
-    padding: 0 20px;
-}
-
-.title-container {
+    font-size: 2.5rem;
+    color: #333;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-}
-
-.hotel-name {
-    color: #fff;
-    font-size: 32px;
-    font-weight: 600;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.action-icon:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #c5f82a;
-    transform: scale(1.1);
-}
-
-.action-icon.active {
-    color: #c5f82a;
-    animation: popIn 0.3s ease;
-}
-
-@keyframes popIn {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-    100% { transform: scale(1); }
-}
-
-.action-icon:hover::after {
-    content: attr(title);
-    position: absolute;
-    bottom: -25px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-    white-space: nowrap;
-}
-
-.cart-notification {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #c5f82a;
-    color: #1a1e23;
-    padding: 10px 20px;
-    border-radius: 4px;
-    font-weight: 500;
-    animation: fadeInOut 2s ease;
-    z-index: 1000;
-}
-
-@keyframes fadeInOut {
-    0% { opacity: 0; transform: translate(-50%, 20px); }
-    15% { opacity: 1; transform: translate(-50%, 0); }
-    85% { opacity: 1; transform: translate(-50%, 0); }
-    100% { opacity: 0; transform: translate(-50%, -20px); }
 }
 
 .action-icon {
     background: none;
     border: none;
-    color: #a0a4a8;
-    font-size: 20px;
+    font-size: 1.5rem;
+    color: #007bff;
     cursor: pointer;
-    padding: 8px;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.cart-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    padding: 8px;
-    border-radius: 50%;
-    position: relative;
-}
-
-.cart-btn i {
-    font-size: 20px;
-    color: #a0a4a8;
     transition: color 0.3s ease;
 }
 
-/* Hover effect - hanya berlaku saat tidak aktif */
-.cart-btn:not(.active):hover i {
-    color: #c5f82a;
+.action-icon:hover {
+    color: #0056b3;
 }
 
-/* Style untuk status aktif - warna tetap hijau */
-.cart-btn.active i {
-    color: #c5f82a !important;
+/* Content grid styling */
+.content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    margin: 2rem auto;
+    max-width: 1200px;
 }
 
-/* Cart Alert Styles */
-.cart-alert {
+/* Main content styling */
+.main-content {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.property-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.info-box {
+    text-align: center;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.info-box:hover {
+    transform: translateY(-5px);
+}
+
+.info-box i {
+    font-size: 2rem;
+    color: #007bff;
+    margin-bottom: 1rem;
+}
+
+.info-box h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.info-box p {
+    color: #666;
+}
+
+.property-description {
+    margin-top: 2rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Booking sidebar styling */
+.booking-sidebar {
+    position: sticky;
+    top: 2rem;
+}
+
+.booking-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.booking-form h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.8rem 1.2rem;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.btn-request {
+    width: 100%;
+    padding: 1rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-request:hover {
+    background: #0056b3;
+}
+
+/* Success alert styling */
+.alert-success {
     position: fixed;
-    bottom: 30px;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(26, 30, 35, 0.95);
-    color: #fff;
-    padding: 15px 25px;
-    border-radius: 8px;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    text-align: center;
     z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: none;
 }
 
-.cart-alert.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translate(-50%, -10px);
+.alert-success.show {
+    display: block;
 }
 
-.cart-alert i {
-    color: #c5f82a;
-    font-size: 18px;
+.alert-success h3 {
+    color: #28a745;
+    margin-bottom: 1rem;
 }
 
-/* Animation for cart button */
-@keyframes bounce {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.2); }
+/* Responsive design */
+@media (max-width: 992px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .booking-sidebar {
+        position: static;
+    }
+    
+    .property-features {
+        grid-template-columns: repeat(2, 1fr);
+    }
 }
 
-/* Notifikasi keranjang */
-/* Cart Alert Styles */
-.cart-alert {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(26, 30, 35, 0.95);
-    color: #fff;
-    padding: 15px 25px;
-    border-radius: 8px;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    z-index: 1000;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+@media (max-width: 768px) {
+    .facility-photos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .hotel-name {
+        font-size: 2rem;
+    }
+    
+    .property-features {
+        grid-template-columns: 1fr;
+    }
+    
+    .main-photo {
+        height: 300px;
+    }
 }
 
-.cart-alert.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translate(-50%, -10px);
-}
-
-.cart-alert i {
-    color: #c5f82a;
-    font-size: 18px;
-}
-
-/* Animation for cart button */
-@keyframes bounce {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-}
-
-/* Tambahkan style untuk status aktif */
-.action-icon.clicked {
-    color: #c5f82a;  /* Warna hijau saat aktif */
-    background: rgba(197, 248, 42, 0.2); /* Background semi-transparent */
+@media (max-width: 576px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .booking-form {
+        padding: 1.5rem;
+    }
+    
+    .hotel-name {
+        font-size: 1.8rem;
+    }
 }
