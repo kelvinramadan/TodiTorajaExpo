@@ -1,202 +1,167 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/ht/core/core.php';
-if(!is_logged_in()){
+require_once $_SERVER['DOCUMENT_ROOT'] . '/ht/core/core.php';
+if (!is_logged_in()) {
     login_error_check();
 }
 
 include 'includes/header.php';
 include 'includes/navigation.php';
 
-//FIELD VARIABLES
-@$topic = sanitize($_POST['topic']);
-@$venue = sanitize($_POST['venue']);
-@$date = sanitize($_POST['date']);
-@$time = sanitize($_POST['time']);
-@$sdetails = sanitize($_POST['sdetails']);
-//The function nl2br() reserves line breaks
-@$fdetails = nl2br($_POST['fdetails']);
-
-//VALIDATING AND MOVING OF FILE FROM TEMPORAL LOCATION TO INTENDED LOCATION
-if(!empty($_FILES)){
-   $fileName = @$_FILES['file']['name'];
-   $ext = strtolower(substr($fileName, strpos($fileName,'.') + 1));
-   $fileName = md5(microtime()).'.'.$ext;
-   $type = @$_Files['file']['type'];
-   $tmp_name = @$_FILES['file']['tmp_name'];
-
-    if(($ext == 'jpg') || ($ext == 'jpeg') || ($ext == 'png') || ($ext == 'gif')){
-       $location = '../images/';
-       move_uploaded_file($tmp_name, $location.$fileName);
-    } else {
-      echo '<div class="w3-center w3-red">The image type must be jpg, jpeg, gif, or png.</div></br>';
-    }
+if (isset($_GET['edit']) && !empty($_GET['edit'])) {
+    $id = $_GET['edit'];
+    $get = $db->query("SELECT * FROM events WHERE id = '$id'");
+    $edit = mysqli_fetch_assoc($get);
 }
-//INSERTING THE EVENT INFORMATION IN THE DATABASE
-if(isset($_POST['add'])){
-  if(!empty($_POST['topic']) && !empty($_POST['venue']) && !empty($_POST['date']) &&
-      !empty($_POST['time']) && !empty($_POST['sdetails']) && !empty($_POST['fdetails'])){
-        $image = '../images/'.$fileName;
-        //INSERTING EVENT DETAILS IN THE DATABASE
-        $sql = "INSERT INTO events (`event_topic`,`image`,`venue`,`date`,`time`,`short_details`,`full_details`)
-                  VALUES ('$topic','$image','$venue','$date','$time','$sdetails','$fdetails') ";
 
-        $query_run = $db->query($sql);
-        if($query_run){
-          $_SESSION['added_event'] = '<div class="w3-center w3-green">Event successfully added!</div></br>';
+// FUNCTION TO HANDLE FILE UPLOADS
+function handleFileUpload($file) {
+    $fileName = '';
+    if (!empty($file['name'])) {
+        $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
+        $fileName = md5(microtime()) . '.' . $ext;
+        $tmpName = $file['tmp_name'];
+        
+        if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif'])) {
+            $location = '../images/';
+            move_uploaded_file($tmpName, $location.$fileName);
+            return '../images/'.$fileName;
+        } else {
+            echo '<div class="w3-center w3-red">The image type must be jpg, jpeg, gif, or png.</div></br>';
         }
-        header("Location: events.php");
-  } else {
-    echo '<div class="w3-center w3-red">Please fill in all fields.</div></br>';
-  }
+    }
+    return $fileName;
 }
 
-//RUNNING UPDATE IF EDITING
-else if(isset($_POST['update'])) {
-      if(!empty($_POST['topic']) && !empty($_POST['venue']) && !empty($_POST['date']) &&
-          !empty($_POST['time']) && !empty($_POST['sdetails']) && !empty($_POST['fdetails'])){
+// INSERTING EVENT INFORMATION INTO DATABASE
+if (isset($_POST['submit'])) {
+    $topic = trim($_POST['topic']);
+    $venue = trim($_POST['venue']);
+    $date = trim($_POST['date']);
+    $time = trim($_POST['time']);
+    $sdetails = trim($_POST['sdetails']);
+    $fdetails = nl2br($_POST['fdetails']);
+    
+    $image = handleFileUpload($_FILES['file']);
 
-      $image = '../images/'.$fileName;
-      $toEditID = $_SESSION['edit'];
-      $sqlSelect = $db->query("SELECT * FROM events WHERE id = '$toEditID' ");
-      $row = mysqli_fetch_assoc($sqlSelect);
+    if (!empty($topic) && !empty($venue) && !empty($date) && !empty($time) && !empty($sdetails) && !empty($fdetails)) {
+        $sql = "INSERT INTO events (`event_topic`, `image`, `venue`, `date`, `time`, `short_details`, `full_details`)
+                VALUES ('$topic', '$image', '$venue', '$date', '$time', '$sdetails', '$fdetails')";
 
-      if($row['image']==''){
-        $query = $db->query("UPDATE events SET `event_topic`='$topic',`image`='$image',`venue`='$venue',`date`='$date',`time`='$time',
-                  `short_details`='$sdetails',`full_details`='$fdetails'  WHERE id = '$toEditID' ");
-      } else {
-        $query = $db->query("UPDATE events SET `event_topic`='$topic', `venue`='$venue',`date`='$date',`time`='$time',
-                  `short_details`='$sdetails',`full_details`='$fdetails'  WHERE id = '$toEditID' ");
-      }
-
-          $update = $db->query($query);
-          unset($_SESSION['edit']);
-          header("Location: events.php");
+        if ($db->query($sql)) {
+            $_SESSION['added_event'] = '<div class="w3-center w3-green">Event successfully added!</div></br>';
+            header("Location: events.php");
+            exit();
+        }
     } else {
-      echo 'All fields are required!';
+        echo '<div class="w3-center w3-red">Please fill in all fields.</div></br>';
     }
 }
-//CODE TO EDIT AN events
-if (isset($_SESSION['edit'])){
-  $toEditID = $_SESSION['edit'];
-  $sql = "SELECT * FROM events WHERE id = '$toEditID' ";
-  $result = $db->query($sql);
-  $rows = mysqli_fetch_assoc($result);
-}
 
-//Canceling EDITING
-if(isset($_GET['cancelEdit'])){
-    unset($_SESSION['edit']);
-    header("Location: add_event.php");
-}
+// UPDATING EVENT INFORMATION
+if (isset($_POST['update'])) {
+    $topic = trim($_POST['topic']);
+    $venue = trim($_POST['venue']);
+    $date = trim($_POST['date']);
+    $time = trim($_POST['time']);
+    $sdetails = trim($_POST['sdetails']);
+    $fdetails = nl2br($_POST['fdetails']);
+    
+    $image = handleFileUpload($_FILES['file']);
 
-//DELETING IMAGE
-if(isset($_GET['delete_image'])){
-    $toEditID= $_GET['delete_image'];
-    $sql1 = $db->query("SELECT * FROM events WHERE id = '$toEditID'");
-    $fetch = mysqli_fetch_assoc($sql1);
-    $imageURL = $_SERVER['DOCUMENT_ROOT'].$rows['image'];
-    unlink($imageURL);
-    ##################################################################
-    $sql = "UPDATE events SET `image` = '' WHERE id = '$toEditID' ";
-    $db->query($sql);
-    header("Location: add_event.php?edit=$toEditID");
+    if (!empty($topic) && !empty($venue) && !empty($date) && !empty($time) && !empty($sdetails) && !empty($fdetails)) {
+        $toEditID = $_GET['edit'];
+        $query = "UPDATE events SET 
+                  `event_topic` = '$topic',
+                  `venue` = '$venue',
+                  `date` = '$date',
+                  `time` = '$time',
+                  `short_details` = '$sdetails',
+                  `full_details` = '$fdetails'";
+
+        if (!empty($image)) {
+            $query .= ", `image` = '$image'";
+        }
+
+        $query .= " WHERE id = '$toEditID'";
+
+        if($db->query($query)) {
+            $_SESSION['updated_event'] = '<div class="w3-center w3-green">Event successfully updated!</div></br>';
+            exit();
+        } else {
+            echo '<div class="w3-center w3-red">Error updating event: ' . $db->error . '</div></br>';
+        }
+    } else {
+        echo '<div class="w3-center w3-red">Please fill in all fields.</div></br>';
+    }
 }
 ?>
-<body>
-<div class="layout-container">
-<?php include 'includes/navigation.php'; ?>
-
 
 <div class="w3-container w3-main" style="margin-left:260px; padding: 20px;">
-  <header class="w3-container w3-purple" style="margin-bottom: 20px;">
-   <span class="w3-opennav w3-xlarge w3-hide-large" onclick="w3_open()">☰</span>
-   <h2 class="text-center">Add an Event</h2>
-  </header>
-  <br />
-  <div class="w3-container">
-      <div class="row col-sm-12" style="margin-bottom: 20px;">
-        <a href="events.php" class="btn btn-md btn-primary pull-right">Go to events</a>
-      </div>
-      <br><br>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-9 w3-padding">
+    <header class="w3-container w3-purple" style="margin-bottom: 20px;">
+        <span class="w3-opennav w3-xlarge w3-hide-large" onclick="w3_open()">☰</span>
+        <h2 class="text-center">Add an Event</h2>
+    </header>
+    <br/>
+    <form class="form" action="#" method="post" enctype="multipart/form-data">
+        <div class="form-group col-md-4">
+            <label>Event Topic:</label>
+            <input type="text" class="form-control" value="<?= isset($_GET['edit']) ? $edit['event_topic'] : ''; ?>" name="topic">
+        </div>
 
-        <form class="form" method="POST" action="add_event.php" enctype="multipart/form-data">
+        <div class="form-group col-md-4">
+            <label>Venue:</label>
+            <input type="text" class="form-control" value="<?= isset($_GET['edit']) ? $edit['venue'] : ''; ?>" name="venue">
+        </div>
 
-          <div class="col-sm-3 form-group">
-            <label for="">Topic:</label>
-            <input type="text" name="topic" value="<?=(isset($toEditID))?''.$rows['event_topic'].'' :'' ; ?>" class="form-control" placeholder="event topic">
-          </div>
+        <div class="form-group col-md-2">
+            <label>Date:</label>
+            <input type="date" class="form-control" value="<?= isset($_GET['edit']) ? $edit['date'] : ''; ?>" name="date">
+        </div>
 
-          <div class="col-sm-3 form-group">
-            <label for="">Venue:</label>
-            <input type="text" name="venue" class="form-control" value="<?=(isset($toEditID))?''.$rows['venue'].'' :'' ; ?>" placeholder="venue">
-          </div>
+        <div class="form-group col-md-2">
+            <label>Time:</label>
+            <input type="time" class="form-control" value="<?= isset($_GET['edit']) ? $edit['time'] : ''; ?>" name="time">
+        </div>
 
-          <div class="col-sm-3 form-group">
-            <label for="">Date:</label>
-            <input type="date" name="date" value="<?=(isset($toEditID))?''.$rows['date'].'' :'' ; ?>" class="form-control">
-          </div>
+        <div class="form-group col-md-4">
+            <label>Event Image:</label>
+            <input type="file" class="form-control" name="file">
+        </div>
 
-          <div class="col-sm-3 form-group">
-            <label for="">Time:</label>
-            <input type="time" name="time" value="<?=(isset($toEditID))?''.$rows['time'].'' :'' ; ?>" class="form-control">
-          </div>
-          <?php if(!@$rows['image'] || @$rows['image']==''): ?>
-            <div class="col-sm-3 form-group">
-              <label for="">Image:</label>
-              <input type="file" class="form-control" name="file" id="file">
+        <div class="form-group col-md-4">
+            <label>Short Details:</label>
+            <textarea class="form-control" rows="4" name="sdetails"><?= isset($_GET['edit']) ? $edit['short_details'] : ''; ?></textarea>
+        </div>
+
+        <div class="form-group col-md-4">
+            <label>Full Details:</label>
+            <textarea class="form-control" rows="6" name="fdetails"><?= isset($_GET['edit']) ? $edit['full_details'] : ''; ?></textarea>
+        </div>
+
+        <div class="form-group col-md-4">
+            <label></label>
+            <input type="submit" class="btn btn-block btn-lg btn-success" value="<?= isset($_GET['edit']) ? 'Update Event' : 'Add Event'; ?>" name="<?= isset($_GET['edit']) ? 'update' : 'submit'; ?>">
+        </div>
+
+        <?php if (isset($_GET['edit']) && !empty($_GET['edit'])) : ?>
+            <div class="form-group col-md-4">
+                <label></label>
+                <a class="btn btn-block btn-danger btn-lg" href="events.php">Cancel Edit</a>
             </div>
-          <?php endif;  ?>
-          <div class="col-sm-3 form-group">
-            <label for="">Short Description:</label>
-            <textarea name="sdetails" class="form-control" placeholder="not more than 255 characters" col="20" rows="5" ><?=(isset($toEditID))?''.$rows['short_details'].'' :'' ; ?></textarea>
-          </div>
-
-          <div class="col-sm-6 form-group">
-            <label for="">Full Description:</label>
-            <textarea name="fdetails" class="form-control" col="20" rows="5" ><?=(isset($toEditID))?''.$rows['full_details'].'' :'' ; ?></textarea>
-          </div>
-
-          <div class="col-sm-12">
-            <input type="submit" name="<?=(isset($toEditID))?'update' :'add' ;?>" value="<?=(isset($toEditID))?'Edit Event' :'Add Event' ; ?>" class="w3-btn w3-indigo w3-btn-block"><br>
-            <?php
-                if(isset($toEditID)){
-                  echo '<br>';
-                  echo ' <a href="add_event.php?cancelEdit='.$toEditID.'" type="button" name="cancelEdit" class="w3-btn w3-orange w3-btn-block">Cancel Edit</a>';
-                }
-            ?>
-          </div>
-        </form>
-    </div>
-  </div>
-  
-    <div class="col-md-3">
-      <?php if(isset($toEditID) && !$rows['image'] != ' '): ?>
-        <figure>
-          <h3>Event Image</h3>
-          <img src="<?=$rows['image']; ?>" alt="event image" class="img-responsive">
-          <figcaption>
-            <a href="add_event.php?delete_image=<?=$toEditID;?>" class="w3-text-red">Delete image</a>
-          </figcaption>
-        </figure>
-      <?php endif; ?>
-    </div>
-  </div>
+        <?php endif; ?>
+    </form>
 </div>
 
- <script>
- function w3_open() {
-   document.getElementsByClassName("w3-sidenav")[0].style.display = "block";
- }
- function w3_close() {
-   document.getElementsByClassName("w3-sidenav")[0].style.display = "none";
- }
- </script>
+<script>
+function w3_open() {
+    document.getElementsByClassName("w3-sidenav")[0].style.display = "block";
+}
+function w3_close() {
+    document.getElementsByClassName("w3-sidenav")[0].style.display = "none";
+}
+</script>
 
- <script src="js/jquery-1.11.2.min.js"></script>
- <script src="js/bootstrap.js"></script>
- <script src="admin/add_event.js"></script>
- </body>
- </html>
+<script src="js/jquery-1.11.2.min.js"></script>
+<script src="js/bootstrap.js"></script>
+</body>
+</html>
