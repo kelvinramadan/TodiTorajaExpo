@@ -10,44 +10,44 @@
     
     <div class="search-box">
         <i class="fas fa-search"></i>
-        <input type="text" placeholder="Search...">
+        <input type="text" placeholder="Cari...">
     </div>
     
     <ul class="nav-links">
         <li>
             <a href="reservations.php">
                 <i class="fas fa-calendar-check"></i>
-                <span>Reservations</span>
+                <span>Reservasi Penginapan</span>
             </a>
         </li>
         <li>
             <a href="tour_reserves.php">
                 <i class="fas fa-route"></i>
-                <span>Tour Reserves</span>
+                <span>Reservasi Wisata</span>
             </a>
         </li>
         <li>
             <a href="events.php">
                 <i class="fas fa-calendar-day"></i>
-                <span>Events</span>
+                <span>Kelola Festival</span>
             </a>
         </li>
         <li>
             <a href="rooms.php">
                 <i class="fas fa-bed"></i>
-                <span>Rooms</span>
+                <span>Kamar Penginapan</span>
             </a>
         </li>
         <li>
             <a href="tours.php">
                 <i class="fas fa-map-marked-alt"></i>
-                <span>Tours</span>
+                <span>Kelola Wisata</span>
             </a>
         </li>
         <li>
             <a href="users.php">
                 <i class="fas fa-users"></i>
-                <span>Users</span>
+                <span>Pengguna</span>
             </a>
         </li>
         <li>

@@ -144,8 +144,8 @@ if (!empty($fetch['photo4'])) {
 }
 
 ?>
-<div class="w3-container w3-main" style="margin-left:200px">
-  <header class="w3-container w3-purple">
+<div class="w3-container w3-main" style="margin-left:260px; padding: 20px;">
+  <header class="w3-container w3-purple" style="margin-bottom: 20px;">
    <span class="w3-opennav w3-xlarge w3-hide-large" onclick="w3_open()">☰</span>
    <h2 class="text-center">Add a tour</h2>
  </header>
