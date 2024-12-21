@@ -124,6 +124,9 @@ $grandTotal = $totalHotelPrice + $totalTourPrice;
     <div class="text-right" style="margin-top: 20px;">
         <button class="btn btn-success" onclick="simulatePayment()">Bayar Sekarang</button>
     </div>
+
+    
+    <br></br>
     
     <script>
     function simulatePayment() {
