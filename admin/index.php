@@ -5,9 +5,7 @@
     }
     include 'includes/header.php';
     include 'includes/navigation.php';
-    #header("Location: events.php");
 
-    header("Location: events.php");
 ?>
 
 <div class="w3-container w3-main" style="margin-left:200px">
