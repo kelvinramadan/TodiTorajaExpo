@@ -100,10 +100,12 @@ if (isset($_POST['update'])) {
 
         $query .= " WHERE id = '$toEditID'";
 
-        if ($db->query($query)) {
-            header("Location: rooms.php");
+        // Tambahkan eksekusi query
+        if($db->query($query)) {
+            $_SESSION['updated_event'] = '<div class="w3-center w3-green">Room successfully updated!</div></br>';
+            exit();
         } else {
-            echo "Error updating room: " . $db->error;
+            echo '<div class="w3-center w3-red">Error updating room: ' . $db->error . '</div></br>';
         }
     } else {
         echo '<div class="w3-center w3-red">Please fill in all fields.</div></br>';
