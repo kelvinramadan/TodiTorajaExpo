@@ -200,14 +200,14 @@ $sql = $db->query("SELECT * FROM rooms");
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <h4>Tentang Hotel Kami</h4>
+                <h4>Tentang Kita</h4>
                 <p>
-                Nikmati kenyamanan menginap dengan fasilitas modern dan pelayanan ramah di hotel kami. Kami memberikan pengalaman menginap yang tak terlupakan dengan sentuhan keramahan Toraja.</p>
+                Rasakan keindahan dan budaya Toraja dengan tur berpemandu ahli kami. Kami memberikan petualangan yang tak terlupakan dan pengalaman lokal yang otentik.</p>
             </div>
             <div class="col-md-4">
                 <h4>Kontak Kami</h4>
                 <p><i class="fas fa-phone"></i> +62 821 3387 1850</p>
-                <p><i class="fas fa-envelope"></i> info@torajahotel.com</p>
+                <p><i class="fas fa-envelope"></i> info@torajatours.com</p>
                 <p><i class="fas fa-map-marker-alt"></i> Toraja, Sulawesi Selatan, Indonesia</p>
             </div>
             <div class="col-md-4">
@@ -221,7 +221,7 @@ $sql = $db->query("SELECT * FROM rooms");
             </div>
         </div>
         <div class="text-center mt-4">
-            <p>&copy; Hotel Toraja 2024. Semua hak dilindungi undang-undang.</p>
+            <p>&copy; Wisata Toraja 2024. Semua hak dilindungi undang-undang.</p>
         </div>
     </div>
 </footer>
