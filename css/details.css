@@ -232,6 +232,24 @@
     margin-bottom: 1rem;
 }
 
+.footer {
+    background: #333;
+    color: white;
+    padding: 3rem 0;
+    margin-top: 4rem;
+}
+
+.social-icons a {
+    color: white;
+    margin: 0 10px;
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: #007bff;
+}
+
 /* Responsive design */
 @media (max-width: 992px) {
     .content-grid {

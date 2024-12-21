@@ -218,12 +218,13 @@ $sql = $db->query("SELECT * FROM tourism");
     </div>
 </div>
 
-<footer class="footer">
+<footer class="footer" style="background-color: #333; color: white; padding: 3rem 0; margin-top: 4rem;">
     <div class="container">
         <div class="row">
             <div class="col-md-4">
                 <h4>Tentang Kita</h4>
-                <p>Rasakan keindahan dan budaya Toraja dengan event-event budaya kami. Kami menghadirkan pengalaman budaya yang otentik dan tak terlupakan.</p>
+                <p>
+                Rasakan keindahan dan budaya Toraja dengan tur berpemandu ahli kami. Kami memberikan petualangan yang tak terlupakan dan pengalaman lokal yang otentik.</p>
             </div>
             <div class="col-md-4">
                 <h4>Kontak Kami</h4>
@@ -242,7 +243,7 @@ $sql = $db->query("SELECT * FROM tourism");
             </div>
         </div>
         <div class="text-center mt-4">
-            <p>&copy; Event Budaya Toraja 2024. Semua hak dilindungi undang-undang.</p>
+            <p>&copy; Wisata Toraja 2024. Semua hak dilindungi undang-undang.</p>
         </div>
     </div>
 </footer>

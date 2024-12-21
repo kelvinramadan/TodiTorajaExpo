@@ -76,16 +76,314 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['checkin'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Penginapan</title>
-    <link rel="stylesheet" href="css/details.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Tambahkan setelah link CSS yang ada -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js"></script>
 
 </head>
+<style>
+    /* General container styling */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+/* Gallery section styling */
+.gallery-section {
+    padding: 2rem 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.gallery-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.main-photo {
+    height: 400px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.main-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease-in-out;
+}
+
+.facility-photos {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    height: 200px;
+}
+
+.facility-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.facility {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease-in-out;
+}
+
+/* Hotel title styling */
+.hotel-title {
+    background-color: #f8f9fa;
+    padding: 2rem 0;
+    margin: 2rem 0;
+}
+
+.title-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.hotel-name {
+    font-size: 2.5rem;
+    color: #333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.action-icon {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #007bff;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.action-icon:hover {
+    color: #0056b3;
+}
+
+/* Content grid styling */
+.content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    margin: 2rem auto;
+    max-width: 1200px;
+}
+
+/* Main content styling */
+.main-content {
+    background: white;
+    border-radius: 15px;
+    padding: 2rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.property-features {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.info-box {
+    text-align: center;
+    padding: 1.5rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.info-box:hover {
+    transform: translateY(-5px);
+}
+
+.info-box i {
+    font-size: 2rem;
+    color: #007bff;
+    margin-bottom: 1rem;
+}
+
+.info-box h3 {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+}
+
+.info-box p {
+    color: #666;
+}
+
+.property-description {
+    margin-top: 2rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* Booking sidebar styling */
+.booking-sidebar {
+    position: sticky;
+    top: 2rem;
+}
+
+.booking-form {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+.booking-form h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #666;
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.8rem 1.2rem;
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+.btn-request {
+    width: 100%;
+    padding: 1rem;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-request:hover {
+    background: #0056b3;
+}
+
+/* Success alert styling */
+.alert-success {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    text-align: center;
+    z-index: 1000;
+    display: none;
+}
+
+.alert-success.show {
+    display: block;
+}
+
+.alert-success h3 {
+    color: #28a745;
+    margin-bottom: 1rem;
+}
+
+.footer {
+    background: #333;
+    color: white;
+    padding: 3rem 0;
+    margin-top: 4rem;
+}
+
+.social-icons a {
+    color: white;
+    margin: 0 10px;
+    font-size: 1.5rem;
+    transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: #007bff;
+}
+
+/* Responsive design */
+@media (max-width: 992px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .booking-sidebar {
+        position: static;
+    }
+    
+    .property-features {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .facility-photos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .hotel-name {
+        font-size: 2rem;
+    }
+    
+    .property-features {
+        grid-template-columns: 1fr;
+    }
+    
+    .main-photo {
+        height: 300px;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    .booking-form {
+        padding: 1.5rem;
+    }
+    
+    .hotel-name {
+        font-size: 1.8rem;
+    }
+}
+</style>
 
 <body>
-    <?php include 'includes/header.php'; ?>
     <?php include 'includes/navigation.php'; ?>
 
     <div class="container">
@@ -214,6 +512,36 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['checkin'])) {
         unset($_SESSION['reservation_id']);
         ?>
     <?php endif; ?>
+
+<footer class="footer" style="background-color: #333; color: white; padding: 3rem 0; margin-top: 4rem;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <h4>Tentang Kita</h4>
+                <p>
+                Rasakan keindahan dan budaya Toraja dengan tur berpemandu ahli kami. Kami memberikan petualangan yang tak terlupakan dan pengalaman lokal yang otentik.</p>
+            </div>
+            <div class="col-md-4">
+                <h4>Kontak Kami</h4>
+                <p><i class="fas fa-phone"></i> +62 821 3387 1850</p>
+                <p><i class="fas fa-envelope"></i> info@torajatours.com</p>
+                <p><i class="fas fa-map-marker-alt"></i> Toraja, Sulawesi Selatan, Indonesia</p>
+            </div>
+            <div class="col-md-4">
+                <h4>Follow Us</h4>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <p>&copy; Wisata Toraja 2024. Semua hak dilindungi undang-undang.</p>
+        </div>
+    </div>
+</footer>
 
     <script src="admin/js/details.js"></script>
 </body>

@@ -372,7 +372,7 @@ if(isset($_POST['reserve'])) {
 </div>
 
 <!-- Footer -->
-<footer class="footer">
+<footer class="footer" style="background-color: #333; color: white; padding: 3rem 0; margin-top: 4rem;">
     <div class="container">
         <div class="row">
             <div class="col-md-4">
