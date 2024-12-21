@@ -1,13 +1,5 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'].'/ht/core/core.php';
-//LOGGED IN CHECK
-if(!is_logged_in()){
-    login_error_check();
-}
-
-include 'includes/header.php';
-include 'includes/navigation.php';
-
 $sql = "SELECT * FROM reservations";
 $result = $db->query($sql);
 $row_count = 1;
@@ -17,6 +9,8 @@ if(isset($_GET['delete'])){
   $db->query("DELETE FROM reservations WHERE id = '$toDelete'");
   header("Location: reservations.php");
 }
+include 'includes/header.php';
+include 'includes/navigation.php';
 ?>
 
 <div class="w3-container w3-main" style="margin-left:260px; padding: 20px;>

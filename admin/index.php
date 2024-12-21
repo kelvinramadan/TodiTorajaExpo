@@ -1,8 +1,5 @@
 <?php
     require_once $_SERVER['DOCUMENT_ROOT'].'/ht/core/core.php';
-    if(!is_logged_in()){
-        login_error_check();
-    }
     include 'includes/header.php';
     include 'includes/navigation.php';
 

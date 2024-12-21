@@ -134,5 +134,3 @@ $grandTotal = $totalHotelPrice + $totalTourPrice;
     }
     </script>
 </div>
-
-<?php include 'includes/footer.php'; ?>
