@@ -1,0 +1,86 @@
+/* Modern Navigation Styles */
+.sidebar {
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #002651;
+    padding-top: 20px;
+    color: #fff;
+    transition: 0.3s;
+}
+
+.nav-item {
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin: 4px 8px;
+    border-radius: 8px;
+}
+
+.nav-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.nav-item.active {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
+}
+
+.nav-icon {
+    margin-right: 12px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.7;
+}
+
+.nav-text {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Main content adjustments */
+.main-content {
+    margin-left: 200px;
+    padding: 20px;
+    background-color: #f5f7fb;
+    min-height: 100vh;
+}
+
+/* Header adjustments */
+.page-header {
+    background-color: transparent;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.page-title {
+    font-size: 24px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 0;
+        overflow: hidden;
+    }
+    
+    .sidebar.active {
+        width: 200px;
+    }
+    
+    .main-content {
+        margin-left: 0;
+    }
+}

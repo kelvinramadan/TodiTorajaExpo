@@ -1,56 +1,167 @@
-<style>
-     .navbar {
-      margin-bottom: 0;
-      border-radius: 0;
-      border: none;
-    }
-</style>
-<body>
-    <!-- <div id="headerWrapper">
-    class="navbar navbar-inverse w3-purple"
+<?php
+// navigation.php
 
-  </div> -->
-<nav class="w3-sidenav w3-collapse w3-purple w3-card-2 w3-animate-left" style="width:200px;">
-  <a href="javascript:void(0)" onclick="w3_close()"
-  class="w3-closenav w3-large w3-hide-large">Close ×</a>
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#Navigation">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a href="index.php" class="navbar-brand active w3-text-white">Adorable Admin</a>
-        </div>
-
-        <ul class="nav navbar-nav collapse navbar-collapse" id="Navigation">
-          	<a href="#" onclick="w3_close()" class="w3-closenav w3-hide-large">Close x</a>
-            <li><a class="w3-text-white" href="reservations.php" >Reservations</a></li>
-            <li><a class="w3-text-white" href="tour_reserves.php" >Tour Reserves</a></li>
-            <li><a class="w3-text-white" href="events.php" >Events</a></li>
-            <li><a class="w3-text-white" href="rooms.php" >Rooms</a></li>
-            <li><a class="w3-text-white" href="tours.php" >Tours</a></li>
-            <!-- <li><a class="w3-text-white" href="videos.php">Videos</a></li> -->
-            <?php if(permission()): ?>
-              <li> <a class="w3-text-white" href="users.php" class=" w3-hover-red"><span class="glyphicon glyphicon-user"></span> Users</a> </li>
-            <?php endif; ?>
-            <li><a class="w3-text-white" href="../index.php"  class="w3-text-white w3-hover-red"><span class="glyphicon glyphicon-map-marker"></span> Visit Site</a></li>
-            <li><a class="w3-text-white" href="logout.php">Logout</a></li>
-            <li>  <a class="w3-text-white" href="#" data-toggle="dropdown" class="w3-text-white w3-hover-red"><?php echo $user_info['first'].' '.$user_info['last']; ?></a></li>
-        </ul>
-
-        <ul class="nav navbar-nav">
-
-
-            <li class="dropdown">
-
-                  <ul class="dropdown-menu w3-purple" role="menu">
-
-                    <li><a class="w3-text-white" href="#">Change password</a></li>
-                  </ul>
-            </li>
-
-        </ul>
+?>
+<nav class="sidebar">
+    <div class="brand">
+        <i class="fas fa-hotel"></i>
+        <span>Adorable Admin</span>
+    </div>
+    
+    <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" placeholder="Search...">
+    </div>
+    
+    <ul class="nav-links">
+        <li>
+            <a href="reservations.php">
+                <i class="fas fa-calendar-check"></i>
+                <span>Reservations</span>
+            </a>
+        </li>
+        <li>
+            <a href="tour_reserves.php">
+                <i class="fas fa-route"></i>
+                <span>Tour Reserves</span>
+            </a>
+        </li>
+        <li>
+            <a href="events.php">
+                <i class="fas fa-calendar-day"></i>
+                <span>Events</span>
+            </a>
+        </li>
+        <li>
+            <a href="rooms.php">
+                <i class="fas fa-bed"></i>
+                <span>Rooms</span>
+            </a>
+        </li>
+        <li>
+            <a href="tours.php">
+                <i class="fas fa-map-marked-alt"></i>
+                <span>Tours</span>
+            </a>
+        </li>
+        <li>
+            <a href="users.php">
+                <i class="fas fa-users"></i>
+                <span>Users</span>
+            </a>
+        </li>
+        <li>
+            <a href="visit_site.php">
+                <i class="fas fa-external-link-alt"></i>
+                <span>Visit Site</span>
+            </a>
+        </li>
+        <li>
+            <a href="logout.php">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+        </li>
+    </ul>
+    
+    <div class="user-info">
+        <i class="fas fa-user-circle"></i>
+        <span>admin</span>
     </div>
 </nav>
+
+<!-- Add mobile navigation button -->
+<div class="mobile-nav">
+    <i class="fas fa-bars"></i>
+</div>
+
+<!-- Add overlay -->
+<div class="overlay"></div>
+
+<style>
+.sidebar {
+    width: 260px;
+    height: 100vh;
+    background: #2D1B69;
+    padding: 20px;
+    color: white;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.search-box {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 8px 15px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-box input {
+    background: transparent;
+    border: none;
+    color: white;
+    margin-left: 10px;
+    width: 100%;
+}
+
+.search-box input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-links li {
+    margin-bottom: 5px;
+}
+
+.nav-links a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    padding: 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.nav-links a:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+}
+
+.nav-links a.active {
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+}
+
+.user-info {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Add Font Awesome CSS link in your header */
+</style>
+
+<!-- Add this in your header.php -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">

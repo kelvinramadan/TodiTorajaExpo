@@ -22,13 +22,8 @@ if(isset($_GET['delete'])){
 <div class="w3-container w3-main" style="margin-left:200px">
   <header class="w3-container w3-purple">
     <span class="w3-opennav w3-xlarge w3-hide-large" onclick="w3_open()">&#9776;</span>
-    <h2 class="text-center">Reservations</h2>
+    <h2 class="text-center">Reservasi Penginapan</h2>
   </header>
-  <div class="col-md-12">
-    <br>
-    <h2 class="text-center">Room Reservations</h2>
-    <br />
-  </div>
   <div class="col-md-12">
     <table class="table table-striped table-condensed table-bordered">
       <thead>
