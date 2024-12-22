@@ -62,7 +62,7 @@ $sql = $db->query("SELECT * FROM tourism");
 }
 
 .event-date {
-    color: #e74c3c;
+    color: #219B9D;
     font-weight: 600;
     margin-bottom: 12px;
     font-size: 0.95rem;
@@ -79,7 +79,7 @@ $sql = $db->query("SELECT * FROM tourism");
 }
 
 .location i {
-    color: #e74c3c;
+    color: #219B9D;
     margin-right: 5px;
 }
 
@@ -105,11 +105,11 @@ $sql = $db->query("SELECT * FROM tourism");
 
 .event-meta i {
     margin-right: 5px;
-    color: #e74c3c;
+    color: #219B9D;
 }
 
 .tour-card .btn {
-    background-color: #e74c3c;
+    background-color: #219B9D;
     color: white;
     border: none;
     padding: 12px 20px;
@@ -123,7 +123,7 @@ $sql = $db->query("SELECT * FROM tourism");
 }
 
 .tour-card .btn:hover {
-    background-color: #c0392b;
+    background-color: #219B9D;
 }
 
 .footer {
@@ -141,7 +141,7 @@ $sql = $db->query("SELECT * FROM tourism");
 }
 
 .social-icons a:hover {
-    color: #e74c3c;
+    color: #219B9D;
 }
 
 .search-container {
@@ -153,7 +153,7 @@ $sql = $db->query("SELECT * FROM tourism");
     width: 100%;
     max-width: 500px;
     padding: 15px;
-    border: 2px solid #e74c3c;
+    border: 2px solid #219B9D;
     border-radius: 30px;
     font-size: 1.1rem;
     transition: all 0.3s ease;

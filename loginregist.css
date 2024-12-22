@@ -64,7 +64,7 @@ body {
 .feature-item i {
     font-size: 1.5em;
     margin-bottom: 1rem;
-    color: #2196F3;
+    color: #219B9D;
 }
 
 .feature-item h3 {
@@ -158,7 +158,7 @@ body {
 }
 
 .input-field input:focus {
-    border-bottom-color: #2196F3;
+    border-bottom-color: #219B9D;
 }
 
 .input-field label {
@@ -175,7 +175,7 @@ body {
 .input-field input:valid ~ label {
     top: -20px;
     font-size: 14px;
-    color: #2196F3;
+    color: #219B9D;
 }
 
 .btn {
@@ -183,7 +183,7 @@ body {
     height: 45px;
     border: none;
     border-radius: 50px;
-    background: #2196F3;
+    background: #219B9D;
     color: #fff;
     font-size: 16px;
     cursor: pointer;
@@ -195,7 +195,7 @@ body {
 }
 
 .btn:hover {
-    background: #1976D2;
+    background: #219B9D;
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
 }
@@ -206,7 +206,7 @@ body {
 }
 
 .switch-form a {
-    color: #2196F3;
+    color: #219B9D;
     text-decoration: none;
     font-weight: 600;
     cursor: pointer;

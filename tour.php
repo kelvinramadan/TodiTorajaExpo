@@ -372,33 +372,45 @@ if(isset($_POST['reserve'])) {
 </div>
 
 <!-- Footer -->
-<footer class="footer" style="background-color: #333; color: white; padding: 3rem 0; margin-top: 4rem;">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <h4>Tentang Kita</h4>
-                <p>
+<footer style="background-color: #222222; color: white; padding: 60px 0; font-family: system-ui, -apple-system, sans-serif;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;">
+        <div>
+            <h4 style="font-size: 24px; margin: 0 0 20px 0; font-weight: 500;">Tentang Kita</h4>
+            <p style="line-height: 1.6; margin: 0; opacity: 0.9;">
                 Rasakan keindahan dan budaya Toraja dengan tur berpemandu ahli kami. Kami memberikan petualangan yang tak terlupakan dan pengalaman lokal yang otentik.</p>
-            </div>
-            <div class="col-md-4">
-                <h4>Kontak Kami</h4>
-                <p><i class="fas fa-phone"></i> +62 821 3387 1850</p>
-                <p><i class="fas fa-envelope"></i> info@torajatours.com</p>
-                <p><i class="fas fa-map-marker-alt"></i> Toraja, Sulawesi Selatan, Indonesia</p>
-            </div>
-            <div class="col-md-4">
-                <h4>Follow Us</h4>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                </div>
+        </div>
+        <div>
+            <h4 style="font-size: 24px; margin: 0 0 20px 0; font-weight: 500;">Kontak Kami</h4>
+            <p style="margin: 0 0 15px 0; display: flex; align-items: center; gap: 10px;">
+                <span style="color: white;">+62 821 3387 1850</span>
+            </p>
+            <p style="margin: 0 0 15px 0;">
+                <span style="color: white;">info@torajatours.com</span>
+            </p>
+            <p style="margin: 0;">
+                <span style="color: white;">Toraja, Sulawesi Selatan, Indonesia</span>
+            </p>
+        </div>
+        <div>
+            <h4 style="font-size: 24px; margin: 0 0 20px 0; font-weight: 500;">Follow Us</h4>
+            <div style="display: flex; gap: 15px;">
+                <a href="#" style="color: white; text-decoration: none;">
+                    <i class="fab fa-facebook" style="font-size: 20px;"></i>
+                </a>
+                <a href="#" style="color: white; text-decoration: none;">
+                    <i class="fab fa-instagram" style="font-size: 20px;"></i>
+                </a>
+                <a href="#" style="color: white; text-decoration: none;">
+                    <i class="fab fa-twitter" style="font-size: 20px;"></i>
+                </a>
+                <a href="#" style="color: white; text-decoration: none;">
+                    <i class="fab fa-youtube" style="font-size: 20px;"></i>
+                </a>
             </div>
         </div>
-        <div class="text-center mt-4">
-            <p>&copy; Wisata Toraja 2024. Semua hak dilindungi undang-undang.</p>
-        </div>
+    </div>
+    <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+        <p style="margin: 0; opacity: 0.7; font-size: 14px;">&copy; Wisata Toraja 2024. Semua hak dilindungi undang-undang.</p>
     </div>
 </footer>
 

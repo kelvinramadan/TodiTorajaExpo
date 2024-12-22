@@ -40,8 +40,241 @@ ob_end_flush();
     <link rel="stylesheet" href="headerindex.css">
     <link rel="stylesheet" href="css/indexcard.css">
     <link rel="stylesheet" href="eventindex.css">
-
 </head>
+<style>
+        /* Custom Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+        /* General Styles */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        /* Enhanced Section Headers */
+        .section-header {
+            position: relative;
+            margin-bottom: 3rem;
+            padding-bottom: 1rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #2c3e50;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(to right, #219B9D, #219B9D);
+            border-radius: 2px;
+        }
+
+        /* Enhanced Cards */
+        .accommodation-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            border-radius: 15px;
+            overflow: hidden;
+            background: white;
+        }
+
+        .accommodation-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .image-wrapper {
+            position: relative;
+            overflow: hidden;
+            padding-top: 66.67%;
+        }
+
+        .image-wrapper img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .accommodation-card:hover .image-wrapper img {
+            transform: scale(1.1);
+        }
+
+        /* Enhanced Buttons */
+        .favorite-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 2;
+        }
+
+        .favorite-btn:hover {
+            background: #219B9D;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .guest-favorite {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: linear-gradient(45deg, #219B9D, #219B9D);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            z-index: 2;
+        }
+
+        /* Enhanced View More Button */
+        .view-more-btn {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(45deg, #219B9D, #219B9D);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            margin-top: 2rem;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .view-more-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+            color: white;
+        }
+
+        /* Enhanced Card Body */
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .location-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .location-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 0;
+            color: #2c3e50;
+        }
+
+        .rating {
+            background: #ffeaa7;
+            color: #fdcb6e;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .accommodation-count {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-text {
+            color: #666;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* Enhanced Modal */
+        .event-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .event-modal.active {
+            opacity: 1;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            transform: translateY(-50px);
+            transition: transform 0.3s ease;
+        }
+
+        .event-modal.active .modal-content {
+            transform: translateY(0);
+        }
+
+        /* Enhanced Footer */
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            
+            .section-header p {
+                font-size: 1rem;
+            }
+            
+            footer .container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            footer h4::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+    </style>
 <body>
 
 <!-- Header Section -->
@@ -228,33 +461,45 @@ ob_end_flush();
 </section>
 
 <!-- Footer -->
-<footer class="footer" style="background-color: #333; color: white; padding: 3rem 0; margin-top: 4rem;">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <h4>Tentang Kita</h4>
-                <p>
+<footer style="background-color: #222222; color: white; padding: 60px 0; font-family: system-ui, -apple-system, sans-serif;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;">
+        <div>
+            <h4 style="font-size: 24px; margin: 0 0 20px 0; font-weight: 500;">Tentang Kita</h4>
+            <p style="line-height: 1.6; margin: 0; opacity: 0.9;">
                 Rasakan keindahan dan budaya Toraja dengan tur berpemandu ahli kami. Kami memberikan petualangan yang tak terlupakan dan pengalaman lokal yang otentik.</p>
-            </div>
-            <div class="col-md-4">
-                <h4>Kontak Kami</h4>
-                <p><i class="fas fa-phone"></i> +62 821 3387 1850</p>
-                <p><i class="fas fa-envelope"></i> info@torajatours.com</p>
-                <p><i class="fas fa-map-marker-alt"></i> Toraja, Sulawesi Selatan, Indonesia</p>
-            </div>
-            <div class="col-md-4">
-                <h4>Follow Us</h4>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                </div>
+        </div>
+        <div>
+            <h4 style="font-size: 24px; margin: 0 0 20px 0; font-weight: 500;">Kontak Kami</h4>
+            <p style="margin: 0 0 15px 0; display: flex; align-items: center; gap: 10px;">
+                <span style="color: white;">+62 821 3387 1850</span>
+            </p>
+            <p style="margin: 0 0 15px 0;">
+                <span style="color: white;">info@torajatours.com</span>
+            </p>
+            <p style="margin: 0;">
+                <span style="color: white;">Toraja, Sulawesi Selatan, Indonesia</span>
+            </p>
+        </div>
+        <div>
+            <h4 style="font-size: 24px; margin: 0 0 20px 0; font-weight: 500;">Follow Us</h4>
+            <div style="display: flex; gap: 15px;">
+                <a href="#" style="color: white; text-decoration: none;">
+                    <i class="fab fa-facebook" style="font-size: 20px;"></i>
+                </a>
+                <a href="#" style="color: white; text-decoration: none;">
+                    <i class="fab fa-instagram" style="font-size: 20px;"></i>
+                </a>
+                <a href="#" style="color: white; text-decoration: none;">
+                    <i class="fab fa-twitter" style="font-size: 20px;"></i>
+                </a>
+                <a href="#" style="color: white; text-decoration: none;">
+                    <i class="fab fa-youtube" style="font-size: 20px;"></i>
+                </a>
             </div>
         </div>
-        <div class="text-center mt-4">
-            <p>&copy; Wisata Toraja 2024. Semua hak dilindungi undang-undang.</p>
-        </div>
+    </div>
+    <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+        <p style="margin: 0; opacity: 0.7; font-size: 14px;">&copy; Wisata Toraja 2024. Semua hak dilindungi undang-undang.</p>
     </div>
 </footer>
 
@@ -267,10 +512,72 @@ ob_end_flush();
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 <script src="js/indexcard.js"></script>
 <script src="js/eventindex.js"></script>
 <script src="headerindex.js"></script>
+<script>
+        // Enhanced Modal Functionality
+        function openModal(card) {
+            const modal = document.getElementById('eventModal');
+            const eventData = JSON.parse(card.dataset.event);
+            
+            // Populate modal content
+            document.getElementById('modalImage').src = eventData.image;
+            document.getElementById('modalVenue').textContent = eventData.venue;
+            document.getElementById('modalRating').textContent = eventData.rating ? `★ ${eventData.rating}` : '';
+            document.getElementById('modalSchedule').textContent = `${eventData.date} - ${eventData.time}`;
+            document.getElementById('modalTopic').textContent = eventData.event_topic;
+            
+            // Show modal with animation
+            modal.style.display = 'block';
+            setTimeout(() => modal.classList.add('active'), 10);
+            
+            // Prevent body scroll
+            document.body.style.overflow = 'hidden';
+        }
 
+        function closeModal() {
+            const modal = document.getElementById('eventModal');
+            modal.classList.remove('active');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        // Enhanced Scroll Animation
+        function revealOnScroll() {
+            const elements = document.querySelectorAll('.accommodation-card');
+            elements.forEach((element, index) => {
+                const rect = element.getBoundingClientRect();
+                const isVisible = rect.top < window.innerHeight - 100;
+                
+                if (isVisible) {
+                    setTimeout(() => {
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                    }, index * 100);
+                }
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set initial state for cards
+            document.querySelectorAll('.accommodation-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            });
+
+            // Trigger initial reveal
+            revealOnScroll();
+
+            // Add scroll listener
+            window.addEventListener('scroll', revealOnScroll);
+        });
+    </script>
 </body>
 </html>
