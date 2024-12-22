@@ -18,7 +18,6 @@ if(isset($_GET['delete'])){
     
     $sql = "DELETE FROM events WHERE id = '$toDeleteID'";
     $db->query($sql);
-    header("Location: events.php");
 }
 ?>
 
@@ -41,22 +40,27 @@ if(isset($_GET['delete'])){
 
         <?php while($event = mysqli_fetch_assoc($sql)): ?>
             <div class="col-md-3">
-                <h3 class="text-center"><?= $event['event_topic']; ?></h3>
-                <img src="<?= $event['image']; ?>" class="img-thumbnail" style="width:100%; height:200px" alt="event image">
-                <div class="section">
-                    <section>
-                        <p><strong>Venue:</strong> <?= $event['venue']; ?></p>
-                        <p><strong>Date:</strong> <?= $event['date']; ?></p>
-                        <p><strong>Time:</strong> <?= $event['time']; ?></p>
-                        <p><?= $event['short_details']; ?></p>
-                    </section>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <a href="add_event.php?edit=<?=$event['id'];?>" class="btn btn-primary btn-block">Edit</a>
+                <div class="card mb-4 shadow-sm">
+                    <h3 class="text-center"><?= $event['event_topic']; ?></h3>
+                    <!-- Perbaiki tampilan gambar -->
+                    <div class="image-wrapper" style="height: 200px; overflow: hidden;">
+                        <img src="<?= $event['image']; ?>" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;" alt="event image">
                     </div>
-                    <div class="col-md-6">
-                        <a href="events.php?delete=<?=$event['id'];?>" class="btn btn-danger btn-block">Delete</a>
+                    <div class="card-body">
+                        <section>
+                            <p><strong>Venue:</strong> <?= $event['venue']; ?></p>
+                            <p><strong>Date:</strong> <?= $event['date']; ?></p>
+                            <p><strong>Time:</strong> <?= $event['time']; ?></p>
+                            <p><?= $event['short_details']; ?></p>
+                        </section>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <a href="add_event.php?edit=<?=$event['id'];?>" class="btn btn-primary btn-block">Edit</a>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="events.php?delete=<?=$event['id'];?>" class="btn btn-danger btn-block" onclick="return confirm('Are you sure you want to delete this event?');">Delete</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

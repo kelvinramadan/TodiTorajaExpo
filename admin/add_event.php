@@ -14,6 +14,7 @@ if (isset($_GET['edit']) && !empty($_GET['edit'])) {
 }
 
 // FUNCTION TO HANDLE FILE UPLOADS
+// Modifikasi fungsi handleFileUpload
 function handleFileUpload($file) {
     $fileName = '';
     if (!empty($file['name'])) {
@@ -22,9 +23,15 @@ function handleFileUpload($file) {
         $tmpName = $file['tmp_name'];
         
         if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif'])) {
-            $location = '../images/';
-            move_uploaded_file($tmpName, $location.$fileName);
-            return '../images/'.$fileName;
+            // Ubah lokasi penyimpanan gambar
+            $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/ht/images/events/';
+            // Buat direktori jika belum ada
+            if (!file_exists($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+            move_uploaded_file($tmpName, $uploadDir . $fileName);
+            // Kembalikan path relatif untuk database
+            return '/ht/images/events/' . $fileName;
         } else {
             echo '<div class="w3-center w3-red">The image type must be jpg, jpeg, gif, or png.</div></br>';
         }

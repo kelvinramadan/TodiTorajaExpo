@@ -10,7 +10,6 @@ function login($userID) {
     $date = date("Y-m-d H:i:s");
     $db->query("UPDATE users SET last_login = '$date' WHERE id = '$userID' ");
     $_SESSION['logged_in'] = 'You are now logged in';
-    header("Location: index.php");
 }
 
 //function to check if the user is logged in
