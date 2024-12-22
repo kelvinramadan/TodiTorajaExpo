@@ -33,7 +33,6 @@ if(isset($_POST['reserve'])) {
 }
 
 } elseif(!(isset($_GET['tour'])) || $_GET['tour']=='') {
-  header("Location: tourism.php");
 }
 ?>
 

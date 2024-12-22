@@ -210,153 +210,154 @@ include 'includes/header.php';
 include 'includes/navigation.php';
 ?>
 
-<div class="w3-container w3-main" style="margin-left:260px; padding: 20px;">
-  <header class="w3-container w3-purple" style="margin-bottom: 20px;">
-   <span class="w3-opennav w3-xlarge w3-hide-large" onclick="w3_open()">☰</span>
-   <h2 class="text-center">Add a tour</h2>
- </header>
-<br/>
+<div class="w3-container w3-main" style="margin-left:260px;">
+    <header class="w3-container w3-purple" style="margin-bottom: 20px;">
+        <span class="w3-opennav w3-xlarge w3-hide-large" onclick="w3_open()">☰</span>
+        <h2 class="text-center">Add a tour</h2>
+    </header>
 
-  <div class="row col-sm-12">
-          <a href="tours.php" class="btn btn-md btn-primary pull-right">Go to tours</a>
-  </div>
-<br><br>
-  <div class="row">
-
-    <div class="col-md-9 w3-padding">
-
-      <form class="form" method="POST" action="" enctype="multipart/form-data">
-
-        <div class="col-sm-3 form-group">
-          <label for="">Title:</label>
-          <input type="text" name="topic" value="<?=(isset($toEditID))?''.$rows['title'].'' :'' ; ?>" class="form-control" placeholder="event topic">
+    <div class="container-fluid py-4">
+        <div class="row mb-4">
+            <div class="col-12">
+                <a href="tours.php" class="btn btn-primary float-end">Go to tours</a>
+            </div>
         </div>
 
-        <div class="col-sm-3 form-group">
-          <label for="">Location:</label>
-          <input type="text" name="venue" class="form-control" value="<?=(isset($toEditID))?''.$rows['location'].'' :'' ; ?>" placeholder="venue">
+        <div class="row">
+            <div class="col-md-9">
+                <div class="card">
+                    <div class="card-body">
+                        <form class="form" method="POST" action="" enctype="multipart/form-data">
+                            <!-- Basic Information -->
+                            <div class="row">
+                                <div class="col-md-4 form-group mb-3">
+                                    <label class="form-label">Title:</label>
+                                    <input type="text" name="topic" value="<?=(isset($toEditID))?$rows['title']:''?>" class="form-control" placeholder="event topic">
+                                </div>
+
+                                <div class="col-md-4 form-group mb-3">
+                                    <label class="form-label">Location:</label>
+                                    <input type="text" name="venue" value="<?=(isset($toEditID))?$rows['location']:''?>" class="form-control" placeholder="venue">
+                                </div>
+
+                                <div class="col-md-4 form-group mb-3">
+                                    <label class="form-label">Date:</label>
+                                    <input type="date" name="date" value="<?=(isset($toEditID))?$rows['date']:''?>" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 form-group mb-3">
+                                    <label class="form-label">Time:</label>
+                                    <input type="time" name="time" value="<?=(isset($toEditID))?$rows['time']:''?>" class="form-control">
+                                </div>
+
+                                <div class="col-md-4 form-group mb-3">
+                                    <label class="form-label">Price:</label>
+                                    <input type="text" name="price" value="<?=(isset($toEditID))?$rows['price']:''?>" class="form-control">
+                                </div>
+
+                                <div class="col-md-4 form-group mb-3">
+                                    <label class="form-label">Reserve Spaces:</label>
+                                    <input type="number" name="reservations" value="<?=(isset($toEditID))?$rows['reservations']:''?>" class="form-control">
+                                </div>
+                            </div>
+
+                            <!-- Photo Upload Section -->
+                            <div class="row">
+                                <div class="col-md-4 form-group mb-3">
+                                    <label class="form-label">Event Image:</label>
+                                    <input type="file" class="form-control" name="file" id="file">
+                                    <?php if(isset($toEditID) && $rows['photo'] != ''): ?>
+                                        <small class="text-muted">Current file: <?=basename($rows['photo'])?></small>
+                                    <?php endif; ?>
+                                </div>
+
+                                <div class="col-md-4 form-group mb-3">
+                                    <label class="form-label">Event Image 1:</label>
+                                    <input type="file" class="form-control" name="file1" id="file1">
+                                    <?php if(isset($toEditID) && $rows['photo1'] != ''): ?>
+                                        <small class="text-muted">Current file: <?=basename($rows['photo1'])?></small>
+                                    <?php endif; ?>
+                                </div>
+
+                                <div class="col-md-4 form-group mb-3">
+                                    <label class="form-label">Event Image 2:</label>
+                                    <input type="file" class="form-control" name="file2" id="file2">
+                                    <?php if(isset($toEditID) && $rows['photo2'] != ''): ?>
+                                        <small class="text-muted">Current file: <?=basename($rows['photo2'])?></small>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4 form-group mb-3">
+                                    <label class="form-label">Photo3:</label>
+                                    <input type="file" class="form-control" name="file3" id="file3">
+                                    <?php if(isset($toEditID) && $rows['photo3'] != ''): ?>
+                                        <small class="text-muted">Current file: <?=basename($rows['photo3'])?></small>
+                                    <?php endif; ?>
+                                </div>
+
+                                <div class="col-md-4 form-group mb-3">
+                                    <label class="form-label">Photo4:</label>
+                                    <input type="file" class="form-control" name="file4" id="file4">
+                                    <?php if(isset($toEditID) && $rows['photo4'] != ''): ?>
+                                        <small class="text-muted">Current file: <?=basename($rows['photo4'])?></small>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+
+                            <!-- Details Section -->
+                            <div class="row">
+                                <div class="col-md-12 form-group mb-3">
+                                    <label class="form-label">Short Details:</label>
+                                    <textarea name="sdetails" class="form-control" rows="2"><?=(isset($toEditID))?$rows['details']:''?></textarea>
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="col-md-12 form-group">
+                                    <label class="form-label">Tour Description:</label>
+                                    <textarea name="sdetails2" class="form-control" rows="5"><?=(isset($toEditID))?$rows['details2']:''?></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Submit Buttons -->
+                            <div class="row">
+                                <div class="col-12">
+                                    <button type="submit" name="<?=(isset($toEditID))?'update':'add'?>" class="btn btn-primary btn-lg w-100 mb-2">
+                                        <?=(isset($toEditID))?'Edit Tour':'Add Tour'?>
+                                    </button>
+                                    <?php if(isset($toEditID)): ?>
+                                        <a href="add_tour.php?cancelEdit=<?=$toEditID?>" class="btn btn-warning btn-lg w-100">
+                                            Cancel Edit
+                                        </a>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+           
         </div>
-
-        <div class="col-sm-3 form-group">
-          <label for="">Date:</label>
-          <input type="date" name="date" value="<?=(isset($toEditID))?''.$rows['date'].'' :'' ; ?>" class="form-control">
-        </div>
-
-        <div class="col-sm-3 form-group">
-          <label for="">Price:</label>
-          <input type="text" name="price" value="<?=(isset($toEditID))?''.$rows['price'].'' :'' ; ?>" class="form-control">
-        </div>
-
-        <div class="col-sm-3 form-group">
-          <label for="">Time:</label>
-          <input type="time" name="time" value="<?=(isset($toEditID))?''.$rows['time'].'' :'' ; ?>" class="form-control">
-        </div>
-
-        <?php if(!@$rows['photo'] || @$rows['photo']==''): ?>
-          <div class="col-sm-3 form-group">
-            <label for="">Photo:</label>
-            <input type="file" class="form-control" name="file" id="file">
-          </div>
-        <?php endif;  ?>
-
-        <?php if(!@$rows['photo1'] || @$rows['photo1']==''): ?>
-          <div class="col-sm-3 form-group">
-            <label for="">Photo1:</label>
-            <input type="file" class="form-control" name="file1" id="file1">
-          </div>
-        <?php endif;  ?>
-
-        <?php if(!@$rows['photo2'] || @$rows['photo2']==''): ?>
-          <div class="col-sm-3 form-group">
-            <label for="">Photo2:</label>
-            <input type="file" class="form-control" name="file2" id="file2">
-          </div>
-        <?php endif;  ?>
-
-        <?php if(!@$rows['photo3'] || @$rows['photo3']==''): ?>
-          <div class="col-sm-3 form-group">
-            <label for="">Photo3:</label>
-            <input type="file" class="form-control" name="file3" id="file3">
-          </div>
-        <?php endif;  ?>
-
-        <?php if(!@$rows['photo4'] || @$rows['photo4']==''): ?>
-          <div class="col-sm-3 form-group">
-            <label for="">Photo4:</label>
-            <input type="file" class="form-control" name="file4" id="file4">
-          </div>
-        <?php endif;  ?>
-
-        <div class="col-sm-3 form-group">
-          <label for="">Reserve Spaces:</label>
-          <input type="number" name="reservations" value="<?=(isset($toEditID))?''.$rows['reservations'].'' :'' ; ?>" class="form-control">
-        </div>
-
-
-        <div class="col-sm-6 form-group">
-          <label for="">Short Details:</label>
-          <textarea name="sdetails" class="form-control" col="20" rows="1" ><?=(isset($toEditID))?''.$rows['details'].'' :'' ; ?></textarea>
-        </div>
-
-        <div class="col-sm-8 form-group">
-          <label for="">Tour Description:</label>
-          <textarea name="sdetails2" class="form-control" col="20" rows="7" ><?=(isset($toEditID))?''.$rows['details2'].'' :'' ; ?></textarea>
-        </div>
-
-        <div class="col-sm-12">
-          <input type="submit" name="<?=(isset($toEditID))?'update' :'add' ;?>" value="<?=(isset($toEditID))?'Edit Tour' :'Add Tour' ; ?>" class="w3-btn w3-indigo w3-btn-block"><br>
-          <?php
-              if(isset($toEditID)){
-                echo '<br>';
-                echo ' <a href="add_tour.php?cancelEdit='.$toEditID.'" type="button" name="cancelEdit" class="w3-btn w3-orange w3-btn-block">Cancel Edit</a>';
-              }
-           ?>
-        </div>
-      </form>
-  </div>
-  <div class="col-md-3">
-            <?php if (isset($toEditID) && $rows['photo'] != ''): ?>
-                <figure>
-                    <h3>Event Image</h3>
-                    <img src="../<?= $rows['photo']; ?>" alt="event image" class="img-responsive">
-                    <figcaption><a href="add_tour.php?delete_image=<?= $toEditID; ?>" class="w3-text-red">Delete Photo</a></figcaption>
-                </figure>
-            <?php endif; ?>
-
-            <?php if (isset($toEditID) && $rows['photo1'] != ''): ?>
-                <figure>
-                    <h3>Event Image 1</h3>
-                    <img src="../<?= $rows['photo1']; ?>" alt="event image 1" class="img-responsive">
-                    <figcaption><a href="add_tour.php?delete_image=<?= $toEditID; ?>" class="w3-text-red">Delete Photo1</a></figcaption>
-                </figure>
-            <?php endif; ?>
-
-            <?php if (isset($toEditID) && $rows['photo2'] != ''): ?>
-                <figure>
-                    <h3>Event Image 2</h3>
-                    <img src="../<?= $rows['photo2']; ?>" alt="event image 2" class="img-responsive">
-                    <figcaption><a href="add_tour.php?delete_image=<?= $toEditID; ?>" class="w3-text-red">Delete Photo2</a></figcaption>
-                </figure>
-            <?php endif; ?>
-
-            <?php if (isset($toEditID) && $rows['photo3'] != ''): ?>
-                <figure>
-                    <h3>Event Image 3</h3>
-                    <img src="../<?= $rows['photo3']; ?>" alt="event image 3" class="img-responsive">
-                    <figcaption><a href="add_tour.php?delete_image=<?= $toEditID; ?>" class="w3-text-red">Delete Photo3</a></figcaption>
-                </figure>
-            <?php endif; ?>
-            
-            <?php if (isset($toEditID) && $rows['photo4'] != ''): ?>
-                <figure>
-                    <h3>Event Image 4</h3>
-                    <img src="../<?= $rows['photo4']; ?>" alt="event image 4" class="img-responsive">
-                    <figcaption><a href="add_tour.php?delete_image=<?= $toEditID; ?>" class="w3-text-red">Delete Photo4</a></figcaption>
-                </figure>
-            <?php endif; ?>
-        </div>
-  </div>
+    </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script>
+function w3_open() {
+    document.getElementsByClassName("w3-sidenav")[0].style.display = "block";
+}
+function w3_close() {
+    document.getElementsByClassName("w3-sidenav")[0].style.display = "none";
+}
+</script>
+
+</body>
+</html>
 <script>
 function w3_open() {
   document.getElementsByClassName("w3-sidenav")[0].style.display = "block";
