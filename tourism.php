@@ -144,6 +144,36 @@ $sql = $db->query("SELECT * FROM tourism");
     color: #e74c3c;
 }
 
+.search-container {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.search-box {
+    width: 100%;
+    max-width: 500px;
+    padding: 15px;
+    border: 2px solid #e74c3c;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    margin: 0 auto;
+}
+
+.search-box:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(231, 76, 60, 0.2);
+}
+
+.no-results {
+    text-align: center;
+    width: 100%;
+    padding: 20px;
+    color: #7f8c8d;
+    font-size: 1.1rem;
+    display: none;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -165,11 +195,24 @@ $sql = $db->query("SELECT * FROM tourism");
         <h1>Destinasi Wisata Budaya Toraja</h1>
         <p>Temukan dan rasakan keunikan budaya Toraja melalui rangkaian destinasi menarik</p>
     </div>
+
+    <div class="search-container">
+        <input 
+            type="text" 
+            class="search-box" 
+            placeholder="Cari destinasi wisata..."
+            id="searchInput"
+        >
+    </div>
+
+    <div class="no-results" id="noResults">
+        Tidak ada destinasi wisata yang sesuai dengan pencarian Anda.
+    </div>
     
     <div class="row" id="tour-cards">
         <?php $count = 0; ?>
         <?php while ($tour = mysqli_fetch_assoc($sql)): ?>
-            <div class="col-lg-4 col-md-6 col-sm-6 tour-card-wrapper">
+            <div class="col-lg-4 col-md-6 col-sm-6 tour-card-wrapper" data-title="<?= strtolower($tour['title']); ?>">
                 <div class="tour-card">
                     <img src="<?= $tour['photo']; ?>" class="img-responsive" alt="<?= $tour['title']; ?>">
                     <section>
@@ -250,7 +293,7 @@ $sql = $db->query("SELECT * FROM tourism");
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Animate cards on scroll
+    // Fungsi untuk animasi card tetap sama seperti sebelumnya
     const cards = document.querySelectorAll('.tour-card');
     
     const observer = new IntersectionObserver((entries) => {
@@ -269,6 +312,42 @@ document.addEventListener('DOMContentLoaded', function() {
         card.style.transform = 'translateY(20px)';
         card.style.transition = 'all 0.5s ease-out';
         observer.observe(card);
+    });
+
+    // Tambahkan fungsi search
+    const searchInput = document.getElementById('searchInput');
+    const tourCards = document.querySelectorAll('.tour-card-wrapper');
+    const noResults = document.getElementById('noResults');
+
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase().trim();
+        let hasResults = false;
+
+        tourCards.forEach(card => {
+            const title = card.dataset.title;
+            const description = card.querySelector('p').textContent.toLowerCase();
+            
+            if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                card.style.display = '';
+                hasResults = true;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        // Tampilkan/sembunyikan pesan tidak ada hasil
+        noResults.style.display = hasResults ? 'none' : 'block';
+    });
+
+    // Tambahkan event listener untuk reset pencarian ketika input dikosongkan
+    searchInput.addEventListener('keyup', function(e) {
+        if (e.key === 'Escape' || this.value === '') {
+            this.value = '';
+            tourCards.forEach(card => {
+                card.style.display = '';
+            });
+            noResults.style.display = 'none';
+        }
     });
 });
 </script>
