@@ -1,4 +1,5 @@
 <?php
+ob_start();
 require_once 'core/core.php';
 include 'includes/header.php';
 include 'includes/navigation.php';
@@ -7,6 +8,7 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: loginregist.php");
     exit();
 }
+
 // Handle filter for rooms
 $roomFilter = isset($_GET['room_search']) ? $_GET['room_search'] : '';
 $roomQuery = "SELECT * FROM rooms";
@@ -26,6 +28,7 @@ $tourQuery .= " LIMIT 4";
 $tourSQL = $db->query($tourQuery);
 
 $result = $db->query("SELECT * FROM events");
+ob_end_flush();
 ?>
 
 <!DOCTYPE html>
