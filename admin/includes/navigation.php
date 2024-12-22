@@ -15,6 +15,12 @@
     
     <ul class="nav-links">
         <li>
+            <a href="index.php">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <li>
             <a href="reservations.php">
                 <i class="fas fa-calendar-check"></i>
                 <span>Reservasi Penginapan</span>
