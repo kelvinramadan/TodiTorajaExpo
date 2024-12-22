@@ -448,9 +448,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['checkin'])) {
                             <?php if (!empty($roomData['description'])): ?>
                                 <p><?= nl2br(htmlspecialchars($roomData['description'])); ?></p>
                             <?php else: ?>
-                                <p>Selamat datang di properti bergaya dan luas kami. Tempat menawan ini menawarkan tempat nyaman dan modern untuk beristirahat.</p>
-                                <p>Saat Anda masuk, Anda akan disambut dengan ruang tamu yang dilengkapi perabotan berkelas, dilengkapi sofa nyaman, TV besar, dan area ruang makan.</p>
-                                <p>Tata ruang terbuka yang menyatu secara sempurna menghubungkan ruang tamu dengan dapur yang lengkap, dilengkapi dengan peralatan modern dan semua kebutuhan untuk menyiapkan hidangan lezat.</p>
+                                <p>Selamat datang di properti bergaya dan luas kami. Tempat menawan ini menawarkan kenyamanan modern yang dirancang untuk memberikan pengalaman menginap yang tak terlupakan. Lokasinya yang strategis, dikelilingi oleh pemandangan indah dan suasana tenang, menjadikannya pilihan sempurna untuk bersantai maupun bekerja.</p>
+                                <p>Saat Anda masuk, Anda akan disambut dengan ruang tamu yang didesain dengan perabotan berkelas, dilengkapi sofa nyaman, TV besar untuk hiburan Anda, dan area ruang makan yang ideal untuk berkumpul bersama keluarga atau teman. Kombinasi warna yang hangat dan pencahayaan yang lembut menciptakan suasana yang ramah dan menenangkan.</p>
+                                <p>Tata ruang terbuka yang menyatu secara sempurna menghubungkan ruang tamu dengan dapur modern yang dirancang untuk memenuhi kebutuhan Anda. Dapur ini dilengkapi dengan peralatan canggih seperti oven, kompor, lemari es, dan perlengkapan memasak lainnya, memungkinkan Anda untuk menyiapkan hidangan lezat tanpa kesulitan. Selain itu, area dapur juga dirancang ergonomis, memastikan kenyamanan selama Anda memasak.</p>
                             <?php endif; ?>
                         </div>
                     </div>
