@@ -1,11 +1,5 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'].'/ht/core/core.php';
-if(!is_logged_in()){
-    login_error_check();
-}
-
-include 'includes/header.php';
-include 'includes/navigation.php';
 #header("Location: events.php");
 
 $sql = $db->query("SELECT * FROM rooms");
@@ -21,6 +15,8 @@ if(isset($_GET['delete'])){
         $db->query($sql);
         header("Location: rooms.php");
     }
+include 'includes/header.php';
+include 'includes/navigation.php';
 ?>
 
 <div class="w3-container w3-main" style="margin-left:260px; padding: 20px;">

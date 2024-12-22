@@ -1,12 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/ht/core/core.php';
-if (!is_logged_in()) {
-    login_error_check();
-}
 
-include 'includes/header.php';
-include 'includes/navigation.php';
-
+// Check if we're in edit mode
 if (isset($_GET['edit']) && !empty($_GET['edit'])) {
     $id = $_GET['edit'];
     $get = $db->query("SELECT * FROM events WHERE id = '$id'");
@@ -23,15 +18,19 @@ function handleFileUpload($file) {
         $tmpName = $file['tmp_name'];
         
         if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif'])) {
-            // Ubah lokasi penyimpanan gambar
-            $uploadDir = $_SERVER['DOCUMENT_ROOT'] . '/ht/images/events/';
-            // Buat direktori jika belum ada
-            if (!file_exists($uploadDir)) {
-                mkdir($uploadDir, 0777, true);
+            // Change the image storage location to a web-accessible directory
+            $location = $_SERVER['DOCUMENT_ROOT'] . '/images/'; // Adjust this path according to your directory structure
+            $dbPath = '/images/' . $fileName; // This is the path that will be stored in database
+            
+            // Create directory if it doesn't exist
+            if (!file_exists($location)) {
+                mkdir($location, 0777, true);
             }
-            move_uploaded_file($tmpName, $uploadDir . $fileName);
-            // Kembalikan path relatif untuk database
-            return '/ht/images/events/' . $fileName;
+            
+            if (move_uploaded_file($tmpName, $location . $fileName)) {
+                return $dbPath;
+            }
+            return '';
         } else {
             echo '<div class="w3-center w3-red">The image type must be jpg, jpeg, gif, or png.</div></br>';
         }
@@ -51,6 +50,12 @@ if (isset($_POST['submit'])) {
     $image = handleFileUpload($_FILES['file']);
 
     if (!empty($topic) && !empty($venue) && !empty($date) && !empty($time) && !empty($sdetails) && !empty($fdetails)) {
+        // Escape special characters to prevent SQL injection
+        $topic = mysqli_real_escape_string($db, $topic);
+        $venue = mysqli_real_escape_string($db, $venue);
+        $sdetails = mysqli_real_escape_string($db, $sdetails);
+        $fdetails = mysqli_real_escape_string($db, $fdetails);
+        
         $sql = "INSERT INTO events (`event_topic`, `image`, `venue`, `date`, `time`, `short_details`, `full_details`)
                 VALUES ('$topic', '$image', '$venue', '$date', '$time', '$sdetails', '$fdetails')";
 
@@ -58,6 +63,8 @@ if (isset($_POST['submit'])) {
             $_SESSION['added_event'] = '<div class="w3-center w3-green">Event successfully added!</div></br>';
             header("Location: events.php");
             exit();
+        } else {
+            echo '<div class="w3-center w3-red">Error: ' . $db->error . '</div></br>';
         }
     } else {
         echo '<div class="w3-center w3-red">Please fill in all fields.</div></br>';
@@ -76,6 +83,12 @@ if (isset($_POST['update'])) {
     $image = handleFileUpload($_FILES['file']);
 
     if (!empty($topic) && !empty($venue) && !empty($date) && !empty($time) && !empty($sdetails) && !empty($fdetails)) {
+        // Escape special characters
+        $topic = mysqli_real_escape_string($db, $topic);
+        $venue = mysqli_real_escape_string($db, $venue);
+        $sdetails = mysqli_real_escape_string($db, $sdetails);
+        $fdetails = mysqli_real_escape_string($db, $fdetails);
+        
         $toEditID = $_GET['edit'];
         $query = "UPDATE events SET 
                   `event_topic` = '$topic',
@@ -93,6 +106,7 @@ if (isset($_POST['update'])) {
 
         if($db->query($query)) {
             $_SESSION['updated_event'] = '<div class="w3-center w3-green">Event successfully updated!</div></br>';
+            header("Location: events.php");
             exit();
         } else {
             echo '<div class="w3-center w3-red">Error updating event: ' . $db->error . '</div></br>';
@@ -101,7 +115,30 @@ if (isset($_POST['update'])) {
         echo '<div class="w3-center w3-red">Please fill in all fields.</div></br>';
     }
 }
+
+include 'includes/header.php';
+include 'includes/navigation.php';
 ?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Event</title>
+    <link rel="stylesheet" href="css/w3.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <style>
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .preview-image {
+            max-width: 200px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
 
 <div class="w3-container w3-main" style="margin-left:260px; padding: 20px;">
     <header class="w3-container w3-purple" style="margin-bottom: 20px;">
@@ -112,12 +149,12 @@ if (isset($_POST['update'])) {
     <form class="form" action="#" method="post" enctype="multipart/form-data">
         <div class="form-group col-md-4">
             <label>Event Topic:</label>
-            <input type="text" class="form-control" value="<?= isset($_GET['edit']) ? $edit['event_topic'] : ''; ?>" name="topic">
+            <input type="text" class="form-control" value="<?= isset($_GET['edit']) ? htmlspecialchars($edit['event_topic']) : ''; ?>" name="topic">
         </div>
 
         <div class="form-group col-md-4">
             <label>Venue:</label>
-            <input type="text" class="form-control" value="<?= isset($_GET['edit']) ? $edit['venue'] : ''; ?>" name="venue">
+            <input type="text" class="form-control" value="<?= isset($_GET['edit']) ? htmlspecialchars($edit['venue']) : ''; ?>" name="venue">
         </div>
 
         <div class="form-group col-md-2">
@@ -132,17 +169,22 @@ if (isset($_POST['update'])) {
 
         <div class="form-group col-md-4">
             <label>Event Image:</label>
-            <input type="file" class="form-control" name="file">
+            <input type="file" class="form-control" name="file" id="imageInput" accept="image/*">
+            <div id="imagePreview">
+                <?php if(isset($_GET['edit']) && !empty($edit['image'])): ?>
+                    <img src="<?= htmlspecialchars($edit['image']); ?>" class="preview-image" alt="Current Image">
+                <?php endif; ?>
+            </div>
         </div>
 
         <div class="form-group col-md-4">
             <label>Short Details:</label>
-            <textarea class="form-control" rows="4" name="sdetails"><?= isset($_GET['edit']) ? $edit['short_details'] : ''; ?></textarea>
+            <textarea class="form-control" rows="4" name="sdetails"><?= isset($_GET['edit']) ? htmlspecialchars($edit['short_details']) : ''; ?></textarea>
         </div>
 
         <div class="form-group col-md-4">
             <label>Full Details:</label>
-            <textarea class="form-control" rows="6" name="fdetails"><?= isset($_GET['edit']) ? $edit['full_details'] : ''; ?></textarea>
+            <textarea class="form-control" rows="6" name="fdetails"><?= isset($_GET['edit']) ? htmlspecialchars($edit['full_details']) : ''; ?></textarea>
         </div>
 
         <div class="form-group col-md-4">
@@ -160,6 +202,19 @@ if (isset($_POST['update'])) {
 </div>
 
 <script>
+// Function to handle image preview
+document.getElementById('imageInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById('imagePreview');
+            preview.innerHTML = `<img src="${e.target.result}" class="preview-image" alt="Preview">`;
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
 function w3_open() {
     document.getElementsByClassName("w3-sidenav")[0].style.display = "block";
 }

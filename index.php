@@ -7,123 +7,63 @@ if (!is_logged_in()) {
 include 'includes/header.php';
 include 'includes/navigation.php';
 
-if (isset($_GET['edit']) && !empty($_GET['edit'])) {
-    $id = $_GET['edit'];
-    $get = $db->query("SELECT * FROM rooms WHERE id = '$id'");
-    $edit = mysqli_fetch_assoc($get);
+if (!isset($_SESSION['user_id'])) {
+    header("Location: loginregist.php");
+    exit();
 }
-
-// FUNCTION TO HANDLE FILE UPLOADS
-function handleFileUpload($file, $targetDir) {
-    $fileName = '';
-    if (!empty($file['name'])) {
-        $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
-        $fileName = md5(microtime()) . '.' . $ext;
-        $tmpName = $file['tmp_name'];
-
-        if (in_array($ext, ['jpg', 'jpeg', 'png', 'gif'])) {
-            move_uploaded_file($tmpName, $targetDir . $fileName);
-        } else {
-            echo '<div class="w3-center w3-red">The image type must be jpg, jpeg, gif, or png.</div></br>';
-        }
-    }
-    return $fileName;
+// Handle filter for rooms
+$roomFilter = isset($_GET['room_search']) ? $_GET['room_search'] : '';
+$roomQuery = "SELECT * FROM rooms";
+if ($roomFilter !== '') {
+    $roomQuery .= " WHERE room_number LIKE '%$roomFilter%' OR details LIKE '%$roomFilter%'";
 }
+$roomQuery .= " LIMIT 4";
+$sql = $db->query($roomQuery);
 
-$targetDir = $_SERVER['DOCUMENT_ROOT'] . '/ht/images/';
-
-// INSERTING ROOM INFORMATION INTO DATABASE
-if (isset($_POST['submit'])) {
-    $number = trim($_POST['number']);
-    $type = trim($_POST['type']);
-    $price = trim($_POST['price']);
-    $details = trim($_POST['description']);
-    $rooms = trim($_POST['rooms']);
-
-    $photo = handleFileUpload($_FILES['photo'], $targetDir);
-    $facility1 = handleFileUpload($_FILES['facility1'], $targetDir);
-    $facility2 = handleFileUpload($_FILES['facility2'], $targetDir);
-    $facility3 = handleFileUpload($_FILES['facility3'], $targetDir);
-    $facility4 = handleFileUpload($_FILES['facility4'], $targetDir);
-
-    if (!empty($number) && !empty($type) && !empty($price) && !empty($details) && !empty($rooms)) {
-        $sql = "INSERT INTO rooms (`room_number`, `type`, `price`, `details`, `photo`, `facility1`, `facility2`, `facility3`, `facility4`, `rooms`)
-                VALUES ('$number', '$type', '$price', '$details', 'images/$photo', 'images/$facility1', 'images/$facility2', 'images/$facility3', 'images/$facility4', '$rooms')";
-
-        if ($db->query($sql)) {
-            $_SESSION['added_event'] = '<div class="w3-center w3-green">Room successfully added!</div></br>';
-        }
-        header("Location: rooms.php");
-    } else {
-        echo '<div class="w3-center w3-red">Please fill in all fields.</div></br>';
-    }
+// Handle filter for tourism
+$tourFilter = isset($_GET['tour_search']) ? $_GET['tour_search'] : '';
+$tourQuery = "SELECT * FROM tourism";
+if ($tourFilter !== '') {
+    $tourQuery .= " WHERE title LIKE '%$tourFilter%' OR details LIKE '%$tourFilter%'";
 }
+$tourQuery .= " LIMIT 4";
+$tourSQL = $db->query($tourQuery);
 
-// UPDATING ROOM INFORMATION
-if (isset($_POST['update'])) {
-    $number = trim($_POST['number']);
-    $type = trim($_POST['type']);
-    $price = trim($_POST['price']);
-    $details = trim($_POST['description']);
-    $rooms = trim($_POST['rooms']);
-
-    $photo = handleFileUpload($_FILES['photo'], $targetDir);
-    $facility1 = handleFileUpload($_FILES['facility1'], $targetDir);
-    $facility2 = handleFileUpload($_FILES['facility2'], $targetDir);
-    $facility3 = handleFileUpload($_FILES['facility3'], $targetDir);
-    $facility4 = handleFileUpload($_FILES['facility4'], $targetDir);
-
-    if (!empty($number) && !empty($type) && !empty($price) && !empty($details) && !empty($rooms)) {
-        $toEditID = $_GET['edit'];
-        $query = "UPDATE rooms SET 
-                  `room_number` = '$number', 
-                  `type` = '$type', 
-                  `details` = '$details', 
-                  `price` = '$price', 
-                  `rooms` = '$rooms'";
-
-        if (!empty($photo)) {
-            $query .= ", `photo` = 'images/$photo'";
-        }
-        if (!empty($facility1)) {
-            $query .= ", `facility1` = 'images/$facility1'";
-        }
-        if (!empty($facility2)) {
-            $query .= ", `facility2` = 'images/$facility2'";
-        }
-        if (!empty($facility3)) {
-            $query .= ", `facility3` = 'images/$facility3'";
-        }
-        if (!empty($facility4)) {
-            $query .= ", `facility4` = 'images/$facility4'";
-        }
-
-        $query .= " WHERE id = '$toEditID'";
-
-        // Tambahkan eksekusi query
-        if($db->query($query)) {
-            $_SESSION['updated_event'] = '<div class="w3-center w3-green">Room successfully updated!</div></br>';
-            exit();
-        } else {
-            echo '<div class="w3-center w3-red">Error updating room: ' . $db->error . '</div></br>';
-        }
-    } else {
-        echo '<div class="w3-center w3-red">Please fill in all fields.</div></br>';
-    }
-}
+$result = $db->query("SELECT * FROM events");
 ?>
 
-<div class="w3-container w3-main" style="margin-left:260px; padding: 20px;">
-    <header class="w3-container w3-purple" style="margin-bottom: 20px;">
-        <span class="w3-opennav w3-xlarge w3-hide-large" onclick="w3_open()">☰</span>
-        <h2 class="text-center">Add a Room</h2>
-    </header>
-    <br/>
-    <form class="form" action="#" method="post" enctype="multipart/form-data">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel & Tourism</title>
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="scss">
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="headerindex.css">
+    <link rel="stylesheet" href="css/indexcard.css">
+    <link rel="stylesheet" href="eventindex.css">
 
-        <div class="form-group col-md-4">
-            <label>Room Number:</label>
-            <input type="text" class="form-control" value="<?= isset($_GET['edit']) ? $edit['room_number'] : ''; ?>" name="number">
+</head>
+<body>
+
+<!-- Header Section -->
+<header class="dynamic-header">
+    <section class="hero">
+        <div class="hero-slider">
+            <!-- Multiple background images for slider -->
+            <div class="slide" style="background-image: url('images/toraja.jpg')"></div>
+            <div class="slide" style="background-image: url('images/toraja1.jpg')"></div>
+            <div class="slide" style="background-image: url('images/toraja2.jpg')"></div>
         </div>
 
         <div class="form-group col-md-4">
