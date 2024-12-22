@@ -9,6 +9,7 @@ if (isset($_GET['edit']) && !empty($_GET['edit'])) {
 }
 
 // FUNCTION TO HANDLE FILE UPLOADS
+// Modifikasi fungsi handleFileUpload
 function handleFileUpload($file) {
     $fileName = '';
     if (!empty($file['name'])) {
