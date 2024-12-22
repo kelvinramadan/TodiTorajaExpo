@@ -9,22 +9,11 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Handle filter for rooms
-$roomFilter = isset($_GET['room_search']) ? $_GET['room_search'] : '';
-$roomQuery = "SELECT * FROM rooms";
-if ($roomFilter !== '') {
-    $roomQuery .= " WHERE room_number LIKE '%$roomFilter%' OR details LIKE '%$roomFilter%'";
-}
-$roomQuery .= " LIMIT 4";
+// Simple queries without filters
+$roomQuery = "SELECT * FROM rooms LIMIT 4";
 $sql = $db->query($roomQuery);
 
-// Handle filter for tourism
-$tourFilter = isset($_GET['tour_search']) ? $_GET['tour_search'] : '';
-$tourQuery = "SELECT * FROM tourism";
-if ($tourFilter !== '') {
-    $tourQuery .= " WHERE title LIKE '%$tourFilter%' OR details LIKE '%$tourFilter%'";
-}
-$tourQuery .= " LIMIT 4";
+$tourQuery = "SELECT * FROM tourism LIMIT 4";
 $tourSQL = $db->query($tourQuery);
 
 $result = $db->query("SELECT * FROM events");
@@ -86,26 +75,7 @@ ob_end_flush();
                 </div>
             </div>
         </div>
-
-        <!-- Search bar with enhanced design -->
-        <div class="search-container">
-            <form method="GET" class="search-form glass-effect">
-                <div class="search-grid">
-                    <div class="search-item">
-                        <i class="fas fa-hotel"></i>
-                        <input type="text" name="room_search" placeholder="Cari Penginapan" value="<?= htmlspecialchars($roomFilter); ?>">
-                    </div>
-                    <div class="search-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <input type="text" name="tour_search" placeholder="Cari Wisata" value="<?= htmlspecialchars($tourFilter); ?>">
-                    </div>
-                    <button type="submit" class="search-button">
-                        <i class="fas fa-search"></i>
-                        Cari
-                    </button>
-                </div>
-            </form>
-        </div>
+    </section>
 </header>
 
 
