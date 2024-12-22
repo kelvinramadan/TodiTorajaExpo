@@ -5,7 +5,7 @@ include 'includes/header.php';
 include 'includes/navigation.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: loginregist.php");
+    header('Location: loginregist.php');
     exit();
 }
 
@@ -57,7 +57,7 @@ ob_end_flush();
         
         <div class="hero-content">
             <h1 class="animate-text" style="color:#FFFFFF">TodiToraja</h1>
-            <p class="animate-text-delay">Pengalaman berwisata yang menarik dan alternatif serta berbagi bersama tentang budaya lokal tanah Toraja secara menyeluruh bersama kami TodiToraja</p>
+            <p class="animate-text-delay">Nikmati perjalanan bermakna bersama TodiToraja, menjelajahi keindahan alam dan kekayaan budaya Toraja. Temukan tradisi sakral, situs bersejarah, dan keramahan lokal yang menghubungkan Anda dengan warisan leluhur, menciptakan kenangan tak terlupakan.</p>
             
             <!-- Animated stats -->
             <div class="stats-container">
@@ -98,12 +98,12 @@ ob_end_flush();
                     </div>
                     <div class="card-body">
                         <div class="location-wrapper">
-                            <h5 class="location-title"><?= $event['venue']; ?></h5>
+                            <h5 class="location-title"><?= $event['event_topic']; ?></h5>
                             <?php if(isset($event['rating'])): ?>
                                 <span class="rating">★ <?= $event['rating']; ?></span>
                             <?php endif; ?>
                         </div>
-                        <p class="distance-text"><?= $event['distance'] ?? ''; ?> kilometers away</p>
+                        <p class="distance-text">Lokasi : <?= $event['venue'] ?? ''; ?></p>
                         <p class="date-text"><?= $event['date']; ?> – <?= $event['time']; ?></p>
                     </div>
                 </div>
