@@ -490,10 +490,6 @@ include 'includes/navigation.php';
                         <?php if($roomData['rooms'] > 0): ?>
                             <form action="" method="POST" onsubmit="return validateForm()">
                                 <div class="form-group">
-                                    <label>Name</label>
-                                    <input type="text" class="form-control" value="<?= htmlspecialchars($_SESSION['fullname']) ?>" readonly>
-                                </div>
-                                <div class="form-group">
                                     <label>Check-in:</label>
                                     <input type="date" class="form-control" name="in_date" required 
                                            min="<?= date('Y-m-d') ?>">

@@ -346,23 +346,19 @@ if(isset($_GET['tour'])) {
                     <h3 class="text-center text-dark mb-4">Book Your Tour</h3>
                     <?php if($tour['reservations'] > 0): ?>
                         <form action="" method="POST">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Name</label>
-                                        <input type="text" class="form-control" value="<?= $_SESSION['fullname'] ?>" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label>Number of People</label>
-                                        <input type="number" name="people" class="form-control" placeholder="Number of People" required min="1" max="<?= $tour['reservations'] ?>">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center">
-                                <button type="submit" name="reserve" class="btn btn-primary btn-book mt-3">Book Now</button>
-                            </div>
+                        <div class="container d-flex justify-content-center align-items-center min-vh-50">
+   <div class="col-md-6">
+       <form action="" method="POST" class="bg-white p-4 rounded shadow">
+           <div class="form-group">
+               <label>Number of People</label>
+               <input type="number" name="people" class="form-control" placeholder="Number of People" required min="1" max="<?= $tour['reservations'] ?>">
+           </div>
+           <div class="text-center mt-3">
+               <button type="submit" name="reserve" class="btn btn-primary btn-book">Book Now</button>
+           </div>
+       </form>
+   </div>
+</div>
                         </form>
                     <?php else: ?>
                         <div class="text-center text-danger">
