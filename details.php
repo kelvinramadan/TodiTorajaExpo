@@ -1,73 +1,73 @@
+<!-- DETAILS.PHP -->
+
 <?php
-session_start();
-// Koneksi ke database
+ob_start();
+require_once 'core/core.php';
+
+// Database connection 
 $servername = "localhost";
 $username = "root";
 $password = "";
-$dbname = "hotel_db";
+$dbname = "adorable_db";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Cek koneksi
-if ($conn->connect_errno) {
-    die("Failed to connect to MySQL: " . $conn->connect_error);
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 
-// Cek jika room ID dikirim melalui GET
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
+    header("Location: loginregist.php");
+    exit();
+}
+
+$roomData = null;
 if (isset($_GET['room'])) {
     $roomID = $conn->real_escape_string($_GET['room']);
-    $select = $conn->query("SELECT * FROM rooms WHERE id = '$roomID'");
-    $roomData = $select->fetch_assoc();
+    $stmt = $conn->prepare("SELECT * FROM rooms WHERE id = ?");
+    $stmt->bind_param("i", $roomID);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $roomData = $result->fetch_assoc();
+
+    if(isset($_POST['checkin']) && isset($_POST['in_date']) && isset($_POST['out_date'])) {
+        $inDate = $conn->real_escape_string($_POST['in_date']);
+        $outDate = $conn->real_escape_string($_POST['out_date']);
+        $user_id = $_SESSION['user_id'];
+        $booking_date = date('Y-m-d H:i:s');
+        
+        // Calculate days and total price
+        $days = (strtotime($outDate) - strtotime($inDate)) / (60 * 60 * 24);
+        $totalPrice = $roomData['price'] * $days;
+        
+        // Insert booking using prepared statement
+        $stmt = $conn->prepare("INSERT INTO room_reserves (room_id, user_id, checkin_date, checkout_date, booking_date, total_price, status) VALUES (?, ?, ?, ?, ?, ?, 'pending')");
+        $stmt->bind_param("iisssd", $roomID, $user_id, $inDate, $outDate, $booking_date, $totalPrice);
+        
+        if($stmt->execute()) {
+            $booking_id = $conn->insert_id;
+            $newRoomCount = $roomData['rooms'] - 1;
+            
+            $updateStmt = $conn->prepare("UPDATE rooms SET rooms = ? WHERE id = ?");
+            $updateStmt->bind_param("ii", $newRoomCount, $roomID);
+            $updateStmt->execute();
+            
+            $_SESSION['booking_success'] = true;
+            $_SESSION['booking_id'] = $booking_id;
+            
+            header("Location: payment_room.php?booking_id=" . $booking_id);
+            exit();
+        }
+    }
 } else {
     header("Location: rooms.php");
     exit();
 }
 
-// Proses penyimpanan data reservasi
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['checkin'])) {
-    $fullname = $conn->real_escape_string($_POST['fullname']);
-    $inDate = $conn->real_escape_string($_POST['in_date']);
-    $outDate = $conn->real_escape_string($_POST['out_date']);
-    $phone = $conn->real_escape_string($_POST['phone']);
-    $email = $conn->real_escape_string($_POST['email']);
-    $room = $roomData['room_number'];
-    
-    // Hitung total harga
-    $days = (strtotime($outDate) - strtotime($inDate)) / (60 * 60 * 24);
-    $totalPrice = $roomData['price'] * $days;
-    
-    // Query untuk menyimpan data
-    $sql = "INSERT INTO reservations (name, checkin, checkout, phone, email, room, total_price) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)";
-            
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssssd", $fullname, $inDate, $outDate, $phone, $email, $room, $totalPrice);
-    
-    if ($stmt->execute()) {
-        // Update jumlah kamar
-        $newRoomCount = $roomData['rooms'] - 1;
-        $updateStmt = $conn->prepare("UPDATE rooms SET rooms = ? WHERE id = ?");
-        $updateStmt->bind_param("ii", $newRoomCount, $roomID);
-        $updateStmt->execute();
-        
-        // Siapkan data untuk halaman summary
-        $_SESSION['reservation_data'] = [
-            'name' => $fullname,
-            'room_type' => $roomData['type'],
-            'room_number' => $room,
-            'checkin' => $inDate,
-            'checkout' => $outDate,
-            'phone' => $phone,
-            'email' => $email,
-            'total_price' => $totalPrice,
-            'reservation_id' => $conn->insert_id
-        ];
-        
-        // Redirect ke halaman summary
-        header("Location: reservation-summary.php");
-        exit();
-    }
-}
+include 'includes/header.php';
+include 'includes/navigation.php';
 ?>
 
 <!DOCTYPE html>
@@ -77,12 +77,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['checkin'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Penginapan</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Tambahkan setelah link CSS yang ada -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.development.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.development.js"></script>
-
-</head>
-<style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
     /* General container styling */
 .container {
     max-width: 1200px;
@@ -335,6 +331,46 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['checkin'])) {
     color: #007bff;
 }
 
+.popup-backdrop {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .success-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            z-index: 1000;
+            text-align: center;
+            display: none;
+        }
+
+        .btn-payment {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 15px;
+        }
+
+        .btn-payment:hover {
+            background: #218838;
+            color: white;
+        }
+
 /* Responsive design */
 @media (max-width: 992px) {
     .content-grid {
@@ -382,13 +418,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['checkin'])) {
     }
 }
 </style>
-
+</head>
 <body>
     <?php include 'includes/navigation.php'; ?>
 
     <div class="container">
         <?php if ($roomData): ?>
-            <!-- Area gambar full width -->
             <div class="gallery-section">
                 <div class="gallery-container">
                     <div class="main-photo">
@@ -400,8 +435,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['checkin'])) {
                             <?php if (!empty($roomData["facility$i"])): ?>
                                 <div class="facility-wrapper">
                                     <img class="facility" src="<?= htmlspecialchars($roomData["facility$i"]); ?>" alt="Facility <?= $i ?>">
-                                    <?php if ($i === 4): ?>
-                                    <?php endif; ?>
                                 </div>
                             <?php endif; ?>
                         <?php endfor; ?>
@@ -409,7 +442,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['checkin'])) {
                 </div>
             </div>
 
-            <!-- Tambahkan ini setelah gallery-section dan sebelum content-grid -->
             <div class="hotel-title">
                 <div class="title-container">
                     <h1 class="hotel-name">
@@ -421,9 +453,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['checkin'])) {
                 </div>
             </div>
 
-            <!-- Area konten dengan grid 2 kolom -->
             <div class="content-grid">
-                <!-- Kolom kiri - Info dan deskripsi -->
                 <div class="main-content">
                     <div class="info-container">
                         <div class="property-features">
@@ -445,104 +475,125 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['checkin'])) {
                         </div>
 
                         <div class="property-description">
-                            <?php if (!empty($roomData['description'])): ?>
-                                <p><?= nl2br(htmlspecialchars($roomData['description'])); ?></p>
-                            <?php else: ?>
-                                <p>Selamat datang di properti bergaya dan luas kami. Tempat menawan ini menawarkan kenyamanan modern yang dirancang untuk memberikan pengalaman menginap yang tak terlupakan. Lokasinya yang strategis, dikelilingi oleh pemandangan indah dan suasana tenang, menjadikannya pilihan sempurna untuk bersantai maupun bekerja.</p>
-                                <p>Saat Anda masuk, Anda akan disambut dengan ruang tamu yang didesain dengan perabotan berkelas, dilengkapi sofa nyaman, TV besar untuk hiburan Anda, dan area ruang makan yang ideal untuk berkumpul bersama keluarga atau teman. Kombinasi warna yang hangat dan pencahayaan yang lembut menciptakan suasana yang ramah dan menenangkan.</p>
-                                <p>Tata ruang terbuka yang menyatu secara sempurna menghubungkan ruang tamu dengan dapur modern yang dirancang untuk memenuhi kebutuhan Anda. Dapur ini dilengkapi dengan peralatan canggih seperti oven, kompor, lemari es, dan perlengkapan memasak lainnya, memungkinkan Anda untuk menyiapkan hidangan lezat tanpa kesulitan. Selain itu, area dapur juga dirancang ergonomis, memastikan kenyamanan selama Anda memasak.</p>
-                            <?php endif; ?>
+                            <?= !empty($roomData['description']) ? nl2br(htmlspecialchars($roomData['description'])) : '
+                                <p>Selamat datang di properti bergaya dan luas kami...</p>
+                                <p>Saat Anda masuk, Anda akan disambut...</p>
+                                <p>Tata ruang terbuka yang menyatu secara sempurna...</p>
+                            '; ?>
                         </div>
                     </div>
                 </div>
 
-                <!-- Kolom kanan - Form booking -->
                 <div class="booking-sidebar">
                     <div class="booking-form">
-                        <h3>Booking details</h3>
-                        <?php if (isset($error)): ?>
-                            <div class="error-message"><?= htmlspecialchars($error); ?></div>
+                        <h3>Booking Details</h3>
+                        <?php if($roomData['rooms'] > 0): ?>
+                            <form action="" method="POST" onsubmit="return validateForm()">
+                                <div class="form-group">
+                                    <label>Name</label>
+                                    <input type="text" class="form-control" value="<?= htmlspecialchars($_SESSION['fullname']) ?>" readonly>
+                                </div>
+                                <div class="form-group">
+                                    <label>Check-in:</label>
+                                    <input type="date" class="form-control" name="in_date" required 
+                                           min="<?= date('Y-m-d') ?>">
+                                </div>
+                                <div class="form-group">
+                                    <label>Check-out:</label>
+                                    <input type="date" class="form-control" name="out_date" required
+                                           min="<?= date('Y-m-d', strtotime('+1 day')) ?>">
+                                </div>
+                                <button type="submit" class="btn-request" name="checkin">
+                                    Make Reservation
+                                </button>
+                            </form>
+                        <?php else: ?>
+                            <div class="text-center text-danger">
+                                <h4>No rooms available</h4>
+                            </div>
                         <?php endif; ?>
-
-                        <form action="" method="POST" onsubmit="return validateForm()">
-                            <div class="form-group">
-                                <label>Nama Lengkap:</label>
-                                <input type="text" class="form-control" name="fullname" placeholder="Full Name" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Check-in:</label>
-                                <input type="date" class="form-control" name="in_date" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Check-out:</label>
-                                <input type="date" class="form-control" name="out_date" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label>No Telp:</label>
-                                <input type="text" class="form-control" name="phone" placeholder="Phone number..." required>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Email Address:</label>
-                                <input type="email" class="form-control" name="email" placeholder="Email address" required>
-                            </div>
-
-                            <button type="submit" class="btn-request" name="checkin">
-                                Make Reservation
-                            </button>
-                        </form>
                     </div>
                 </div>
             </div>
-        <?php else: ?>
-            <p>Room not found.</p>
         <?php endif; ?>
+    </div>
 
-    <?php if (isset($_SESSION['reservation_success']) && $_SESSION['reservation_success']): ?>
-        <div class="alert-success show">
-            <h3>Reservasi Berhasil!</h3>
-            <p>Nomor reservasi Anda adalah #<?php echo $_SESSION['reservation_id']; ?></p>
-        </div>
-        <?php
-        // Hapus session setelah ditampilkan
-        unset($_SESSION['reservation_success']);
-        unset($_SESSION['reservation_id']);
-        ?>
-    <?php endif; ?>
+    <!-- Success Popup -->
+    <div class="popup-backdrop" id="popupBackdrop"></div>
+    <div class="success-popup" id="successPopup">
+        <h3><i class="fas fa-check-circle"></i> Booking Success!</h3>
+        <p>Thank you for booking, please proceed with payment!</p>
+        <a href="payment_room.php?booking_id=<?php echo isset($_SESSION['booking_id']) ? $_SESSION['booking_id'] : ''; ?>" class="btn-payment">Pay Now</a>
+    </div>
 
-<footer class="footer" style="background-color: #333; color: white; padding: 3rem 0; margin-top: 4rem;">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4">
-                <h4>Tentang Kita</h4>
-                <p>
+    <footer style="background-color: #222222; color: white; padding: 60px 0; font-family: system-ui, -apple-system, sans-serif;">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;">
+        <div>
+            <h4 style="font-size: 24px; margin: 0 0 20px 0; font-weight: 500;">Tentang Kita</h4>
+            <p style="line-height: 1.6; margin: 0; opacity: 0.9;">
                 Rasakan keindahan dan budaya Toraja dengan tur berpemandu ahli kami. Kami memberikan petualangan yang tak terlupakan dan pengalaman lokal yang otentik.</p>
-            </div>
-            <div class="col-md-4">
-                <h4>Kontak Kami</h4>
-                <p><i class="fas fa-phone"></i> +62 821 3387 1850</p>
-                <p><i class="fas fa-envelope"></i> info@torajatours.com</p>
-                <p><i class="fas fa-map-marker-alt"></i> Toraja, Sulawesi Selatan, Indonesia</p>
-            </div>
-            <div class="col-md-4">
-                <h4>Follow Us</h4>
-                <div class="social-icons">
-                    <a href="#"><i class="fab fa-facebook"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                </div>
+        </div>
+        <div>
+            <h4 style="font-size: 24px; margin: 0 0 20px 0; font-weight: 500;">Kontak Kami</h4>
+            <p style="margin: 0 0 15px 0; display: flex; align-items: center; gap: 10px;">
+                <span style="color: white;">+62 821 3387 1850</span>
+            </p>
+            <p style="margin: 0 0 15px 0;">
+                <span style="color: white;">info@torajatours.com</span>
+            </p>
+            <p style="margin: 0;">
+                <span style="color: white;">Toraja, Sulawesi Selatan, Indonesia</span>
+            </p>
+        </div>
+        <div>
+            <h4 style="font-size: 24px; margin: 0 0 20px 0; font-weight: 500;">Follow Us</h4>
+            <div style="display: flex; gap: 15px;">
+                <a href="#" style="color: white; text-decoration: none;">
+                    <i class="fab fa-facebook" style="font-size: 20px;"></i>
+                </a>
+                <a href="#" style="color: white; text-decoration: none;">
+                    <i class="fab fa-instagram" style="font-size: 20px;"></i>
+                </a>
+                <a href="#" style="color: white; text-decoration: none;">
+                    <i class="fab fa-twitter" style="font-size: 20px;"></i>
+                </a>
+                <a href="#" style="color: white; text-decoration: none;">
+                    <i class="fab fa-youtube" style="font-size: 20px;"></i>
+                </a>
             </div>
         </div>
-        <div class="text-center mt-4">
-            <p>&copy; Wisata Toraja 2024. Semua hak dilindungi undang-undang.</p>
-        </div>
+    </div>
+    <div style="text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+        <p style="margin: 0; opacity: 0.7; font-size: 14px;">&copy; Wisata Toraja 2024. Semua hak dilindungi undang-undang.</p>
     </div>
 </footer>
 
-    <script src="admin/js/details.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        <?php if(isset($_SESSION['booking_success']) && $_SESSION['booking_success']): ?>
+            document.getElementById('popupBackdrop').style.display = 'block';
+            document.getElementById('successPopup').style.display = 'block';
+            <?php unset($_SESSION['booking_success']); ?>
+        <?php endif; ?>
+
+        document.getElementById('popupBackdrop').addEventListener('click', function() {
+            this.style.display = 'none';
+            document.getElementById('successPopup').style.display = 'none';
+        });
+    });
+
+    function validateForm() {
+        const inDate = document.querySelector('input[name="in_date"]').value;
+        const outDate = document.querySelector('input[name="out_date"]').value;
+        
+        if (new Date(inDate) >= new Date(outDate)) {
+            alert('Check-out date must be after check-in date');
+            return false;
+        }
+        return true;
+    }
+    </script>
 </body>
 </html>
+

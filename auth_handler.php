@@ -1,3 +1,5 @@
+<!-- AUTH_HANDLER.php-- >
+
 <?php
 require 'core/core.php';
 

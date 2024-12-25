@@ -50,24 +50,6 @@
                 <span>Kelola Wisata</span>
             </a>
         </li>
-        <li>
-            <a href="users.php">
-                <i class="fas fa-users"></i>
-                <span>Pengguna</span>
-            </a>
-        </li>
-        <li>
-            <a href="visit_site.php">
-                <i class="fas fa-external-link-alt"></i>
-                <span>Visit Site</span>
-            </a>
-        </li>
-        <li>
-            <a href="logout.php">
-                <i class="fas fa-sign-out-alt"></i>
-                <span>Logout</span>
-            </a>
-        </li>
     </ul>
     
     <div class="user-info">

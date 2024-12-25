@@ -1,40 +1,50 @@
+<!-- TOUR.PHP PAGE -->
+
 <?php
 require_once 'core/core.php';
 include 'includes/header.php';
 include 'includes/navigation.php';
 
+// Check if user is logged in
+if (!isLoggedIn()) {
+    $_SESSION['redirect_after_login'] = $_SERVER['REQUEST_URI'];
+    header("Location: loginregist.php");
+    exit();
+}
+
 if(isset($_GET['tour'])) {
-  $tourID = $_GET['tour'];
-  $select = $db->query("SELECT * FROM tourism WHERE id = '{$tourID}' ");
-  $s = $db->query("SELECT * FROM tourism WHERE id = '{$tourID}' ");
-  $data = mysqli_fetch_assoc($s);
-
-if(isset($_POST['reserve'])) {
-  if(isset($_POST['name']) && isset($_POST['email']) && isset($_POST['people']) && isset($_POST['number'])){
-        $name = $_POST['name'];
-        $email = $_POST['email'];
-        $people = $_POST['people'];
-        $phone = $_POST['number'];
-
-      $save = $db->query("INSERT INTO tour_reserves (tour_id,reservations,cus_name,`email`,`phone`)
-                            VALUES ('$tourID','$people','$name','$email','$phone')");
-
-      if($save){
-        $newReservations = $data['reservations'] - $people;
-        $update = $db->query("UPDATE tourism SET reservations = '$newReservations' WHERE id = '$tourID' ");
-        
-        // Set session for success message
-        $_SESSION['booking_success'] = true;
-      }
+    $tourID = $_GET['tour'];
+    $select = $db->query("SELECT * FROM tourism WHERE id = '{$tourID}' ");
+    $s = $db->query("SELECT * FROM tourism WHERE id = '{$tourID}' ");
+    $data = mysqli_fetch_assoc($s);
     
-  } else {
-    echo 'All fields are required!';
-  }
+    if(isset($_POST['reserve'])) {
+        if(isset($_POST['people'])){
+            $people = $_POST['people'];
+            $user_id = $_SESSION['user_id'];
+            $booking_date = date('Y-m-d H:i:s');
+            $total_price = $data['price'] * $people;
+            
+            // Insert booking with user data
+            $save = $db->query("INSERT INTO tour_reserves (tour_id, user_id, reservations, booking_date, total_price, status)
+                               VALUES ('$tourID', '$user_id', '$people', '$booking_date', '$total_price', 'pending')");
+            
+            if($save){
+                $booking_id = $db->insert_id;
+                $newReservations = $data['reservations'] - $people;
+                $update = $db->query("UPDATE tourism SET reservations = '$newReservations' WHERE id = '$tourID' ");
+                
+                $_SESSION['booking_success'] = true;
+                $_SESSION['booking_id'] = $booking_id;
+            }
+        } else {
+            echo 'Number of people is required!';
+        }
+    }
+} elseif(!(isset($_GET['tour'])) || $_GET['tour']=='') {
+    header("Location: tourism.php");
 }
 
-} elseif(!(isset($_GET['tour'])) || $_GET['tour']=='') {
-  header("Location: tourism.php");
-}
 ?>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -329,45 +339,44 @@ if(isset($_POST['reserve'])) {
 
         <!-- Booking Section -->
         <div class="booking-section">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-md-8">
-                        <div class="booking-form">
-                            <h3 class="text-center text-dark mb-4">Book Your Tour</h3>
-                            <?php if($tour['reservations'] > 0): ?>
-                            <form action="" method="POST">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <input type="text" name="name" class="form-control" placeholder="Full Name" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input type="email" name="email" class="form-control" placeholder="Email Address" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input type="number" name="people" class="form-control" placeholder="Number of People" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <input type="text" name="number" class="form-control" placeholder="Contact Number" required>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="booking-form">
+                    <h3 class="text-center text-dark mb-4">Book Your Tour</h3>
+                    <?php if($tour['reservations'] > 0): ?>
+                        <form action="" method="POST">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Name</label>
+                                        <input type="text" class="form-control" value="<?= $_SESSION['fullname'] ?>" readonly>
                                     </div>
                                 </div>
-                                <button type="submit" name="reserve" class="btn btn-primary btn-block btn-book mt-3">Book Now</button>
-                            </form>
-                            <?php else: ?>
-                            <div class="text-center text-danger">
-                                <h4>Reservations are currently closed for this tour</h4>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label>Number of People</label>
+                                        <input type="number" name="people" class="form-control" placeholder="Number of People" required min="1" max="<?= $tour['reservations'] ?>">
+                                    </div>
+                                </div>
                             </div>
-                            <?php endif; ?>
+                            <div class="text-center">
+                                <button type="submit" name="reserve" class="btn btn-primary btn-book mt-3">Book Now</button>
+                            </div>
+                        </form>
+                    <?php else: ?>
+                        <div class="text-center text-danger">
+                            <h4>Reservations are currently closed for this tour</h4>
                         </div>
-                    </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
-
-        <!-- Map Section -->
-        <div class="map-container">
-            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d50782.05403468191!2d119.8630!3d-2.9726!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMsKwNTcnMTQuNiJOIDEyOcKwNTUnNTcuNCJ9!5e0!3m2!1sen!2sid!4v1633679151718" height="450" allowfullscreen="" loading="lazy"></iframe>
-        </div>
     </div>
+</div>
+
+
+        <br></br>
     <?php endwhile; ?>
 </div>
 
@@ -416,19 +425,16 @@ if(isset($_POST['reserve'])) {
 
 <div class="popup-backdrop" id="popupBackdrop"></div>
 <div class="success-popup" id="successPopup">
-    <h3><i class="fas fa-check-circle"></i> Booking Successful!</h3>
-    <p>Thank you for your booking. Please proceed to payment page.</p>
-    <a href="payment.php" class="btn-payment">Go to Payment</a>
+    <h3><i class="fas fa-check-circle"></i> Pemesanan Berhasil!</h3>
+    <p>Terimakasih telah memesan, silahkan lakukan pembayaran!</p>
+    <a href="payment.php?booking_id=<?php echo isset($_SESSION['booking_id']) ? $_SESSION['booking_id'] : ''; ?>" class="btn-payment">Langsung Bayar</a>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Check if success message exists in PHP session
     <?php if(isset($_SESSION['booking_success']) && $_SESSION['booking_success']): ?>
         document.getElementById('popupBackdrop').style.display = 'block';
         document.getElementById('successPopup').style.display = 'block';
-        
-        // Clear the session
         <?php unset($_SESSION['booking_success']); ?>
     <?php endif; ?>
 

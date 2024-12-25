@@ -2,12 +2,12 @@
 
 <?php
 // Database connection
-$db = new mysqli('localhost', 'root', '', 'hotel_db');
+$db = new mysqli('localhost', 'root', '', 'adorable_db');
 if (!$db) {
     die('Could not establish database connection, please review your settings');
 }
 
-define('BASEURL', $_SERVER['DOCUMENT_ROOT'].'/ht/');
+define('BASEURL', $_SERVER['DOCUMENT_ROOT'].'/TodiTorajaExpo/');
 include BASEURL.'fpdf/fpdf.php';
 session_start();
 
@@ -19,27 +19,6 @@ function getUserData($userId) {
     $stmt->execute();
     $result = $stmt->get_result();
     return $result->fetch_assoc();
-}
-
-function updatePassword($userId, $currentPassword, $newPassword) {
-    global $db;
-    
-    // Verify current password
-    $stmt = $db->prepare("SELECT password FROM users WHERE id = ?");
-    $stmt->bind_param("i", $userId);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $user = $result->fetch_assoc();
-    
-    if (!password_verify($currentPassword, $user['password'])) {
-        return false;
-    }
-    
-    // Update password
-    $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
-    $stmt = $db->prepare("UPDATE users WHERE id = ?");
-    $stmt->bind_param("si", $hashedPassword, $userId);
-    return $stmt->execute();
 }
 
 function updateProfileImage($userId, $imagePath) {

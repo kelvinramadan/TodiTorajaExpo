@@ -164,7 +164,7 @@ $userData = getUserData($_SESSION['user_id']);
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="payment.php">
+                        <a class="nav-link" href="pembayaran.php">
                             <i class="fas fa-credit-card"></i>
                             Payment
                         </a>
@@ -186,10 +186,6 @@ $userData = getUserData($_SESSION['user_id']);
             <small class="text-muted"><?php echo htmlspecialchars($userData['email']); ?></small>
         </div>
         <div class="profile-dropdown-content">
-            <a href="profile.php" class="profile-dropdown-item">
-                <i class="fas fa-user"></i>
-                My Profile
-            </a>
             <a href="logout.php" class="profile-dropdown-item">
                 <i class="fas fa-sign-out-alt"></i>
                 Logout
@@ -305,6 +301,24 @@ $userData = getUserData($_SESSION['user_id']);
                 link.classList.add('active');
             }
         });
+
+        document.getElementById('profileImageInput').addEventListener('change', function() {
+    const form = document.getElementById('profileImageForm');
+    const formData = new FormData(form);
+    
+    fetch('update_profile_image.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(data => {
+        // Refresh profile images
+        const images = document.querySelectorAll('.profile-image, .profile-image-large');
+        const newImageUrl = URL.createObjectURL(this.files[0]);
+        images.forEach(img => img.src = newImageUrl);
+    })
+    .catch(error => console.error('Error:', error));
+});
     </script>
 </body>
 </html>

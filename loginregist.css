@@ -215,3 +215,131 @@ body {
 .switch-form a:hover {
     text-decoration: underline;
 }
+
+/* Base styles remain the same until media queries */
+
+/* Tablet Devices */
+@media screen and (max-width: 1024px) {
+    body {
+        flex-direction: column;
+        overflow-y: auto;
+        min-height: 100vh;
+    }
+    
+    .info-section {
+        width: 100%;
+        height: auto;
+        min-height: auto;
+        padding: 1.5rem;
+    }
+    
+    .auth-section {
+        width: 100%;
+        height: auto;
+        min-height: auto;
+        padding: 2rem;
+    }
+    
+    .form-container {
+        width: 100%;
+        max-width: 500px;
+        margin: 2rem auto;
+    }
+    
+    .background-slider {
+        position: fixed;
+    }
+}
+
+/* Mobile Devices */
+@media screen and (max-width: 768px) {
+    .info-section {
+        padding: 1rem;
+        min-height: auto;
+    }
+    
+    .info-content {
+        height: auto;
+        gap: 1rem;
+    }
+    
+    .info-header {
+        margin-bottom: 1rem;
+    }
+    
+    .info-header h1 {
+        font-size: 1.8em;
+    }
+    
+    .info-text {
+        font-size: 0.9em;
+        margin-bottom: 1rem;
+    }
+    
+    .features {
+        flex-direction: row;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+    
+    .feature-item {
+        flex: 0 1 auto;
+        padding: 0.5rem;
+    }
+}
+
+/* Additional height fixes */
+@media screen and (max-height: 700px) {
+    body {
+        height: auto;
+    }
+    
+    .auth-section {
+        padding: 1rem;
+    }
+    
+    .form-container {
+        margin: 1rem auto;
+    }
+}
+/* Small Mobile Devices */
+@media screen and (max-width: 480px) {
+    .info-section {
+        padding: 1rem;
+        min-height: 200px;
+    }
+    
+    .info-header h1 {
+        font-size: 1.8em;
+    }
+    
+    .form-container {
+        padding: 1rem;
+    }
+    
+    .title {
+        font-size: 20px;
+    }
+    
+    .input-field input {
+        font-size: 13px;
+    }
+}
+
+/* Height-based Media Query for shorter screens */
+@media screen and (max-height: 700px) {
+    .info-section {
+        min-height: 180px;
+    }
+    
+    .info-text {
+        font-size: 0.9em;
+        margin-bottom: 1rem;
+    }
+    
+    .features {
+        margin-top: 1rem;
+    }
+}

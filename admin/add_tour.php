@@ -1,6 +1,6 @@
 <?php
 // Include database connection
-require_once $_SERVER['DOCUMENT_ROOT'].'/ht/core/core.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/TodiTorajaExpo/core/core.php';
 
 // Custom sanitize function to prevent SQL injection and XSS
 function sanitize($input) {
@@ -65,7 +65,7 @@ if (!empty($_FILES)) {
                 continue;
             }
 
-            $location = $_SERVER['DOCUMENT_ROOT'].'/ht/images/';
+            $location = $_SERVER['DOCUMENT_ROOT'].'/TodiTorajaExpo/images/';
             if (move_uploaded_file($tmp_name, $location.$newFileName)) {
                 $uploadedImages[$fileKey] = 'images/'.$newFileName;
             }
@@ -184,7 +184,7 @@ if (isset($_GET['delete_image'])) {
     // Helper function to delete image
     function deleteImage($imagePath, $field, $id, $db) {
         if (!empty($imagePath)) {
-            $fullPath = $_SERVER['DOCUMENT_ROOT'].'/ht/'.$imagePath;
+            $fullPath = $_SERVER['DOCUMENT_ROOT'].'/TodiTorajaExpo/'.$imagePath;
             if (file_exists($fullPath) && unlink($fullPath)) {
                 $stmt = $db->prepare("UPDATE tourism SET $field = '' WHERE id = ?");
                 $stmt->bind_param("i", $id);

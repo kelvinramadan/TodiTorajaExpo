@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/ht/core/core.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/TodiTorajaExpo/core/core.php';
 
 // Pastikan koneksi database tersedia
 if(!isset($db) || !$db) {

@@ -33,10 +33,10 @@
         <div class="info-content">
             <div class="info-header">
                 <h1>Toraja</h1>
-                <p>Discover the Ancient Traditions</p>
+                <p>Temukan Tradisi Kuno </p>
             </div>
             <div class="info-text">
-                <p>Experience the unique culture and breathtaking landscapes of Tana Toraja. From traditional burial sites to stunning traditional houses, immerse yourself in this fascinating cultural heritage.</p>
+                <p>Rasakan budaya unik dan pemandangan Tana Toraja yang menakjubkan. Dari situs pemakaman tradisional hingga rumah tradisional yang menakjubkan, benamkan diri Anda dalam warisan budaya yang menakjubkan ini.</p>
             </div>
             <div class="features">
                 <div class="feature-item">
@@ -90,18 +90,18 @@
                     </div>
                     <button type="submit" name="login" class="btn">Login</button>
                     <div class="switch-form">
-                        <p>Don't have an account? <a id="show-signup">Sign Up</a></p>
+                        <p>Belum punya akun? <a id="show-signup">Sign Up</a></p>
                     </div>
                 </form>
             </div>
 
             <!-- Sign Up Form -->
             <div class="form" id="signup-form">
-                <h2 class="title">Create Account</h2>
+                <h2 class="title">Buat Akum</h2>
                 <form action="auth_handler.php" method="POST">
                     <div class="input-field">
                         <input type="text" id="fullName" name="fullName" required autocomplete="name">
-                        <label for="fullName">Full Name</label>
+                        <label for="fullName">Nama Lengkap</label>
                     </div>
 
                     <div class="input-field">
@@ -116,12 +116,12 @@
 
                     <div class="input-field">
                         <input type="password" id="password" name="password" required>
-                        <label for="password">Password</label>
+                        <label for="password">Kata Sandi</label>
                     </div>
 
                     <div class="input-field">
                         <input type="password" id="confirmPassword" name="confirmPassword" required>
-                        <label for="confirmPassword">Confirm Password</label>
+                        <label for="confirmPassword">Konfirmasi Password</label>
                     </div>
                     <button type="submit" name="register" class="btn">Register</button>
                     <div class="switch-form">

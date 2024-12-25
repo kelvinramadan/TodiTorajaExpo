@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'].'/ht/core/core.php';
+require_once $_SERVER['DOCUMENT_ROOT'].'/TodiTorajaExpo/core/core.php';
 
 // Fetch summary data
 $rooms_query = "SELECT COUNT(*) as total_rooms FROM rooms";
@@ -14,18 +14,32 @@ $tourism_query = "SELECT COUNT(*) as total_tours FROM tourism";
 $tourism_result = $db->query($tourism_query);
 $total_tours = $tourism_result->fetch_assoc()['total_tours'];
 
-$reservations_query = "SELECT COUNT(*) as total_reservations FROM reservations";
+$reservations_query = "SELECT COUNT(*) as total_reservations FROM room_reserves";
 $reservations_result = $db->query($reservations_query);
 $total_reservations = $reservations_result->fetch_assoc()['total_reservations'];
 
-// Get recent reservations
-$recent_reservations = $db->query("SELECT * FROM reservations ORDER BY id DESC LIMIT 5");
+// Get recent reservations with room numbers and user details
+$recent_reservations = $db->query("
+    SELECT r.*, rm.room_number, u.fullname 
+    FROM room_reserves r
+    LEFT JOIN rooms rm ON r.room_id = rm.id 
+    LEFT JOIN users u ON r.user_id = u.id
+    ORDER BY r.booking_date DESC 
+    LIMIT 5
+");
 
-// Get recent events
+// Get recent events 
 $upcoming_events = $db->query("SELECT * FROM events WHERE date >= CURDATE() ORDER BY date ASC LIMIT 5");
 
-// Get most popular rooms
-$popular_rooms = $db->query("SELECT room as room_name, COUNT(*) as booking_count FROM reservations GROUP BY room ORDER BY booking_count DESC LIMIT 5");
+// Get most popular rooms with room names
+$popular_rooms = $db->query("
+    SELECT r.room_id, rm.room_number, COUNT(*) as booking_count 
+    FROM room_reserves r
+    LEFT JOIN rooms rm ON r.room_id = rm.id
+    GROUP BY r.room_id, rm.room_number 
+    ORDER BY booking_count DESC 
+    LIMIT 5
+");
 
 include 'includes/header.php';
 include 'includes/navigation.php';
@@ -36,7 +50,7 @@ include 'includes/navigation.php';
 <div class="w3-container w3-main" style="margin-left:260px">
     <header class="w3-container w3-purple">
         <span class="w3-opennav w3-xlarge w3-hide-large" onclick="w3_open()">☰</span>
-        <h2 class="text-center">Dashboard</h2>
+        <h2 class="text-center">Dashboard - Todi Toraja Hotel</h2>
     </header>
 
     <!-- Stats Cards -->
@@ -100,9 +114,9 @@ include 'includes/navigation.php';
                                 <i class="fas fa-user"></i>
                             </div>
                             <div class="activity-details">
-                                <p class="activity-title"><?php echo htmlspecialchars($reservation['name']); ?></p>
-                                <p class="activity-info">Room: <?php echo htmlspecialchars($reservation['room']); ?></p>
-                                <p class="activity-date">Check-in: <?php echo htmlspecialchars($reservation['checkin']); ?></p>
+                                <p class="activity-title"><?php echo htmlspecialchars($reservation['fullname']); ?></p>
+                                <p class="activity-info">Room: <?php echo htmlspecialchars($reservation['room_number']); ?></p>
+                                <p class="activity-date">Check-in: <?php echo date('d M Y', strtotime($reservation['checkin_date'])); ?></p>
                             </div>
                         </div>
                     <?php endwhile; ?>
@@ -123,7 +137,7 @@ include 'includes/navigation.php';
                             <div class="activity-details">
                                 <p class="activity-title"><?php echo htmlspecialchars($event['event_topic']); ?></p>
                                 <p class="activity-info">Location: <?php echo htmlspecialchars($event['venue']); ?></p>
-                                <p class="activity-date">Date: <?php echo htmlspecialchars($event['date']); ?></p>
+                                <p class="activity-date">Date: <?php echo date('d M Y', strtotime($event['date'])); ?></p>
                             </div>
                         </div>
                     <?php endwhile; ?>
@@ -142,8 +156,7 @@ include 'includes/navigation.php';
                                 <i class="fas fa-bed"></i>
                             </div>
                             <div class="activity-details">
-                                <!-- Ubah room_number menjadi room_name -->
-                                <p class="activity-title"><?php echo htmlspecialchars($room['room_name']); ?></p>
+                                <p class="activity-title"><?php echo htmlspecialchars($room['room_number']); ?></p>
                                 <p class="activity-info">Bookings: <?php echo $room['booking_count']; ?></p>
                             </div>
                         </div>
@@ -155,7 +168,7 @@ include 'includes/navigation.php';
 </div>
 
 <style>
-/* Dashboard Styles */
+/* Original CSS remains the same */
 .dashboard-stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -191,7 +204,6 @@ include 'includes/navigation.php';
     margin: 5px 0 0 0;
 }
 
-/* Quick Actions */
 .quick-actions {
     padding: 20px;
 }
@@ -219,7 +231,6 @@ include 'includes/navigation.php';
     color: white;
 }
 
-/* Dashboard Columns */
 .dashboard-columns {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -293,18 +304,59 @@ include 'includes/navigation.php';
     font-size: 0.8em;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .dashboard-stats {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
     }
     
-    .action-buttons {
-        flex-direction: column;
+    .dashboard-columns {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .w3-container.w3-main {
+        margin-left: 0 !important;
+        padding: 10px;
     }
     
     .dashboard-columns {
         grid-template-columns: 1fr;
+    }
+    
+    .action-buttons {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    .dashboard-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .stat-card {
+        padding: 15px;
+    }
+    
+    .activity-item {
+        padding: 10px;
+    }
+}
+
+.w3-opennav {
+    display: none;
+    cursor: pointer;
+    padding: 10px;
+}
+
+@media (max-width: 768px) {
+    .w3-opennav {
+        display: block;
+    }
+    
+    .w3-sidenav {
+        width: 100% !important;
+        max-width: 300px;
     }
 }
 </style>

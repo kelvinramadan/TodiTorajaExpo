@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/ht/core/core.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/TodiTorajaExpo/core/core.php';
 
 if (isset($_GET['edit']) && !empty($_GET['edit'])) {
     $id = $_GET['edit'];
@@ -35,7 +35,7 @@ function handleFileUpload($file, $targetDir) {
     return $fileName;
 }
 
-$targetDir = $_SERVER['DOCUMENT_ROOT'] . '/ht/images/';
+$targetDir = $_SERVER['DOCUMENT_ROOT'] . '/TodiTorajaExpo/images/';
 
 // INSERTING ROOM INFORMATION INTO DATABASE
 if (isset($_POST['submit'])) {
