@@ -153,7 +153,7 @@ include 'includes/navigation.php';
         </div>
 
         <div class="form-group col-md-4">
-            <label>Venue:</label>
+            <label>Deskripsi:</label>
             <input type="text" class="form-control" value="<?= isset($_GET['edit']) ? htmlspecialchars($edit['venue']) : ''; ?>" name="venue">
         </div>
 

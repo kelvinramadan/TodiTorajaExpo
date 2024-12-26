@@ -249,28 +249,6 @@ body {
     transform: translateY(0);
 }
 
-/* Footer Styles */
-footer {
-    background-color: #222;
-    color: white;
-    padding: 60px 0 20px;
-}
-
-footer .container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
-}
-
-footer h4 {
-    font-size: 1.5rem;
-    margin-bottom: 20px;
-}
-
-footer p {
-    opacity: 0.9;
-    margin-bottom: 10px;
-}
 
 .social-links {
     display: flex;
@@ -316,10 +294,6 @@ footer p {
     
     .col-md-4 {
         width: 100%;
-    }
-    
-    footer .container {
-        grid-template-columns: 1fr;
     }
     
     .view-more-btn {
@@ -420,6 +394,165 @@ footer p {
     </section>
 </header>
 
+<section class="history-section">
+    <style>
+        .history-section {
+            padding: 80px 0;
+            background-color: #f8f9fa;
+            overflow: hidden;
+        }
+
+        .history-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .history-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .history-content {
+            padding: 30px;
+        }
+
+        .history-content h2 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 25px;
+            font-weight: 600;
+            position: relative;
+        }
+
+        .history-content h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: #219B9D;
+        }
+
+        .history-content p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .history-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            position: relative;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            padding: 20px;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 992px) {
+            .history-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .history-content {
+                order: 1;
+            }
+            
+            .history-gallery {
+                order: 2;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .history-gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            .history-content h2 {
+                font-size: 2rem;
+            }
+            
+            .history-content p {
+                font-size: 1rem;
+            }
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+
+    <div class="history-container">
+        <div class="history-grid">
+            <div class="history-content animate-on-scroll">
+                <h2>Sejarah Tana Toraja</h2>
+                <p>Tana Toraja, yang berarti "Negeri Toraja" dalam bahasa setempat, memiliki sejarah yang kaya dan mendalam. Masyarakat Toraja telah mendiami dataran tinggi Sulawesi Selatan sejak ribuan tahun yang lalu, membangun budaya yang unik dan tradisi yang masih terjaga hingga hari ini.</p>
+                <p>Arsitektur tradisional Tongkonan, rumah adat berbentuk perahu dengan atap melengkung yang khas, menjadi simbol identitas dan status sosial dalam masyarakat Toraja. Setiap ukiran pada Tongkonan memiliki makna filosofis yang dalam, mencerminkan hubungan antara manusia, alam, dan leluhur.</p>
+                <p>Ritual pemakaman yang elaborate, atau yang dikenal dengan "Rambu Solo", merupakan tradisi yang paling terkenal dari Tana Toraja. Upacara ini bisa berlangsung selama berhari-hari dan melibatkan seluruh anggota keluarga besar, menunjukkan kuatnya ikatan kekeluargaan dalam budaya Toraja.</p>
+            </div>
+            <div class="history-gallery animate-on-scroll">
+                <div class="gallery-item">
+                    <img src="images/torajahouse1.jpg" alt="Tongkonan Traditional House">
+                    <div class="gallery-overlay">Tongkonan - Rumah Adat Toraja</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/torajahouse5.jpg" alt="Traditional Ceremony">
+                    <div class="gallery-overlay">Upacara Rambu Solo</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/torajahouse2.jpg" alt="Ancient Cave Graves">
+                    <div class="gallery-overlay">Liang - Kuburan Batu</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="images/torajahouse4.jpg" alt="Cultural Performance">
+                    <div class="gallery-overlay">Ma'Nene Toraja</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <!-- EVENT SECTION -->
 <div class="container mt-5">
@@ -485,7 +618,7 @@ footer p {
         <?php 
         $count = 0;
         while($tour = mysqli_fetch_assoc($tourSQL)): 
-            if($count >= 3) break;
+            if($count >= 4) break;
             $count++;
         ?>
             <div class="col-md-4">
@@ -530,7 +663,7 @@ footer p {
             <?php 
             $count = 0;
             while($room = mysqli_fetch_assoc($sql)): 
-                if($count >= 3) break;
+                if($count >= 4) break;
                 $count++;
             ?>
                 <div class="col-lg-4 col-md-6 mb-4">
@@ -627,66 +760,82 @@ footer p {
 <script src="js/eventindex.js"></script>
 <script src="headerindex.js"></script>
 <script>
-        // Enhanced Modal Functionality
-        function openModal(card) {
-            const modal = document.getElementById('eventModal');
-            const eventData = JSON.parse(card.dataset.event);
-            
-            // Populate modal content
-            document.getElementById('modalImage').src = eventData.image;
-            document.getElementById('modalVenue').textContent = eventData.venue;
-            document.getElementById('modalRating').textContent = eventData.rating ? `★ ${eventData.rating}` : '';
-            document.getElementById('modalSchedule').textContent = `${eventData.date} - ${eventData.time}`;
-            document.getElementById('modalTopic').textContent = eventData.event_topic;
-            
-            // Show modal with animation
-            modal.style.display = 'block';
-            setTimeout(() => modal.classList.add('active'), 10);
-            
-            // Prevent body scroll
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeModal() {
-            const modal = document.getElementById('eventModal');
-            modal.classList.remove('active');
-            setTimeout(() => {
-                modal.style.display = 'none';
-                document.body.style.overflow = '';
-            }, 300);
-        }
-
-        // Enhanced Scroll Animation
-        function revealOnScroll() {
-            const elements = document.querySelectorAll('.accommodation-card');
-            elements.forEach((element, index) => {
-                const rect = element.getBoundingClientRect();
-                const isVisible = rect.top < window.innerHeight - 100;
-                
-                if (isVisible) {
-                    setTimeout(() => {
-                        element.style.opacity = '1';
-                        element.style.transform = 'translateY(0)';
-                    }, index * 100);
-                }
-            });
-        }
-
-        // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            // Set initial state for cards
-            document.querySelectorAll('.accommodation-card').forEach(card => {
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(50px)';
-                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-            });
+    // Enhanced Modal Functionality
+    function openModal(card) {
+        const modal = document.getElementById('eventModal');
+        const eventData = JSON.parse(card.dataset.event);
+        
+        // Populate modal content
+        document.getElementById('modalImage').src = eventData.image;
+        document.getElementById('modalVenue').textContent = eventData.venue;
+        document.getElementById('modalRating').textContent = eventData.rating ? `★ ${eventData.rating}` : '';
+        document.getElementById('modalSchedule').textContent = `${eventData.date} - ${eventData.time}`;
+        document.getElementById('modalTopic').textContent = eventData.event_topic;
+        
+        // Show modal with animation
+        modal.style.display = 'block';
+        setTimeout(() => modal.classList.add('active'), 10);
+        
+        // Prevent body scroll
+        document.body.style.overflow = 'hidden';
+    }
 
-            // Trigger initial reveal
-            revealOnScroll();
+    function closeModal() {
+        const modal = document.getElementById('eventModal');
+        modal.classList.remove('active');
+        setTimeout(() => {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }, 300);
+    }
 
-            // Add scroll listener
-            window.addEventListener('scroll', revealOnScroll);
+    // Enhanced Scroll Animation for all elements
+    function revealOnScroll() {
+        // For accommodation cards
+        const accommodationCards = document.querySelectorAll('.accommodation-card');
+        accommodationCards.forEach((element, index) => {
+            const rect = element.getBoundingClientRect();
+            const isVisible = rect.top < window.innerHeight - 100;
+            
+            if (isVisible) {
+                setTimeout(() => {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, index * 100);
+            }
         });
+
+        // For history section animations
+        const animateElements = document.querySelectorAll('.animate-on-scroll');
+        animateElements.forEach(element => {
+            const elementTop = element.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+            
+            if (elementTop < windowHeight - 100) {
+                element.classList.add('visible');
+            }
+        });
+    }
+
+    // Initialize
+    // Set initial state for accommodation cards
+    document.querySelectorAll('.accommodation-card').forEach(card => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(50px)';
+        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+    });
+
+    // Make modal functions globally available
+    window.openModal = openModal;
+    window.closeModal = closeModal;
+
+    // Trigger initial reveal
+    revealOnScroll();
+
+    // Add scroll listener for all animations
+    window.addEventListener('scroll', revealOnScroll);
+});
     </script>
 </body>
 </html>
