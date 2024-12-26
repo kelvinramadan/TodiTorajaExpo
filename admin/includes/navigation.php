@@ -50,6 +50,12 @@
                 <span>Kelola Wisata</span>
             </a>
         </li>
+        <li>
+            <a href="admin_users.php">
+                <i class="fas fa-map-marked-alt"></i>
+                <span>Users</span>
+            </a>
+        </li>
     </ul>
     
     <div class="user-info">
