@@ -37,7 +37,7 @@ ob_end_flush();
     <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.4.5/swiper-bundle.min.css">
     <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="headerindex.css">
+    <link rel="stylesheet" href="headerindex2.css">
     <link rel="stylesheet" href="css/indexcard.css">
     <link rel="stylesheet" href="eventindex.css">
 </head>
@@ -360,11 +360,10 @@ body {
     </style>
 <body>
 
-<!-- Header Section -->
-<header class="dynamic-header">
+<!-- Header Old Section -->
+<!--<header class="dynamic-header">
     <section class="hero">
         <div class="hero-slider">
-            <!-- Multiple background images for slider -->
             <div class="slide" style="background-image: url('images/toraja.jpg')"></div>
             <div class="slide" style="background-image: url('images/toraja1.jpg')"></div>
             <div class="slide" style="background-image: url('images/toraja2.jpg')"></div>
@@ -374,8 +373,6 @@ body {
         <div class="hero-content">
             <h1 class="animate-text" style="color:#FFFFFF">TodiToraja</h1>
             <p class="animate-text-delay">Nikmati perjalanan bermakna bersama TodiToraja, menjelajahi keindahan alam dan kekayaan budaya Toraja. Temukan tradisi sakral, situs bersejarah, dan keramahan lokal yang menghubungkan Anda dengan warisan leluhur, menciptakan kenangan tak terlupakan.</p>
-            
-            <!-- Animated stats -->
             <div class="stats-container">
                 <div class="stat-item">
                     <span class="stat-number" data-target="1000">0</span>
@@ -392,7 +389,61 @@ body {
             </div>
         </div>
     </section>
+</header> -->
+
+<header class="dynamic-header">
+
+    
+    <div class="hero-section">
+        <div class="slide active">
+            <img src="images/toraja.jpg" alt="Toraja">
+            <div class="overlay"></div>
+            <div class="content-container">
+                <h1 class="title">Jelajahi Toraja</h1>
+                <p class="description">
+                    Nikmati perjalanan bermakna bersama TodiToraja, menjelajahi keindahan alam dan kekayaan budaya Toraja yang tak ternilai.
+                </p>
+            </div>
+        </div>
+        <div class="slide">
+            <img src="images/toraja1.jpg" alt="Toraja">
+            <div class="overlay"></div>
+            <div class="content-container">
+                <h1 class="title">Warisan Leluhur</h1>
+                <p class="description">
+                    Temukan tradisi sakral dan situs bersejarah yang memperkaya warisan budaya Toraja yang telah bertahan berabad-abad.
+                </p>
+            </div>
+        </div>
+        <div class="slide">
+            <img src="images/toraja2.jpg" alt="Toraja">
+            <div class="overlay"></div>
+            <div class="content-container">
+                <h1 class="title">Keindahan Alam</h1>
+                <p class="description">
+                    Rasakan kedamaian di tengah panorama alam Toraja yang menakjubkan, dari perbukitan hijau hingga persawahan bertingkat.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="progress-container">
+        <div class="slide-number">
+            <span class="current">01</span>
+            <span>/</span>
+            <span class="total">03</span>
+        </div>
+        <div class="progress-bar">
+            <div class="progress"></div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <button class="nav-button prev">Prev</button>
+        <button class="nav-button next">Next</button>
+    </div>
 </header>
+
 
 <section class="history-section">
     <style>
@@ -725,16 +776,16 @@ body {
         <div>
             <h4 style="font-size: 24px; margin: 0 0 20px 0; font-weight: 500;">Follow Us</h4>
             <div style="display: flex; gap: 15px;">
-                <a href="#" style="color: white; text-decoration: none;">
+                <a href="https://www.facebook.com/torajadailydotcom" style="color: white; text-decoration: none;">
                     <i class="fab fa-facebook" style="font-size: 20px;"></i>
                 </a>
-                <a href="#" style="color: white; text-decoration: none;">
+                <a href="https://www.instagram.com/kelvinoktabrian" style="color: white; text-decoration: none;">
                     <i class="fab fa-instagram" style="font-size: 20px;"></i>
                 </a>
-                <a href="#" style="color: white; text-decoration: none;">
-                    <i class="fab fa-twitter" style="font-size: 20px;"></i>
+                <a href="https://github.com/kelvinramadan/TodiTorajaExpo.git" style="color: white; text-decoration: none;">
+                    <i class="fab fa-github" style="font-size: 20px;"></i>
                 </a>
-                <a href="#" style="color: white; text-decoration: none;">
+                <a href="https://youtu.be/jm5zGgsVYgs?feature=shared" style="color: white; text-decoration: none;">
                     <i class="fab fa-youtube" style="font-size: 20px;"></i>
                 </a>
             </div>
@@ -758,7 +809,7 @@ body {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
 <script src="js/indexcard.js"></script>
 <script src="js/eventindex.js"></script>
-<script src="headerindex.js"></script>
+<script src="headerindex2.js"></script>
 <script>
         document.addEventListener('DOMContentLoaded', function() {
     // Enhanced Modal Functionality

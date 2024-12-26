@@ -58,28 +58,28 @@ include 'includes/navigation.php';
         <div class="stat-card">
             <i class="fas fa-hotel"></i>
             <div class="stat-content">
-                <h3>Total Rooms</h3>
+                <h3>Total penginapan</h3>
                 <p class="stat-number"><?php echo $total_rooms; ?></p>
             </div>
         </div>
         <div class="stat-card">
             <i class="fas fa-calendar-alt"></i>
             <div class="stat-content">
-                <h3>Active Events</h3>
+                <h3>Budaya Aktif</h3>
                 <p class="stat-number"><?php echo $total_events; ?></p>
             </div>
         </div>
         <div class="stat-card">
             <i class="fas fa-map-marked-alt"></i>
             <div class="stat-content">
-                <h3>Tour Destinations</h3>
+                <h3>Destinasi wisata</h3>
                 <p class="stat-number"><?php echo $total_tours; ?></p>
             </div>
         </div>
         <div class="stat-card">
             <i class="fas fa-bookmark"></i>
             <div class="stat-content">
-                <h3>Total Reservations</h3>
+                <h3>Total Reservasi penginapan</h3>
                 <p class="stat-number"><?php echo $total_reservations; ?></p>
             </div>
         </div>
@@ -87,16 +87,16 @@ include 'includes/navigation.php';
 
     <!-- Quick Actions -->
     <div class="quick-actions">
-        <h3>Quick Actions</h3>
+        <h3>Opsi cepat</h3>
         <div class="action-buttons">
             <a href="add_room.php" class="action-btn">
-                <i class="fas fa-plus"></i> Add Room
+                <i class="fas fa-plus"></i> Tambah penginapan
             </a>
             <a href="add_event.php" class="action-btn">
-                <i class="fas fa-calendar-plus"></i> Add Event
+                <i class="fas fa-calendar-plus"></i> Tambah budaya
             </a>
             <a href="add_tour.php" class="action-btn">
-                <i class="fas fa-map-pin"></i> Add Tour
+                <i class="fas fa-map-pin"></i> Tambah wisata
             </a>
         </div>
     </div>
@@ -106,7 +106,7 @@ include 'includes/navigation.php';
         <!-- Recent Reservations -->
         <div class="dashboard-column">
             <div class="content-card">
-                <h3><i class="fas fa-clock"></i> Recent Reservations</h3>
+                <h3><i class="fas fa-clock"></i> Reservasi Terakhir</h3>
                 <div class="activity-list">
                     <?php while($reservation = mysqli_fetch_assoc($recent_reservations)): ?>
                         <div class="activity-item">
@@ -115,7 +115,7 @@ include 'includes/navigation.php';
                             </div>
                             <div class="activity-details">
                                 <p class="activity-title"><?php echo htmlspecialchars($reservation['fullname']); ?></p>
-                                <p class="activity-info">Room: <?php echo htmlspecialchars($reservation['room_number']); ?></p>
+                                <p class="activity-info">Kamar: <?php echo htmlspecialchars($reservation['room_number']); ?></p>
                                 <p class="activity-date">Check-in: <?php echo date('d M Y', strtotime($reservation['checkin_date'])); ?></p>
                             </div>
                         </div>
@@ -127,7 +127,7 @@ include 'includes/navigation.php';
         <!-- Upcoming Events -->
         <div class="dashboard-column">
             <div class="content-card">
-                <h3><i class="fas fa-calendar"></i> Upcoming Events</h3>
+                <h3><i class="fas fa-calendar"></i> Budaya yang akan datang!</h3>
                 <div class="activity-list">
                     <?php while($event = mysqli_fetch_assoc($upcoming_events)): ?>
                         <div class="activity-item">
@@ -148,7 +148,7 @@ include 'includes/navigation.php';
         <!-- Popular Rooms -->
         <div class="dashboard-column">
             <div class="content-card">
-                <h3><i class="fas fa-star"></i> Most Booked Rooms</h3>
+                <h3><i class="fas fa-star"></i> Penginapan terbanyak dipesan</h3>
                 <div class="activity-list">
                     <?php while($room = mysqli_fetch_assoc($popular_rooms)): ?>
                         <div class="activity-item">
@@ -157,7 +157,7 @@ include 'includes/navigation.php';
                             </div>
                             <div class="activity-details">
                                 <p class="activity-title"><?php echo htmlspecialchars($room['room_number']); ?></p>
-                                <p class="activity-info">Bookings: <?php echo $room['booking_count']; ?></p>
+                                <p class="activity-info">pesan: <?php echo $room['booking_count']; ?></p>
                             </div>
                         </div>
                     <?php endwhile; ?>

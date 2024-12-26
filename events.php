@@ -27,7 +27,7 @@
                     </p>
                 </div>
                 <footer class="w3-container w3-blue w3-padding">
-                    <a type="button" href="view.php?view=<?=$rows['id'];?>" class="w3-btn w3-black w3-btn-block">More details</a>
+                    <a type="button" href="view.php?view=<?=$rows['id'];?>" class="w3-btn w3-black w3-btn-block">Selengkapnya</a>
                 </footer>
             </div>
             <br>

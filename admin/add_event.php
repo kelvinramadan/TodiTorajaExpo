@@ -143,12 +143,12 @@ include 'includes/navigation.php';
 <div class="w3-container w3-main" style="margin-left:260px; padding: 20px;">
     <header class="w3-container w3-purple" style="margin-bottom: 20px;">
         <span class="w3-opennav w3-xlarge w3-hide-large" onclick="w3_open()">☰</span>
-        <h2 class="text-center">Add an Event</h2>
+        <h2 class="text-center">Tambahkan Budaya</h2>
     </header>
     <br/>
     <form class="form" action="#" method="post" enctype="multipart/form-data">
         <div class="form-group col-md-4">
-            <label>Event Topic:</label>
+            <label>Judul budaya:</label>
             <input type="text" class="form-control" value="<?= isset($_GET['edit']) ? htmlspecialchars($edit['event_topic']) : ''; ?>" name="topic">
         </div>
 
@@ -158,17 +158,17 @@ include 'includes/navigation.php';
         </div>
 
         <div class="form-group col-md-2">
-            <label>Date:</label>
+            <label>Tanggal:</label>
             <input type="date" class="form-control" value="<?= isset($_GET['edit']) ? $edit['date'] : ''; ?>" name="date">
         </div>
 
         <div class="form-group col-md-2">
-            <label>Time:</label>
+            <label>Waktu:</label>
             <input type="time" class="form-control" value="<?= isset($_GET['edit']) ? $edit['time'] : ''; ?>" name="time">
         </div>
 
         <div class="form-group col-md-4">
-            <label>Event Image:</label>
+            <label>Gambar Event:</label>
             <input type="file" class="form-control" name="file" id="imageInput" accept="image/*">
             <div id="imagePreview">
                 <?php if(isset($_GET['edit']) && !empty($edit['image'])): ?>

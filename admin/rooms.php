@@ -22,11 +22,11 @@ include 'includes/navigation.php';
 <div class="w3-container w3-main" style="margin-left:260px; padding: 20px;">
   <header class="w3-container w3-purple" style="margin-bottom: 20px;">
    <span class="w3-opennav w3-xlarge w3-hide-large" onclick="w3_open()">☰</span>
-   <h2 class="text-center">Rooms</h2>
+   <h2 class="text-center">Penginapan</h2>
  </header>
     <div class="row"><br />
         <div class="col-md-12">
-            <a href="add_room.php" class="btn btn-primary pull-right">Add a room</a>
+            <a href="add_room.php" class="btn btn-primary pull-right">Tambah penginapan</a>
         </div>
 
         <?php while($room = mysqli_fetch_assoc($sql)): ?>

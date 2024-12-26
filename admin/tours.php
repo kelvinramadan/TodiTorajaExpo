@@ -39,12 +39,12 @@ include 'includes/navigation.php';
 <div class="w3-container w3-main" style="margin-left:260px; padding: 20px;">
     <header class="w3-container w3-purple" style="margin-bottom: 20px;">
         <span class="w3-opennav w3-xlarge w3-hide-large" onclick="w3_open()">☰</span>
-        <h2 class="text-center">Tours</h2>
+        <h2 class="text-center">Destinasi Wisata</h2>
     </header>
     
     <div class="row">
         <div class="col-md-12">
-            <a href="add_tour.php" class="btn btn-primary pull-right">Add tour</a>
+            <a href="add_tour.php" class="btn btn-primary pull-right">Tambah wisata</a>
         </div>
         
         <?php 
@@ -74,7 +74,7 @@ include 'includes/navigation.php';
         else:
         ?>
             <div class="col-md-12">
-                <p class="text-center">No tours available.</p>
+                <p class="text-center">Data tidak tersedia.</p>
             </div>
         <?php endif; ?>
     </div>

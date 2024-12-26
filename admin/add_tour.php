@@ -213,13 +213,13 @@ include 'includes/navigation.php';
 <div class="w3-container w3-main" style="margin-left:260px;">
     <header class="w3-container w3-purple" style="margin-bottom: 20px;">
         <span class="w3-opennav w3-xlarge w3-hide-large" onclick="w3_open()">☰</span>
-        <h2 class="text-center">Add a tour</h2>
+        <h2 class="text-center">Tambah destinasi wisata</h2>
     </header>
 
     <div class="container-fluid py-4">
         <div class="row mb-4">
             <div class="col-12">
-                <a href="tours.php" class="btn btn-primary float-end">Go to tours</a>
+                <a href="tours.php" class="btn btn-primary float-end">Pergi wisata</a>
             </div>
         </div>
 
@@ -231,34 +231,34 @@ include 'includes/navigation.php';
                             <!-- Basic Information -->
                             <div class="row">
                                 <div class="col-md-4 form-group mb-3">
-                                    <label class="form-label">Title:</label>
+                                    <label class="form-label">Judul:</label>
                                     <input type="text" name="topic" value="<?=(isset($toEditID))?$rows['title']:''?>" class="form-control" placeholder="event topic">
                                 </div>
 
                                 <div class="col-md-4 form-group mb-3">
-                                    <label class="form-label">Location:</label>
+                                    <label class="form-label">Lokasi:</label>
                                     <input type="text" name="venue" value="<?=(isset($toEditID))?$rows['location']:''?>" class="form-control" placeholder="venue">
                                 </div>
 
                                 <div class="col-md-4 form-group mb-3">
-                                    <label class="form-label">Date:</label>
+                                    <label class="form-label">Tanggal:</label>
                                     <input type="date" name="date" value="<?=(isset($toEditID))?$rows['date']:''?>" class="form-control">
                                 </div>
                             </div>
 
                             <div class="row">
                                 <div class="col-md-4 form-group mb-3">
-                                    <label class="form-label">Time:</label>
+                                    <label class="form-label">Waktu:</label>
                                     <input type="time" name="time" value="<?=(isset($toEditID))?$rows['time']:''?>" class="form-control">
                                 </div>
 
                                 <div class="col-md-4 form-group mb-3">
-                                    <label class="form-label">Price:</label>
+                                    <label class="form-label">Harga:</label>
                                     <input type="text" name="price" value="<?=(isset($toEditID))?$rows['price']:''?>" class="form-control">
                                 </div>
 
                                 <div class="col-md-4 form-group mb-3">
-                                    <label class="form-label">Reserve Spaces:</label>
+                                    <label class="form-label">Kamar tersedia:</label>
                                     <input type="number" name="reservations" value="<?=(isset($toEditID))?$rows['reservations']:''?>" class="form-control">
                                 </div>
                             </div>
@@ -318,7 +318,7 @@ include 'includes/navigation.php';
 
                             <div class="row mb-4">
                                 <div class="col-md-12 form-group">
-                                    <label class="form-label">Tour Description:</label>
+                                    <label class="form-label">Deskripsi wisata:</label>
                                     <textarea name="sdetails2" class="form-control" rows="5"><?=(isset($toEditID))?$rows['details2']:''?></textarea>
                                 </div>
                             </div>

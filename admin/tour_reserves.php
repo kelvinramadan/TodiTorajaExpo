@@ -95,14 +95,14 @@ include 'includes/navigation.php';
                     <thead class="thead-dark">
                         <tr>
                             <th>No</th>
-                            <th>Booking Date</th>
-                            <th>Customer Name</th>
-                            <th>Tour Package</th>
-                            <th>Phone</th>
+                            <th>Tgl pemesanan</th>
+                            <th>Nama pelanggan</th>
+                            <th>Destinasi Wisata</th>
+                            <th>No. Telp</th>
                             <th>Email</th>
-                            <th>People</th>
-                            <th>Total Price</th>
-                            <th>Actions</th>
+                            <th>Tiket</th>
+                            <th>Total Harga</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>

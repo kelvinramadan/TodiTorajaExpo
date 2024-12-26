@@ -39,7 +39,7 @@ include 'includes/navigation.php';
 <div class="w3-container w3-main" style="margin-left:260px; padding: 20px;">
     <header class="w3-container w3-purple" style="margin-bottom: 20px;">
         <span class="w3-opennav w3-xlarge w3-hide-large" onclick="w3_open()">☰</span>
-        <h2 class="text-center">Events</h2>
+        <h2 class="text-center">Budaya</h2>
     </header>
     
     <?php 
@@ -62,7 +62,7 @@ include 'includes/navigation.php';
 
     <div class="row">
         <div class="col-md-12">
-            <a href="add_event.php" class="btn btn-primary pull-right">Add an event</a>
+            <a href="add_event.php" class="btn btn-primary pull-right">Tambahkan budaya</a>
         </div>
     </div>
 

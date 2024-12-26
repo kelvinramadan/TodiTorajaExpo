@@ -178,12 +178,12 @@ include 'includes/navigation.php';
     <br/>
     <form class="form" action="" method="post" enctype="multipart/form-data">
         <div class="form-group col-md-4">
-            <label>Room Number:</label>
+            <label>Nama Penginapan:</label>
             <input type="text" class="form-control" value="<?= isset($edit['room_number']) ? htmlspecialchars($edit['room_number']) : ''; ?>" name="number" required>
         </div>
 
         <div class="form-group col-md-4">
-            <label>Room Type:</label>
+            <label>Type kamar:</label>
             <select class="form-control" name="type" required>
                 <option value="Executive" <?= (isset($edit['type']) && $edit['type'] == 'Executive') ? 'selected' : ''; ?>>Executive</option>
                 <option value="Regular" <?= (isset($edit['type']) && $edit['type'] == 'Regular') ? 'selected' : ''; ?>>Regular</option>
@@ -192,17 +192,17 @@ include 'includes/navigation.php';
         </div>
 
         <div class="form-group col-md-2">
-            <label>Room Price:</label>
+            <label>Harga:</label>
             <input type="text" class="form-control" value="<?= isset($edit['price']) ? htmlspecialchars($edit['price']) : ''; ?>" name="price" required>
         </div>
 
         <div class="form-group col-md-2">
-            <label>Rooms Available:</label>
+            <label>Kamar Tersedia:</label>
             <input type="number" class="form-control" value="<?= isset($edit['rooms']) ? htmlspecialchars($edit['rooms']) : ''; ?>" name="rooms" required>
         </div>
 
         <div class="form-group col-md-4">
-            <label>Room Photo:</label>
+            <label>Gambar penginapan:</label>
             <input type="file" class="form-control" name="photo" <?= !isset($_GET['edit']) ? 'required' : ''; ?>>
             <?php if(isset($edit['photo']) && !empty($edit['photo'])): ?>
                 <small class="text-muted">Current photo: <?= htmlspecialchars($edit['photo']) ?></small>
@@ -210,7 +210,7 @@ include 'includes/navigation.php';
         </div>
 
         <div class="form-group col-md-4">
-            <label>Facility 1 Photo:</label>
+            <label>Facilitas 1 photo :</label>
             <input type="file" class="form-control" name="facility1">
             <?php if(isset($edit['facility1']) && !empty($edit['facility1'])): ?>
                 <small class="text-muted">Current photo: <?= htmlspecialchars($edit['facility1']) ?></small>
@@ -218,7 +218,7 @@ include 'includes/navigation.php';
         </div>
 
         <div class="form-group col-md-4">
-            <label>Facility 2 Photo:</label>
+            <label>Facilitas 2 Photo:</label>
             <input type="file" class="form-control" name="facility2">
             <?php if(isset($edit['facility2']) && !empty($edit['facility2'])): ?>
                 <small class="text-muted">Current photo: <?= htmlspecialchars($edit['facility2']) ?></small>
@@ -226,7 +226,7 @@ include 'includes/navigation.php';
         </div>
 
         <div class="form-group col-md-4">
-            <label>Facility 3 Photo:</label>
+            <label>Facilitas 3 Photo:</label>
             <input type="file" class="form-control" name="facility3">
             <?php if(isset($edit['facility3']) && !empty($edit['facility3'])): ?>
                 <small class="text-muted">Current photo: <?= htmlspecialchars($edit['facility3']) ?></small>
@@ -234,7 +234,7 @@ include 'includes/navigation.php';
         </div>
 
         <div class="form-group col-md-4">
-            <label>Facility 4 Photo:</label>
+            <label>Facilitas 4 Photo:</label>
             <input type="file" class="form-control" name="facility4">
             <?php if(isset($edit['facility4']) && !empty($edit['facility4'])): ?>
                 <small class="text-muted">Current photo: <?= htmlspecialchars($edit['facility4']) ?></small>
@@ -242,7 +242,7 @@ include 'includes/navigation.php';
         </div>
 
         <div class="form-group col-md-4">
-            <label>Description:</label>
+            <label>Deskripsi:</label>
             <textarea class="form-control" rows="6" name="description" required><?= isset($edit['details']) ? htmlspecialchars($edit['details']) : ''; ?></textarea>
         </div>
 

@@ -138,7 +138,7 @@ $userData = getUserData($_SESSION['user_id']);
         <div class="container">
             <a class="navbar-brand" href="index.php">
                 <i class="fas fa-hotel"></i>
-                by : Adorable
+                TodiToraja
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive">
                 <span class="navbar-toggler-icon"></span>
@@ -154,19 +154,19 @@ $userData = getUserData($_SESSION['user_id']);
                     <li class="nav-item">
                         <a class="nav-link" href="tourism.php">
                             <i class="fas fa-map-marked-alt"></i>
-                            Tourism
+                            Wisata
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="rooms.php">
                             <i class="fas fa-bed"></i>
-                            Rooms
+                            Penginapan
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="pembayaran.php">
                             <i class="fas fa-credit-card"></i>
-                            Payment
+                            Pemabayaran
                         </a>
                     </li>
                     <li class="nav-item profile-nav-item">

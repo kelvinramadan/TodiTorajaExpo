@@ -65,15 +65,15 @@ include 'includes/navigation.php';
             <thead>
                 <tr>
                     <th>#</th>
-                    <th>Room Number</th>
-                    <th>Guest Name</th>
+                    <th>Nama penginapana</th>
+                    <th>Nama pelanggan</th>
                     <th>Check-in</th>
                     <th>Check-out</th>
-                    <th>Phone</th>
+                    <th>No. Telp</th>
                     <th>Email</th>
-                    <th>Booking Date</th>
-                    <th>Total Price</th>
-                    <th>Action</th>
+                    <th>Tgl pemesanan</th>
+                    <th>Total Harga</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -100,7 +100,7 @@ include 'includes/navigation.php';
             </tbody>
         </table>
         <?php else: ?>
-            <div class="alert alert-info">No reservations found.</div>
+            <div class="alert alert-info">Data tidak ditemukan.</div>
         <?php endif; ?>
     </div>
 </div>
